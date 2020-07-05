@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -27,37 +28,71 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 import static androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.drawer_layout,new HomeFragment()).commit();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportFragmentManager().beginTransaction().add(R.id.drawer_layout,new HomeFragment()).commit();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        DrawerLayout drawer = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId())
+                {
+                    case R.id.nav_home:
+                        setFragment(new HomeFragment());
+                        Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.nav_category:
+                        setFragment(new CategoryFragment());
+                        Toast.makeText(getApplicationContext(),"catego",Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.nav_orders:
+                        setFragment(new OrderFragment());
+                        Toast.makeText(getApplicationContext(),"order",Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.nav_wishlist:
+                        setFragment(new WishlistFragment());
+                        Toast.makeText(getApplicationContext(),"wishlist",Toast.LENGTH_SHORT).show();
+                        break;
+
+
+                }
+
+                return false;
+            }
+        });
+
 
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
             super.onBackPressed();
-        }
+
     }
 
     @Override
@@ -85,7 +120,6 @@ public class MainActivity extends AppCompatActivity
 
     public void setFragment(Fragment fragment)
     {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.drawer_layout,fragment);
         fragmentTransaction.commit();
@@ -99,10 +133,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             setFragment(new HomeFragment());
+            Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_category) {
             setFragment(new CategoryFragment());
+            Toast.makeText(getApplicationContext(),"category",Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.nav_orders) {
             setFragment(new OrderFragment());
+            Toast.makeText(getApplicationContext(),"orders",Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.nav_wishlist) {
             setFragment(new WishlistFragment());
         }
