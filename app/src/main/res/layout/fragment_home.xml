@@ -3,7 +3,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/imageslider_pager"
+                        android:layout_width="match_parent"
+                        android:background="@color/colorAccent"
+                        android:layout_height="200sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:id="@+id/dotContainer"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_alignParentBottom="true"
+
+
+
+                        />
+                </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edible Oil Ghee"
+                android:padding="10sp"
+                android:textColor="@android:color/black"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id = "@+id/recycler_view1"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:scrollbars = "vertical" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </FrameLayout>
