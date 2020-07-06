@@ -37,8 +37,6 @@
 
                     />
             </RelativeLayout>
-
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:background="@android:color/holo_red_light"

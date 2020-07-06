@@ -1,10 +1,12 @@
 package com.ecommerce.ecommerce.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.activity.DetailCategoryList;
+import com.ecommerce.ecommerce.activity.SubCategoryList;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,16 +44,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(mContext)
-                .inflate(R.layout.category_recycler_item, viewGroup, false);
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.category_recycler_item, viewGroup, false);
         return new MyViewHolder(itemView);
     }
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
-        String catTitle=catList.get(i);
+        final String catTitle=catList.get(i);
         viewHolder.title.setText(catTitle);
         viewHolder.subCatList.clear();
         getSubData(viewHolder,catTitle);
+        viewHolder.viewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, SubCategoryList.class);
+                intent.putExtra("subCategory",catTitle);
+                mContext.startActivity(intent);
+            }
+        });
 
     }
     @Override
@@ -58,6 +69,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
+        Button viewAll;
         RecyclerView homeSubRecycler;
         private FirebaseDatabase database;
         List<Product> subCatList=new ArrayList<>();
@@ -66,6 +78,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         public MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.category_title);
+            viewAll=itemView.findViewById(R.id.viewAll);
             homeSubRecycler=itemView.findViewById(R.id.home_sub_recyclerview);
 
 
@@ -90,7 +103,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     String st=snapshot.getKey().toString();
                     Log.d(TAG, "Value is: " + st);
                     viewHolder.subCatList.add(snapshot.getValue(Product.class));
-                    viewHolder.subCategoryAdapter =new SubCategoryAdapter(mContext,viewHolder.subCatList);
+                    viewHolder.subCategoryAdapter =new SubCategoryAdapter(mContext,viewHolder.subCatList,"grid");
                     viewHolder.homeSubRecycler.setAdapter(viewHolder.subCategoryAdapter);
 
                 }

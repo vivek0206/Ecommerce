@@ -43,7 +43,7 @@ public class DetailCategoryList extends AppCompatActivity {
         init();
 
         Intent intent = getIntent();
-        category = intent.getStringExtra("category");
+        category = intent.getStringExtra("subCategory");
         fetchAllCategory(category);
         Log.d("pop pop",category);
 
