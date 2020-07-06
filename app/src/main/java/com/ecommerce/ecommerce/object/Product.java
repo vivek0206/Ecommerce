@@ -6,37 +6,47 @@ import java.util.Map;
 
 public class Product {
 
-    List<String>imageUrl;
-    String title;
-    String salePrice;
-    String originalPrice;
-    String quantity;
-    String availability;
-    String description;
-    List<String>rating;
+    private String imageUrl,categoryName,productName,originalPrice,salePrice,quantity,rating;
 
-    public List<String> getImageUrl() {
+    public Product() {
+    }
+
+    public Product(String productName) {
+        this.productName = productName;
+    }
+
+    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating) {
+        this.imageUrl = imageUrl;
+        this.categoryName = categoryName;
+        this.productName = productName;
+        this.originalPrice = originalPrice;
+        this.salePrice = salePrice;
+        this.quantity = quantity;
+        this.rating = rating;
+    }
+
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(List<String> imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getSalePrice() {
-        return salePrice;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setSalePrice(String salePrice) {
-        this.salePrice = salePrice;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getOriginalPrice() {
@@ -47,6 +57,14 @@ public class Product {
         this.originalPrice = originalPrice;
     }
 
+    public String getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(String salePrice) {
+        this.salePrice = salePrice;
+    }
+
     public String getQuantity() {
         return quantity;
     }
@@ -55,32 +73,12 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<String> getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(List<String> rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
-    public Product(String title){
-        this.title=title;
-    }
-
 }
 
