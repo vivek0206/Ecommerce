@@ -8,20 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class HomeCategory_adapter extends RecyclerView.Adapter<HomeCategory_adapter.MyViewHolder> {
+public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.MyViewHolder> {
 
     List<Product> productList;
     Context mContext;
-    public HomeCategory_adapter(Context context,List<Product> productsList) {
+    public SubCategoryAdapter(Context context, List<Product> productsList) {
         this.productList = productsList;
         this.mContext=context;
     }

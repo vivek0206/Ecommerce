@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity
                         Toast.makeText(getApplicationContext(),"wishlist",Toast.LENGTH_SHORT).show();
                         break;
 
-                    case R.id.nav_account:
-                        setFragment(new UserAccount());
-                        Toast.makeText(getApplicationContext(),"Your Account",Toast.LENGTH_SHORT).show();
+//                    case R.id.nav_account:
+//                        setFragment(new UserAccount());
+//                        Toast.makeText(getApplicationContext(),"Your Account",Toast.LENGTH_SHORT).show();
 
                 }
 
