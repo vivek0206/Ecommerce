@@ -46,14 +46,15 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
         final Product data=productList.get(i);
-        viewHolder.title.setText(data.getProductName());
+        viewHolder.title.setText(data.getCategoryName());
         Picasso.get().load(data.getImageUrl()).into(viewHolder.image);
         Log.d(TAG, "Value is:startttttttttt ");
         viewHolder.rviewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DetailCategoryList.class);
-                intent.putExtra("subCategory",data.getProductName());
+//                intent.putExtra("Category",data.getCategoryName());
+                intent.putExtra("subCategory",data.getCategoryName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }

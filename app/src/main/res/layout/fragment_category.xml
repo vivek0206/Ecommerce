@@ -26,6 +26,11 @@
         android:layout_height="wrap_content"
         android:text="categoryView"
         android:id="@+id/temp_detail_category"></Button>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add sub Category"
+        android:id="@+id/add_subcategory"></Button>
 
 
 </LinearLayout>

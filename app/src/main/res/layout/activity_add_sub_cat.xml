@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.AddSubCat">
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@color/orange"
+        android:id="@+id/add_image">
+    </ImageView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CategoryName"
+        android:id="@+id/add_category_name"></EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="SubCategoryName"
+        android:id="@+id/add_subcategory_name"></EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ProductName"
+        android:id="@+id/add_product_Name"></EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Original Price"
+        android:inputType="numberSigned"
+        android:id="@+id/add_product_original_price"></EditText>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Off Price"
+        android:inputType="numberSigned"
+        android:id="@+id/add_product_off_price"></EditText>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Quantity"
+        android:inputType="numberSigned"
+        android:id="@+id/add_product_quantity"></EditText>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Detail....Write in Points"
+        android:inputType="textMultiLine"
+        android:id="@+id/add_product_product_detail"></EditText>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Returnable"
+        android:id="@+id/add_return"
+        android:onClick="onRadioButtonClicked"></RadioButton>
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COD Available"
+        android:id="@+id/add_cod"
+        android:onClick="onRadioButtonClicked"></RadioButton>
+
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="submit"
+        android:id="@+id/add_submit"></Button>
+
+</LinearLayout>

@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SubCategoryList"></activity>
-        <activity android:name=".activity.ProductDetailActivity"></activity>
+        <activity android:name=".activity.AddSubCat"></activity>
+        <activity android:name=".activity.SubCategoryList" />
+        <activity android:name=".activity.ProductDetailActivity" />
         <activity android:name=".activity.tempActivity" />
         <activity android:name=".activity.DetailCategoryList" />
         <activity android:name=".activity.Login" />
