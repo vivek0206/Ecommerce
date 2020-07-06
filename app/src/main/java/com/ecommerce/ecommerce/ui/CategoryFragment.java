@@ -46,7 +46,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), DetailCategoryList.class);
-                intent.putExtra("category","Edible Oil And Ghee");
+                intent.putExtra("subCategory","Edible Oil And Ghee");
                 startActivity(intent);
             }
         });
