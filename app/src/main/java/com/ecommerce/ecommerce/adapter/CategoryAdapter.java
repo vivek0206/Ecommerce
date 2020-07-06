@@ -72,6 +72,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 //            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,2);
 //            homeSubRecycler.setLayoutManager(gridLayoutManager);
             homeSubRecycler.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            Log.d(TAG, "Value is:startttttttttt ");
 //            image=itemView.findViewById(R.id.pimage);
         }
     }

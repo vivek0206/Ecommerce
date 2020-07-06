@@ -164,6 +164,7 @@ public class HomeFragment extends Fragment {
     private void getCatData(final View view){
 
         Log.d(TAG, "Value is:startttttttttt ");
+        Log.d(TAG, "Value is:startttttttttt ");
         if(auth.getCurrentUser()!=null){
             database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference().child("Admin").child("Category");
