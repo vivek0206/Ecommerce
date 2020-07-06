@@ -21,11 +21,18 @@ import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.HomeCategory_adapter;
 import com.ecommerce.ecommerce.adapter.SlidingImage_Adapter;
 import com.ecommerce.ecommerce.object.Product;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class HomeFragment extends Fragment {
 
@@ -42,6 +49,7 @@ public class HomeFragment extends Fragment {
     private List<Integer> imageList=new ArrayList<>();
     private LinearLayout dotLayout;
     private int dot_pos=0;
+    FirebaseDatabase database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +65,25 @@ public class HomeFragment extends Fragment {
         mViewPager.setAdapter(adapterView);
         preDot(image_pos);
         createSlider();
+
+
+         database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("Admin").child("Category");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         pList1=new ArrayList<>();
         pList1.add(new Product("oil"));
@@ -112,15 +139,18 @@ public class HomeFragment extends Fragment {
         }
         ImageView dots[]=new ImageView[imageList.size()];
         for(int i=0;i<imageList.size();i++){
-            dots[i]=new ImageView(this.getContext());
-            if(i==currImage_pos)
-                dots[i].setImageDrawable(ContextCompat.getDrawable(this.getContext(),R.drawable.active_dot));
-            else dots[i].setImageDrawable(ContextCompat.getDrawable(this.getContext(),R.drawable.inactive_dot));
+            if(getContext()!=null)
+            {
+                dots[i]=new ImageView(this.getContext());
+                if(i==currImage_pos)
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(this.getContext(),R.drawable.active_dot));
+                else dots[i].setImageDrawable(ContextCompat.getDrawable(this.getContext(),R.drawable.inactive_dot));
 
-            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(4,0,4,0);
-            dotLayout.addView(dots[i],layoutParams);
+                LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(4,0,4,0);
+                dotLayout.addView(dots[i],layoutParams);
+            }
 
         }
 
