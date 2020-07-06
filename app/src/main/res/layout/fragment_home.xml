@@ -6,9 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.HomeFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,8 +14,8 @@
             android:orientation="vertical"
             >
                 <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_width="match_parent"
+                    android:layout_height="210sp" >
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/imageslider_pager"
@@ -36,20 +34,14 @@
 
                         />
                 </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Edible Oil Ghee"
-                android:padding="10sp"
-                android:textColor="@android:color/black"/>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id = "@+id/recycler_view1"
                     android:layout_width = "match_parent"
-                    android:layout_height = "wrap_content"
+                    android:layout_height = "match_parent"
                     android:scrollbars = "vertical" />
         </LinearLayout>
-    </ScrollView>
 
 
 </FrameLayout>
