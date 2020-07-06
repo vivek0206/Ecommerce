@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ import com.ecommerce.ecommerce.R;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SlidingImage_Adapter extends PagerAdapter {
 
@@ -38,6 +41,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(sliderImageId.get(position));
         ((ViewPager) container).addView(imageView, 0);
+        Log.d(TAG, "Value is:startttttttttt ");
         return imageView;
     }
 
