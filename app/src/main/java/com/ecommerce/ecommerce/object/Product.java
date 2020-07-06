@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Product {
 
-    private String imageUrl,categoryName,productName,originalPrice,salePrice,quantity,rating;
+    private String imageUrl,categoryName,productName,originalPrice,salePrice,quantity,rating,productDetail,returnable,payOnDelivery;
 
     public Product() {
     }
@@ -23,6 +23,43 @@ public class Product {
         this.salePrice = salePrice;
         this.quantity = quantity;
         this.rating = rating;
+    }
+
+    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery) {
+        this.imageUrl = imageUrl;
+        this.categoryName = categoryName;
+        this.productName = productName;
+        this.originalPrice = originalPrice;
+        this.salePrice = salePrice;
+        this.quantity = quantity;
+        this.rating = rating;
+        this.productDetail = productDetail;
+        this.returnable = returnable;
+        this.payOnDelivery = payOnDelivery;
+    }
+
+    public String getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(String productDetail) {
+        this.productDetail = productDetail;
+    }
+
+    public String getReturnable() {
+        return returnable;
+    }
+
+    public void setReturnable(String returnable) {
+        this.returnable = returnable;
+    }
+
+    public String getPayOnDelivery() {
+        return payOnDelivery;
+    }
+
+    public void setPayOnDelivery(String payOnDelivery) {
+        this.payOnDelivery = payOnDelivery;
     }
 
     public String getImageUrl() {
@@ -80,5 +117,7 @@ public class Product {
     public void setRating(String rating) {
         this.rating = rating;
     }
+
+
 }
 

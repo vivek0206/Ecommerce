@@ -51,6 +51,30 @@
         android:inputType="numberSigned"
         android:id="@+id/temp_product_quantity"></EditText>
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Detail....Write in Points"
+        android:inputType="textMultiLine"
+        android:id="@+id/temp_product_product_detail"></EditText>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Returnable"
+        android:id="@+id/temp_return"
+        android:onClick="onRadioButtonClicked"></RadioButton>
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COD Available"
+        android:id="@+id/temp_cod"
+        android:onClick="onRadioButtonClicked"></RadioButton>
+
+
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

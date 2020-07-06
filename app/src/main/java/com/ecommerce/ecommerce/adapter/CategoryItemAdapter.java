@@ -107,7 +107,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                     Intent intent = new Intent(context, ProductDetailActivity.class);
                     intent.putExtra("category",categoryName);
                     intent.putExtra("product",productNam);
-                    activity.startActivity(intent);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 }
             });
 
