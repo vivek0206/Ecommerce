@@ -18,7 +18,7 @@
             >
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="210sp" >
+                android:layout_height="wrap_content" >
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/imageslider_pager"
