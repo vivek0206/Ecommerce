@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.MyViewHolder> {
 
@@ -34,6 +38,8 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
         Product data=productList.get(i);
         viewHolder.title.setText(data.getProductName());
+        Picasso.get().load(data.getImageUrl()).into(viewHolder.image);
+        Log.d(TAG, "Value is:startttttttttt ");
 
     }
     @Override
@@ -47,6 +53,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
             super(itemView);
             title = itemView.findViewById(R.id.ptitle);
             image=itemView.findViewById(R.id.pimage);
+
         }
     }
 }

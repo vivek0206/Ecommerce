@@ -79,7 +79,7 @@ public class DetailCategoryList extends AppCompatActivity {
         result = findViewById(R.id.detail_category_list_result);
         recyclerView = findViewById(R.id.detail_category_list_recyclerView);
         list = new ArrayList<>();
-        adapter = new CategoryItemAdapter(list,getBaseContext());
+        adapter = new CategoryItemAdapter(list,getBaseContext(),DetailCategoryList.this);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         databaseReference = FirebaseDatabase.getInstance().getReference();

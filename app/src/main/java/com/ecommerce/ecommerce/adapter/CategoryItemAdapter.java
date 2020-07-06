@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,10 +34,12 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
     private List<Product> list;
     private Context context;
+    private Activity activity;
 
-    public CategoryItemAdapter(List<Product> list, Context context) {
+    public CategoryItemAdapter(List<Product> list, Context context, Activity activity) {
         this.list = list;
         this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -104,7 +107,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                     Intent intent = new Intent(context, ProductDetailActivity.class);
                     intent.putExtra("category",categoryName);
                     intent.putExtra("product",productNam);
-                    context.startActivity(intent);
+                    activity.startActivity(intent);
                 }
             });
 
