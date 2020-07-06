@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ecommerce.ecommerce.DeliveryAddress;
+import com.ecommerce.ecommerce.activity.DeliveryAddress;
 import com.ecommerce.ecommerce.Models.AccountModel;
-import com.ecommerce.ecommerce.PersonalInfo;
+import com.ecommerce.ecommerce.activity.PersonalInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.ui.OrderFragment;
 import com.ecommerce.ecommerce.ui.WishlistFragment;

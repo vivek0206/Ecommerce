@@ -33,7 +33,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
         Product data=productList.get(i);
-        viewHolder.title.setText(data.getTitle());
+        viewHolder.title.setText(data.getProductName());
 
     }
     @Override
@@ -43,6 +43,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView image;
+        String category;
         public MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.ptitle);

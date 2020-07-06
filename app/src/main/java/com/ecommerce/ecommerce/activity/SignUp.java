@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce;
+package com.ecommerce.ecommerce.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ecommerce.ecommerce.R;
 
 
 public class SignUp extends AppCompatActivity {
@@ -57,7 +59,7 @@ public class SignUp extends AppCompatActivity {
             }
             else
             {
-                Intent intent = new Intent(SignUp.this,verifyPhone.class);
+                Intent intent = new Intent(SignUp.this, verifyPhone.class);
                 intent.putExtra("phone",userPhone);
                 intent.putExtra("password",userPswd);
                 intent.putExtra("name",userName);

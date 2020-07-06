@@ -1,10 +1,11 @@
-package com.ecommerce.ecommerce;
+package com.ecommerce.ecommerce.activity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.ecommerce.ecommerce.Models.UserInfo;
+import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.ui.CategoryFragment;
 import com.ecommerce.ecommerce.ui.HomeFragment;
 import com.ecommerce.ecommerce.ui.OrderFragment;
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void editPersonalInfo() {
-        Intent intent = new Intent(MainActivity.this,PersonalInfo.class);
+        Intent intent = new Intent(MainActivity.this, PersonalInfo.class);
         startActivity(intent);
     }
 

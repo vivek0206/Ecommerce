@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce;
+package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.Models.UserInfo;
+import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.activity.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

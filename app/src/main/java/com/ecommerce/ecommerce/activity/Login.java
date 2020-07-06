@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce;
+package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Models.UserInfo;
+import com.ecommerce.ecommerce.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +59,7 @@ public class Login extends AppCompatActivity {
                             flag=1;
                             if(userPswd.equals(model.getUserPswd()))
                             {
-                                Intent intent = new Intent(Login.this,MainActivity.class);
+                                Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
                             }
                         }

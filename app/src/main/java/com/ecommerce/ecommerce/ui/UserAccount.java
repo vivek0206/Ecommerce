@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ecommerce.ecommerce.MainActivity;
+import com.ecommerce.ecommerce.activity.MainActivity;
 import com.ecommerce.ecommerce.Models.AccountModel;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.AccountAdapter;
@@ -60,7 +60,6 @@ public class UserAccount extends Fragment {
         adapter.setData(list);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
         return view;
     }
 

@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.tempActivity"></activity>
+        <activity android:name=".activity.ProductDetailActivity"></activity>
+        <activity android:name=".activity.tempActivity" />
         <activity android:name=".activity.DetailCategoryList" />
-        <activity android:name=".activity.Login"></activity>
-        <activity android:name=".activity.SignUp"></activity>
-        <activity android:name=".activity.verifyPhone"></activity>
-        <activity android:name=".activity.DeliveryAddress"></activity>
-        <activity android:name=".activity.PersonalInfo"></activity>
-
+        <activity android:name=".activity.Login" />
+        <activity android:name=".activity.SignUp" />
+        <activity android:name=".activity.verifyPhone" />
+        <activity android:name=".activity.DeliveryAddress" />
+        <activity android:name=".activity.PersonalInfo" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"

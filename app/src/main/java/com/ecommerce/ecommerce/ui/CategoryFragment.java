@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ecommerce.ecommerce.R;
-import com.ecommerce.ecommerce.SignUp;
+import com.ecommerce.ecommerce.activity.DetailCategoryList;
+import com.ecommerce.ecommerce.activity.SignUp;
+import com.ecommerce.ecommerce.activity.tempActivity;
 
 public class CategoryFragment extends Fragment {
 
-    private Button randome;
+    private Button randome,temp,detailCategory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,10 +34,29 @@ public class CategoryFragment extends Fragment {
             }
         });
 
+        temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), tempActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        detailCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), DetailCategoryList.class);
+                intent.putExtra("category","Edible Oil And Ghee");
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
     private void init(View view) {
         randome = view.findViewById(R.id.random);
+        temp = view.findViewById(R.id.temp_btn);
+        detailCategory = view.findViewById(R.id.temp_detail_category);
     }
 }

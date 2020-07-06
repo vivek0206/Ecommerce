@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.Models.AccountModel;
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.activity.ProductDetailActivity;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,6 +97,16 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
             databaseReference = FirebaseDatabase.getInstance().getReference("");
             user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra("category",categoryName);
+                    intent.putExtra("product",productNam);
+                    context.startActivity(intent);
+                }
+            });
 
             quantityName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -212,7 +224,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                     if(model!=null)
                     {
                         wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
-
                     }
                 }
 
