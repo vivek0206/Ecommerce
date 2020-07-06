@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeliveryAddress">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:layout_marginTop="1dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="UserName"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:id="@+id/delivery_userName">
+        </EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:textSize="14dp"
+            android:id="@+id/delivery_phone"
+            android:textColor="@color/black">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Flat, House No.,Building,Company,Apartment"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Flat No"
+            android:textSize="14dp"
+            android:id="@+id/delivery_flat"
+            android:textColor="@color/black">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Area, Colony, Street, Sector, Village"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:hint="Area"
+            android:textSize="14dp"
+            android:id="@+id/deliver_area"
+            android:textColor="@color/black">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Landmark"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Landmark"
+            android:textSize="16dp"
+            android:id="@+id/delivery_landmark"
+            android:textColor="@color/black">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="State"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:hint="State"
+            android:id="@+id/delivery_state"
+            android:textSize="16dp"
+            android:textColor="@color/black">
+        </EditText>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="City"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:hint="City"
+            android:id="@+id/delivery_city"
+            android:textSize="16dp"
+            android:textColor="@color/black">
+        </EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PinCode"
+            android:layout_marginTop="5dp"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="PinCode"
+            android:textSize="16dp"
+            android:id="@+id/delivery_pincode"
+            android:textColor="@color/black">
+        </EditText>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:id="@+id/deliveru_update_address"
+        android:text="update"
+        android:textSize="18dp"
+        android:layout_alignParentBottom="true"></Button>
+
+</RelativeLayout>

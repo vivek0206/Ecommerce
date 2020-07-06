@@ -11,7 +11,13 @@
     <string name="menu_category">Shop By Category</string>
     <string name="menu_orders">Your Orders</string>
     <string name="menu_wishlist">Your Wishlist</string>
+    <string name="menu_account">Your Account</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="UserInfo">UserInfo</string>
+    <string name="UserImage">UserImage</string>
+    <string name="Address">Address</string>
 
 </resources>
