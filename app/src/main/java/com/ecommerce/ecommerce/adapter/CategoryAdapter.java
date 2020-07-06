@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.R;
@@ -29,8 +31,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     List<String> catList;
     Context mContext;
-    private FirebaseDatabase database;
-    List<Product> subCatList;
+
+
     public CategoryAdapter(Context context,List<String> productsList) {
         this.catList = productsList;
         this.mContext=context;
@@ -44,9 +46,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
-        String data=catList.get(i);
-        viewHolder.title.setText(data);
-        getSubData(viewHolder);
+        String catTitle=catList.get(i);
+        viewHolder.title.setText(catTitle);
+        viewHolder.subCatList.clear();
+        getSubData(viewHolder,catTitle);
 
     }
     @Override
@@ -56,16 +59,48 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         RecyclerView homeSubRecycler;
+        private FirebaseDatabase database;
+        List<Product> subCatList=new ArrayList<>();
+        private SubCategoryAdapter subCategoryAdapter;
 //        ImageView image;
         public MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.category_title);
             homeSubRecycler=itemView.findViewById(R.id.home_sub_recyclerview);
+
+
+//            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,2);
+//            homeSubRecycler.setLayoutManager(gridLayoutManager);
+            homeSubRecycler.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 //            image=itemView.findViewById(R.id.pimage);
         }
     }
 
-    private void getSubData(MyViewHolder viewHolder){
+    private void getSubData(final MyViewHolder viewHolder, String catTitle){
 
+        viewHolder.database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = viewHolder.database.getReference().child("Admin").child("Category").child(catTitle);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                viewHolder.subCatList.clear();
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    String st=snapshot.getKey().toString();
+                    Log.d(TAG, "Value is: " + st);
+                    viewHolder.subCatList.add(snapshot.getValue(Product.class));
+                    viewHolder.subCategoryAdapter =new SubCategoryAdapter(mContext,viewHolder.subCatList);
+                    viewHolder.homeSubRecycler.setAdapter(viewHolder.subCategoryAdapter);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
         Product data=productList.get(i);
         viewHolder.title.setText(data.getProductName());
+        Picasso.get().load(data.getImageUrl()).into(viewHolder.image);
 
     }
     @Override
@@ -43,11 +45,11 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView image;
-        String category;
         public MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.ptitle);
             image=itemView.findViewById(R.id.pimage);
+
         }
     }
 }
