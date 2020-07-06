@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView1;
     private SubCategoryAdapter subCategoryAdpater;
     private CategoryAdapter categoryAdapter;
-    List<Product> pList1;
+
     ViewPager mViewPager;
     private Timer timer;
     private int image_pos=0;
@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
         final View view =  inflater.inflate(R.layout.fragment_home, container, false);
 
         auth = FirebaseAuth.getInstance();
+
         mViewPager = view.findViewById(R.id.imageslider_pager);
         dotLayout=view.findViewById(R.id.dotContainer);
         prepareSlide();
@@ -69,14 +70,9 @@ public class HomeFragment extends Fragment {
         mViewPager.setAdapter(adapterView);
         preDot(image_pos);
         createSlider();
-
         getCatData(view);
 
-        pList1=new ArrayList<>();
-        pList1.add(new Product("oil"));
-        pList1.add(new Product("ghee"));
 
-        Log.d("tag","hiiiiiiiii"+pList1.size());
 
         mRecyclerView1=view.findViewById(R.id.recycler_view1);
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(),1);
@@ -87,7 +83,7 @@ public class HomeFragment extends Fragment {
 //        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
 //        linearLayoutManager.setOrientation();
         mRecyclerView1.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        Log.d(TAG, "Value is:startttttttttt vhbkj");
+        Log.d(TAG, "Value is:starttt ");
 
 
 
@@ -185,6 +181,7 @@ public class HomeFragment extends Fragment {
                     }
                     categoryAdapter =new CategoryAdapter(view.getContext(),catList);
                     mRecyclerView1.setAdapter(categoryAdapter);
+                    mRecyclerView1.invalidate();
                 }
 
                 @Override
