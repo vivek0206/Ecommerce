@@ -44,7 +44,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void fetchProduct() {
-
     }
 
     private void init() {
@@ -61,7 +60,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         recyclerView1 = findViewById(R.id.product_detail_different_quantity);
         recyclerView2 = findViewById(R.id.product_detail_similiar_product);
         buy_now = findViewById(R.id.product_detail_buy_now);
-
         user = FirebaseAuth.getInstance().getCurrentUser();
 
     }

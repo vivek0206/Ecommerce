@@ -1,11 +1,10 @@
 package com.ecommerce.ecommerce.ui;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -18,14 +17,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ecommerce.ecommerce.R;
-import com.ecommerce.ecommerce.adapter.HomeCategory_adapter;
+import com.ecommerce.ecommerce.adapter.CategoryAdapter;
+import com.ecommerce.ecommerce.adapter.SubCategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SlidingImage_Adapter;
 import com.ecommerce.ecommerce.object.Product;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class HomeFragment extends Fragment {
 
@@ -34,22 +42,26 @@ public class HomeFragment extends Fragment {
     }
 
     private RecyclerView mRecyclerView1;
-    private HomeCategory_adapter homeCategory_adpater;
+    private SubCategoryAdapter subCategoryAdpater;
+    private CategoryAdapter categoryAdapter;
     List<Product> pList1;
     ViewPager mViewPager;
     private Timer timer;
     private int image_pos=0;
     private List<Integer> imageList=new ArrayList<>();
+    private List<String> catList=new ArrayList<>();
     private LinearLayout dotLayout;
     private int dot_pos=0;
+    FirebaseDatabase database;
+    private FirebaseAuth auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_home, container, false);
 
-
+        auth = FirebaseAuth.getInstance();
         mViewPager = view.findViewById(R.id.imageslider_pager);
         dotLayout=view.findViewById(R.id.dotContainer);
         prepareSlide();
@@ -58,15 +70,25 @@ public class HomeFragment extends Fragment {
         preDot(image_pos);
         createSlider();
 
+        getCatData(view);
+
         pList1=new ArrayList<>();
         pList1.add(new Product("oil"));
         pList1.add(new Product("ghee"));
+
         Log.d("tag","hiiiiiiiii"+pList1.size());
+
         mRecyclerView1=view.findViewById(R.id.recycler_view1);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(),2);
-        mRecyclerView1.setLayoutManager(gridLayoutManager);
-        homeCategory_adpater =new HomeCategory_adapter(view.getContext(),pList1);
-        mRecyclerView1.setAdapter(homeCategory_adpater);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(),1);
+//        mRecyclerView1.setLayoutManager(gridLayoutManager);
+
+//        subCategoryAdpater =new SubCategoryAdapter(view.getContext(),pList1);
+//        mRecyclerView1.setAdapter(homeCategory_adpater);
+//        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
+//        linearLayoutManager.setOrientation();
+        mRecyclerView1.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        Log.d(TAG, "Value is:startttttttttt vhbkj");
+
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -89,12 +111,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
         return view;
     }
     private void prepareSlide(){
@@ -114,11 +130,10 @@ public class HomeFragment extends Fragment {
         for(int i=0;i<imageList.size();i++){
             if(getContext()!=null)
             {
-
-                dots[i]=new ImageView(getContext());
+                dots[i]=new ImageView(this.getContext());
                 if(i==currImage_pos)
-                    dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.active_dot));
-                else dots[i].setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.inactive_dot));
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(this.getContext(),R.drawable.active_dot));
+                else dots[i].setImageDrawable(ContextCompat.getDrawable(this.getContext(),R.drawable.inactive_dot));
 
                 LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -147,6 +162,38 @@ public class HomeFragment extends Fragment {
                 handler.post(sliderRunnable);
             }
         },250,2500);
+
+    }
+
+    private void getCatData(final View view){
+
+        Log.d(TAG, "Value is:startttttttttt ");
+        if(auth.getCurrentUser()!=null){
+            database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference().child("Admin").child("Category");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    catList.clear();
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        String st=snapshot.getKey().toString();
+                        Log.d(TAG, "Value is: " + st);
+                        catList.add(st);
+
+
+                    }
+                    categoryAdapter =new CategoryAdapter(view.getContext(),catList);
+                    mRecyclerView1.setAdapter(categoryAdapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
+        }
 
     }
 }
