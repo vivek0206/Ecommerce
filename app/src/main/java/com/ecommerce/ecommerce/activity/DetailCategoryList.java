@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.R;
@@ -40,14 +42,17 @@ public class DetailCategoryList extends AppCompatActivity {
 
         init();
 
+        Intent intent = getIntent();
+        category = intent.getStringExtra("category");
         fetchAllCategory(category);
+        Log.d("pop pop",category);
 
 
 
     }
 
     private void fetchAllCategory(String category) {
-        databaseReference.child(getResources().getString(R.string.AllCategory)).child(category)
+        databaseReference.child(getResources().getString(R.string.Admin)).child("Category").child(category)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,6 +79,7 @@ public class DetailCategoryList extends AppCompatActivity {
         result = findViewById(R.id.detail_category_list_result);
         recyclerView = findViewById(R.id.detail_category_list_recyclerView);
         list = new ArrayList<>();
+        adapter = new CategoryItemAdapter(list,getBaseContext());
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         databaseReference = FirebaseDatabase.getInstance().getReference();
