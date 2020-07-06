@@ -19,5 +19,9 @@
     <string name="UserInfo">UserInfo</string>
     <string name="UserImage">UserImage</string>
     <string name="Address">Address</string>
+    <string name="AllCategory">AllCategory</string>
+    <string name="ProductImage">ProductImage</string>
+    <string name="Admin">Admin</string>
+    <string name="Category">Category</string>
 
 </resources>
