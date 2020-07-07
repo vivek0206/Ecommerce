@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
@@ -32,10 +34,21 @@ public class SubCategoryList extends AppCompatActivity {
     private FirebaseDatabase database;
     private List<SubCategory> subCatList=new ArrayList<>();
     private SubCategoryAdapter subCategoryAdapter;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category_list);
+        toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Product");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         Intent intent = getIntent();
         category = intent.getStringExtra("Category");
