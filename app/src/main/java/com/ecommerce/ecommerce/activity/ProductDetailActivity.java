@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Button buy_now;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private String categoryName,productNam;
+    private String categoryName,productNam,subCategoryName;
     private int returnable,cod;
 
 
@@ -43,27 +44,31 @@ public class ProductDetailActivity extends AppCompatActivity {
         init();
 
         Intent intent = getIntent();
+        subCategoryName=intent.getStringExtra("subCategory");
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
 
-        fetchProduct(categoryName,productNam);
+        fetchProduct(categoryName,subCategoryName,productNam);
 
 
 
     }
 
-    private void fetchProduct(String categoryName, final String productNam) {
-        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(categoryName).child(productNam)
+    private void fetchProduct(String categoryName,String subCategoryName, final String productNam) {
+        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(categoryName).child(subCategoryName).child(productNam)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Product model = dataSnapshot.getValue(Product.class);
                         Picasso.get().load(Uri.parse(model.getImageUrl())).into(productImg);
-                        productName.setText(model.getProductName());
+                        productName.setText(model.getProductName()+" ,"+model.getQuantity());
                         rating.setText(model.getRating());
-                        offerPrice.setText(model.getSalePrice());
-                        originalPrice.setText(model.getOriginalPrice());
-                        savingPrice.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"");
+                        offerPrice.setText("\u20B9"+model.getSalePrice());
+                        originalPrice.setText("\u20B9"+model.getOriginalPrice());
+                        originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        savingPrice.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice())));
+                        offer.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"\nOff");
+
                         productDetails.setText(model.getProductDetail());
                         returnable = Integer.parseInt(model.getReturnable());
                         cod = Integer.parseInt(model.getPayOnDelivery());
