@@ -2,10 +2,12 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
@@ -43,6 +45,16 @@ public class ManageOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_order);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Manage Order");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         init();
         fetchOrders();
     }

@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -47,6 +48,16 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Payment Details");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         Checkout.preload(getApplicationContext());
 
         init();
