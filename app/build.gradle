@@ -43,6 +43,9 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+
+
 
     implementation 'com.razorpay:checkout:1.5.12'
 

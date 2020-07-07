@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.adapter.ManageOrderAdapter;
 import com.ecommerce.ecommerce.ui.CategoryFragment;
 import com.ecommerce.ecommerce.ui.HomeFragment;
 import com.ecommerce.ecommerce.ui.OrderFragment;
@@ -86,7 +87,10 @@ public class MainActivity extends AppCompatActivity
                         break;
 
                     case R.id.nav_orders:
-                        setFragment(new OrderFragment());
+
+                        Intent intent = new Intent(MainActivity.this, ManageOrderActivity.class);
+                        startActivity(intent);
+                    //    setFragment(new OrderFragment());
                         Toast.makeText(getApplicationContext(),"order",Toast.LENGTH_SHORT).show();
                         break;
 

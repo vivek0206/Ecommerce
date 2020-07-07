@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="16dp"
+        android:text="Order Id"
+        android:id="@+id/raw_manage_order_orderId"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="Order Date"
+        android:padding="2dp"
+        android:layout_below="@id/raw_manage_order_orderId"
+        android:id="@+id/raw_manage_order_orderDate"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="Expected Delivery Date"
+        android:padding="2dp"
+        android:layout_below="@id/raw_manage_order_orderDate"
+        android:id="@+id/raw_manage_order_DeliveryDate"></TextView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Price"
+        android:padding="2dp"
+        android:textSize="16dp"
+        android:id="@+id/raw_manage_order_orderPrice"
+        android:layout_alignParentRight="true"></TextView>
+
+    <com.kofigyan.stateprogressbar.StateProgressBar
+        android:id="@+id/raw_manage_order_progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:spb_currentStateNumber="three"
+        app:spb_stateBackgroundColor="@color/green"
+        app:spb_currentStateDescriptionColor="@color/green"
+        app:spb_maxStateNumber="four"
+        android:layout_below="@id/raw_manage_order_DeliveryDate"/>
+
+
+</RelativeLayout>

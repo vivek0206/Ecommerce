@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.OrderConfirmActivity"></activity>
+        <activity android:name=".activity.OrderDetailActivity"></activity>
+        <activity android:name=".activity.ManageOrderActivity" />
+        <activity android:name=".activity.OrderConfirmActivity" />
         <activity
             android:name=".activity.PaymentActivity"
             android:screenOrientation="portrait" />
@@ -28,11 +30,12 @@
         <activity
             android:name=".activity.ProductDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AddSubCat"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.SubCategoryList"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".activity.AddSubCat"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SubCategoryList"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.tempActivity"
             android:screenOrientation="portrait" />

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@color/orange"
+        android:id="@+id/raw_order_detail_image"></ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:layout_toRightOf="@id/raw_order_detail_image"
+        android:layout_marginLeft="10dp"
+        android:padding="5dp"
+        android:textSize="16dp"
+        android:id="@+id/raw_order_detail_itemName"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Price"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:textSize="16dp"
+        android:id="@+id/raw_order_detail_itemPrice"></TextView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/raw_order_detail_itemName"
+        android:text="Cancel"
+        android:layout_toRightOf="@id/raw_order_detail_image"
+        android:layout_marginLeft="10dp"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:id="@+id/raw_order_detail_cancelItem"
+        android:textStyle="bold"
+        android:background="@color/red"
+        ></TextView>
+
+
+</RelativeLayout>

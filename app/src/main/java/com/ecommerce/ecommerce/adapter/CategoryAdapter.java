@@ -68,6 +68,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public int getItemCount() {
         return catList.size();
     }
+
+
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         Button viewAll;

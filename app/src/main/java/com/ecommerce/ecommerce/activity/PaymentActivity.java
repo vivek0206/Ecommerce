@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,8 +96,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     if(model!=null)
                     {
                         String productName = model.getProductName();
-                        OrderInfoModel orderModel = new OrderInfoModel(orderId,"Order Date","Delivery Date",model);
-                        databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(orderModel);
+                        databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
 
 
                         //TODO: For Admin also
@@ -104,7 +104,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
                     }
                 }
-
+                UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"Order confirmed");
+                databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
                 Toast.makeText(getApplicationContext(),"Order DOne",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PaymentActivity.this,OrderConfirmActivity.class);

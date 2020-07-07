@@ -13,8 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderConfirmAdapter;
+import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,11 +34,13 @@ public class OrderConfirmActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private OrderConfirmAdapter adapter;
-    private List<OrderInfoModel> list;
+    private List<Product> list;
     private String orderIdString;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private Button btn;
+
+
 
 
     @Override
@@ -54,7 +58,8 @@ public class OrderConfirmActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Apke Sath Prank hua h",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OrderConfirmActivity.this,ManageOrderActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -62,18 +67,37 @@ public class OrderConfirmActivity extends AppCompatActivity {
     }
 
     private void fetchOrderDetails() {
+
+        databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderIdString)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserOrderInfo model = dataSnapshot.getValue(UserOrderInfo.class);
+                        if(model!=null)
+                        {
+                            orderId.setText(orderIdString);
+                            orderDate.setText(model.getOrderDate());
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
         databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderIdString)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot ds: dataSnapshot.getChildren())
                         {
-                            OrderInfoModel model = ds.getValue(OrderInfoModel.class);
+                            Product model = ds.getValue(Product.class);
                             if(model!=null)
                             {
                                 list.add(model);
-                                orderId.setText(model.getOrderId());
-                                orderDate.setText(model.getDate());
                             }
                         }
                         adapter.setData(list);
