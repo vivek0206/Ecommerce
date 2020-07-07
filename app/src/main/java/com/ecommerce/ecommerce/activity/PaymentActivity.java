@@ -107,7 +107,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"Order confirmed");
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
-                Toast.makeText(getApplicationContext(),"Order DOne",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Order Done",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PaymentActivity.this,OrderConfirmActivity.class);
                 intent.putExtra("orderId",orderId);
                 startActivity(intent);
