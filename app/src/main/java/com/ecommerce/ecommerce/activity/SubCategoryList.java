@@ -13,6 +13,7 @@ import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SubCategoryAdapter;
 import com.ecommerce.ecommerce.object.Product;
+import com.ecommerce.ecommerce.object.SubCategory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +30,7 @@ public class SubCategoryList extends AppCompatActivity {
     private String category;
     private RecyclerView recyclerView;
     private FirebaseDatabase database;
-    private List<Product> subCatList=new ArrayList<>();
+    private List<SubCategory> subCatList=new ArrayList<>();
     private SubCategoryAdapter subCategoryAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class SubCategoryList extends AppCompatActivity {
         setContentView(R.layout.activity_sub_category_list);
 
         Intent intent = getIntent();
-        category = intent.getStringExtra("subCategory");
+        category = intent.getStringExtra("Category");
         Log.d("pop pop",category);
         getSubData(category);
         recyclerView=findViewById(R.id.subCat_recycler);
@@ -50,7 +51,7 @@ public class SubCategoryList extends AppCompatActivity {
     private void getSubData(String catTitle){
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Admin").child("Category").child(catTitle);
+        DatabaseReference myRef = database.getReference().child("Admin").child("CategoryData").child(catTitle);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
 
@@ -59,7 +60,7 @@ public class SubCategoryList extends AppCompatActivity {
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     String st=snapshot.getKey().toString();
                     Log.d(TAG, "Value is: " + st);
-                    subCatList.add(snapshot.getValue(Product.class));
+                    subCatList.add(snapshot.getValue(SubCategory.class));
                     subCategoryAdapter =new SubCategoryAdapter(getApplicationContext(),subCatList,"linear");
                     recyclerView.setAdapter(subCategoryAdapter);
 

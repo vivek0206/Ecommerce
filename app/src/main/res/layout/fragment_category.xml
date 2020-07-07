@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="temp"
+        android:text="add sub category"
         android:id="@+id/temp_btn"></Button>
 
     <Button
@@ -29,7 +29,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="add sub Category"
+        android:text="add sub Category product"
         android:id="@+id/add_subcategory"></Button>
 
 

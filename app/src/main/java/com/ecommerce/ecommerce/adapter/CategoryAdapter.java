@@ -20,6 +20,7 @@ import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.DetailCategoryList;
 import com.ecommerce.ecommerce.activity.SubCategoryList;
 import com.ecommerce.ecommerce.object.Product;
+import com.ecommerce.ecommerce.object.SubCategory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,7 +58,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, SubCategoryList.class);
-                intent.putExtra("subCategory",catTitle);
+                intent.putExtra("Category",catTitle);
                 mContext.startActivity(intent);
             }
         });
@@ -72,7 +73,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         Button viewAll;
         RecyclerView homeSubRecycler;
         private FirebaseDatabase database;
-        List<Product> subCatList=new ArrayList<>();
+        List<SubCategory> subCatList=new ArrayList<>();
         private SubCategoryAdapter subCategoryAdapter;
 //        ImageView image;
         public MyViewHolder(View itemView) {
@@ -93,7 +94,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private void getSubData(final MyViewHolder viewHolder, String catTitle){
 
         viewHolder.database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = viewHolder.database.getReference().child("Admin").child("Category").child(catTitle);
+        DatabaseReference myRef = viewHolder.database.getReference().child("Admin").child("CategoryData").child(catTitle);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
 
@@ -102,7 +103,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     String st=snapshot.getKey().toString();
                     Log.d(TAG, "Value is: " + st);
-                    viewHolder.subCatList.add(snapshot.getValue(Product.class));
+                    viewHolder.subCatList.add(snapshot.getValue(SubCategory.class));
                     viewHolder.subCategoryAdapter =new SubCategoryAdapter(mContext,viewHolder.subCatList,"grid");
                     viewHolder.homeSubRecycler.setAdapter(viewHolder.subCategoryAdapter);
 

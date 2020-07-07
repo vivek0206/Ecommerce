@@ -23,5 +23,6 @@
     <string name="ProductImage">ProductImage</string>
     <string name="Admin">Admin</string>
     <string name="Category">Category</string>
+    <string name="CategoryData">CategoryData</string>
 
 </resources>

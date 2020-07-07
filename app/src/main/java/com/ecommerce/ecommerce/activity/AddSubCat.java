@@ -130,7 +130,7 @@ public class AddSubCat extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            Product model = new Product(uri.toString(),Cname,Pname,originalP,offP,productQ,"0",productD,r1+"",r2+"");
+                                            Product model = new Product(uri.toString(),Cname,Pname,originalP,offP,productQ,"0",productD,r1+"",r2+"",subcatN);
                                             databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(Cname).child(subcatN).child(Pname).setValue(model);
 
                                             Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();

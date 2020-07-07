@@ -7,6 +7,21 @@ import java.util.Map;
 public class Product {
 
     private String imageUrl,categoryName,productName,originalPrice,salePrice,quantity,rating,productDetail,returnable,payOnDelivery;
+    private String subCategoryName;
+
+    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery, String subCategoryName) {
+        this.imageUrl = imageUrl;
+        this.categoryName = categoryName;
+        this.productName = productName;
+        this.originalPrice = originalPrice;
+        this.salePrice = salePrice;
+        this.quantity = quantity;
+        this.rating = rating;
+        this.productDetail = productDetail;
+        this.returnable = returnable;
+        this.payOnDelivery = payOnDelivery;
+        this.subCategoryName = subCategoryName;
+    }
 
     public Product() {
     }
@@ -38,6 +53,13 @@ public class Product {
         this.payOnDelivery = payOnDelivery;
     }
 
+    public String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
+    }
     public String getProductDetail() {
         return productDetail;
     }

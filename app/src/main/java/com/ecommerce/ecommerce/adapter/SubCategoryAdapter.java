@@ -18,6 +18,7 @@ import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.DetailCategoryList;
 import com.ecommerce.ecommerce.activity.ProductDetailActivity;
 import com.ecommerce.ecommerce.object.Product;
+import com.ecommerce.ecommerce.object.SubCategory;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,10 +27,10 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.MyViewHolder> {
 
-    List<Product> productList;
+    List<SubCategory> productList;
     Context mContext;
     String flag;
-    public SubCategoryAdapter(Context context, List<Product> productsList,String flag) {
+    public SubCategoryAdapter(Context context, List<SubCategory> productsList, String flag) {
         this.productList = productsList;
         this.mContext=context;
         this.flag=flag;
@@ -45,16 +46,17 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     }
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
-        final Product data=productList.get(i);
-        viewHolder.title.setText(data.getCategoryName());
+        final SubCategory data=productList.get(i);
+        viewHolder.title.setText(data.getSubCategoryName());
         Picasso.get().load(data.getImageUrl()).into(viewHolder.image);
-        Log.d(TAG, "Value is:startttttttttt ");
+        Log.d(TAG, "Value is: "+data.getCategoryName());
+        Log.d(TAG, "Value is: "+data.getSubCategoryName());
         viewHolder.rviewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DetailCategoryList.class);
-//                intent.putExtra("Category",data.getCategoryName());
-                intent.putExtra("subCategory",data.getCategoryName());
+                intent.putExtra("category",data.getCategoryName());
+                intent.putExtra("subCategory",data.getSubCategoryName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }
