@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         Picasso.get().load(Uri.parse(model.getImageUrl())).into(holder.productImg);
         holder.productName.setText(model.getProductName());
         holder.OriginalPrice.setText(model.getOriginalPrice());
+        holder.OriginalPrice.setPaintFlags(holder.OriginalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.OfferPrice.setText(model.getSalePrice());
         holder.ratingBar.setRating(Float.parseFloat(model.getRating()));
         holder.Saving.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");

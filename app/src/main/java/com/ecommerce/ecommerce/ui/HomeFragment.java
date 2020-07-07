@@ -182,7 +182,8 @@ public class HomeFragment extends Fragment {
                     }
                     categoryAdapter =new CategoryAdapter(view.getContext(),catList);
                     mRecyclerView1.setAdapter(categoryAdapter);
-                    mRecyclerView1.invalidate();
+//                    mRecyclerView1.invalidate();
+                    mRecyclerView1.setNestedScrollingEnabled(false);
                 }
 
                 @Override

@@ -22,8 +22,9 @@
             android:layout_height="wrap_content"
             android:text="10 Results"
             android:textStyle="bold"
-            android:padding="5dp"
-            android:id="@+id/detail_category_list_result"
+            android:padding="10sp"
+            android:minWidth="80sp"
+            android:id="@+id/detail_category_productCount"
             android:textColor="@color/white"></TextView>
 
     </androidx.cardview.widget.CardView>

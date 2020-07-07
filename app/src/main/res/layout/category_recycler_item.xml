@@ -2,20 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:layout_marginBottom="5dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        >
         <TextView
             android:id="@+id/category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edible Oil Ghee"
             android:textSize="18dp"
-            android:padding="2sp"
+            android:padding="8sp"
+            android:layout_centerVertical="true"
             android:textColor="@android:color/black"/>
         <Button
+            android:id="@+id/viewAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View All"
@@ -25,10 +29,16 @@
             android:layout_alignParentEnd="true"
 
             />
+        <View
+            android:layout_below="@+id/viewAll"
+            android:layout_width="match_parent"
+            android:layout_height="0.5sp"
+            android:background="@android:color/darker_gray"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_sub_recyclerview"
         android:layout_width="match_parent"
+        android:elevation="2dp"
         android:layout_height="wrap_content"/>
 
 

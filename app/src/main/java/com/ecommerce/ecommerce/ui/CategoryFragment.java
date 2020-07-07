@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.activity.AddSubCat;
 import com.ecommerce.ecommerce.activity.DetailCategoryList;
 import com.ecommerce.ecommerce.activity.SignUp;
 import com.ecommerce.ecommerce.activity.tempActivity;
 
 public class CategoryFragment extends Fragment {
 
-    private Button randome,temp,detailCategory;
+    private Button randome,temp,detailCategory,addSubCat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +47,15 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), DetailCategoryList.class);
-                intent.putExtra("category","Edible Oil And Ghee");
+                intent.putExtra("subCategory","Edible Oil And Ghee");
+                startActivity(intent);
+            }
+        });
+        addSubCat.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddSubCat.class);
                 startActivity(intent);
             }
         });
@@ -58,5 +67,6 @@ public class CategoryFragment extends Fragment {
         randome = view.findViewById(R.id.random);
         temp = view.findViewById(R.id.temp_btn);
         detailCategory = view.findViewById(R.id.temp_detail_category);
+        addSubCat=view.findViewById(R.id.add_subcategory);
     }
 }
