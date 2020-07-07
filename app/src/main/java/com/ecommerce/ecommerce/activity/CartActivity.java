@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +51,16 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Cart");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         init();
         fetchUserCart();

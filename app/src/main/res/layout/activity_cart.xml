@@ -1,196 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.CartActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/bar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@color/white">
+
+    </androidx.appcompat.widget.Toolbar>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cart_rel1">
-
-        <LinearLayout
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/cart_linear1"
-            android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="90dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Deliver To"
-                android:textColor="@color/black"
-                android:textSize="16dp"
-                android:id="@+id/cart_deliverTo"></TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/cart_address2"
-                android:text="Address1"
-                android:id="@+id/cart_address1"></TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Address"
-                android:inputType="textMultiLine"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/cart_address2"></TextView>
-
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/border"
-                android:layout_alignParentRight="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:padding="5dp"
-                    android:layout_height="wrap_content"
-                    android:text="Change"
-                    android:textColor="@color/orange"
-                    android:id="@+id/cart_address_change"
-                    ></TextView>
-
-
-            </androidx.cardview.widget.CardView>
-
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cart_recyclerView"></androidx.recyclerview.widget.RecyclerView>
-
-        </RelativeLayout>
-
+            android:paddingTop="10sp">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/white">
+                android:layout_height="match_parent"
+                android:id="@+id/cart_rel1">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Basket Total"
-                    android:textColor="@color/black"
-                    android:id="@+id/cart_basket"></TextView>
+                    android:layout_height="match_parent"
+                    android:id="@+id/cart_linear1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item(s)"
-                    android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:layout_below="@id/cart_basket"
-                    android:id="@+id/cart_item_text"></TextView>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="90dp">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Deliver To"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:id="@+id/cart_deliverTo"></TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Price"
-                    android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/cart_basket"
-                    android:id="@+id/cart_item_total_price"></TextView>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@id/cart_address2"
+                            android:text="Address1"
+                            android:id="@+id/cart_address1"></TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Shipping Fee"
-                    android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:layout_below="@id/cart_item_text"
-                    android:id="@+id/cart_item_shipping_fee"></TextView>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Free"
-                    android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/cart_item_text"
-                    android:id="@+id/cart_item_shipping_charges"></TextView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_below="@id/cart_item_shipping_charges"
-                    android:background="@color/black"
-                    android:id="@+id/cart_amount_line"
-                    ></FrameLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Address"
+                            android:inputType="textMultiLine"
+                            android:layout_marginBottom="10dp"
+                            android:layout_alignParentBottom="true"
+                            android:id="@+id/cart_address2"></TextView>
 
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amount Text"
-                    android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:layout_below="@id/cart_amount_line"
-                    android:id="@+id/cart_amount_text"></TextView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/border"
+                            android:layout_alignParentRight="true">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:padding="5dp"
+                                android:layout_height="wrap_content"
+                                android:text="Change"
+                                android:textColor="@color/orange"
+                                android:id="@+id/cart_address_change"
+                                ></TextView>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Free"
-                    android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/cart_amount_line"
-                    android:id="@+id/cart_amount_total"></TextView>
+                        </androidx.cardview.widget.CardView>
 
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cart_recyclerView"></androidx.recyclerview.widget.RecyclerView>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/white">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Basket Total"
+                            android:textColor="@color/black"
+                            android:id="@+id/cart_basket"></TextView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Item(s)"
+                            android:layout_margin="2dp"
+                            android:textColor="@color/black"
+                            android:layout_below="@id/cart_basket"
+                            android:id="@+id/cart_item_text"></TextView>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Price"
+                            android:layout_margin="2dp"
+                            android:textColor="@color/black"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/cart_basket"
+                            android:id="@+id/cart_item_total_price"></TextView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shipping Fee"
+                            android:layout_margin="2dp"
+                            android:textColor="@color/black"
+                            android:layout_below="@id/cart_item_text"
+                            android:id="@+id/cart_item_shipping_fee"></TextView>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Free"
+                            android:layout_margin="2dp"
+                            android:textColor="@color/black"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/cart_item_text"
+                            android:id="@+id/cart_item_shipping_charges"></TextView>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_below="@id/cart_item_shipping_charges"
+                            android:background="@color/black"
+                            android:id="@+id/cart_amount_line"
+                            ></FrameLayout>
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amount Text"
+                            android:layout_margin="2dp"
+                            android:textColor="@color/black"
+                            android:layout_below="@id/cart_amount_line"
+                            android:id="@+id/cart_amount_text"></TextView>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Free"
+                            android:layout_margin="2dp"
+                            android:textColor="@color/black"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/cart_amount_line"
+                            android:id="@+id/cart_amount_total"></TextView>
+
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
 
             </RelativeLayout>
-
-        </LinearLayout>
-
+        </ScrollView>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cart_linear1"
             android:text="Proceed to Buy"
             android:background="@color/orange"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:id="@+id/cart_buy_btn"
+            android:layout_alignParentBottom="true"
+
             ></Button>
     </RelativeLayout>
 
 
 
-</ScrollView>
+
+</LinearLayout>

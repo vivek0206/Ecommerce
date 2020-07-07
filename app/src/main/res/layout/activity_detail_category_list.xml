@@ -15,7 +15,7 @@
         android:background="@color/colorPrimary"
         android:elevation="2dp"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleTextColor="@color/black">
+        app:titleTextColor="@color/white">
 
     </androidx.appcompat.widget.Toolbar>
     <androidx.cardview.widget.CardView
