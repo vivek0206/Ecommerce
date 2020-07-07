@@ -31,12 +31,6 @@
             android:name=".activity.ProductDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AddSubCat"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SubCategoryList"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.tempActivity"
             android:screenOrientation="portrait" />
         <activity
