@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +50,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         productNam = intent.getStringExtra("product");
 
         fetchProduct(categoryName,subCategoryName,productNam);
+
+        buy_now.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

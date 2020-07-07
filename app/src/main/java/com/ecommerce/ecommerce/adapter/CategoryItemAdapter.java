@@ -122,7 +122,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                     if(quantity==0)
                     {
                         modelGlobal = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating());
-                        databaseReference.child("Product").child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                        databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                        databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
                         delete.setVisibility(View.VISIBLE);
                         add.setVisibility(View.VISIBLE);
                         ProductQuantity.setVisibility(View.VISIBLE);
@@ -158,7 +159,9 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                             quantity++;
                             ProductQuantity.setText(quantity+"");
                             modelGlobal.setQuantity(quantity+"");
-                            databaseReference.child("Product").child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                            databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                            databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
+
                         }
                     }
                 }
@@ -172,12 +175,14 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                         quantity--;
                         ProductQuantity.setText(quantity+"");
                         modelGlobal.setQuantity(quantity+"");
-                        databaseReference.child("Product").child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                        databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                        databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
 
                         if(quantity==0)
                         {
                             //delete it
-                            databaseReference.child("Product").child(user.getUid()).child(categoryName).child(productNam).removeValue();
+                            databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).removeValue();
+                            databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).removeValue();
                             delete.setVisibility(View.GONE);
                             add.setVisibility(View.GONE);
                             ProductQuantity.setVisibility(View.GONE);
@@ -193,8 +198,9 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         }
 
 
+
         private void fetchProductDetail(String category,String product) {
-            databaseReference.child("Product").child(user.getUid()).child(category).child(product).addValueEventListener(new ValueEventListener() {
+            databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(product).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Product model = dataSnapshot.getValue(Product.class);
