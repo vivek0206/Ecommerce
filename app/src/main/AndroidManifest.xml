@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ecommerce.ecommerce">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,17 +18,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ProductDetailActivity"></activity>
-        <activity android:name=".activity.tempActivity" />
-        <activity android:name=".activity.DetailCategoryList" />
-        <activity android:name=".activity.Login" />
-        <activity android:name=".activity.SignUp" />
-        <activity android:name=".activity.verifyPhone" />
-        <activity android:name=".activity.DeliveryAddress" />
-        <activity android:name=".activity.PersonalInfo" />
+        <activity android:name=".activity.OrderConfirmActivity"></activity>
+        <activity
+            android:name=".activity.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProductDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.tempActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DetailCategoryList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SignUp"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.verifyPhone"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DeliveryAddress"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PersonalInfo"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +60,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_Tu9mmCQr4y3e3R" />
     </application>
 
 </manifest>
