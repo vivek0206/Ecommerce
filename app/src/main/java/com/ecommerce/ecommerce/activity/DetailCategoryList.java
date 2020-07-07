@@ -2,12 +2,15 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.R;
@@ -34,12 +37,22 @@ public class DetailCategoryList extends AppCompatActivity {
     private String category,subCategory;
     private DatabaseReference databaseReference;
     private FirebaseUser user;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_category_list);
-
+        toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Product");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         init();
 
         Intent intent = getIntent();
@@ -83,11 +96,14 @@ public class DetailCategoryList extends AppCompatActivity {
 
     private void init() {
         resultCount = findViewById(R.id.detail_category_productCount);
+
         recyclerView = findViewById(R.id.detail_category_list_recyclerView);
         list = new ArrayList<>();
         adapter = new CategoryItemAdapter(list,getBaseContext(),DetailCategoryList.this);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         databaseReference = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
     }

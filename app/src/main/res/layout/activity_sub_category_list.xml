@@ -4,8 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.SubCategoryList">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/bar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="2dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@color/black">
 
+    </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subCat_recycler"
         android:layout_width="match_parent"

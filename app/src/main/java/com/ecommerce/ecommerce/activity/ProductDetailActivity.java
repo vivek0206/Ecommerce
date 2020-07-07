@@ -2,6 +2,8 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.adapter.CategoryAdapter;
+import com.ecommerce.ecommerce.adapter.SimilarProductAapter;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -35,12 +42,26 @@ public class ProductDetailActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private String categoryName,productNam,subCategoryName;
     private int returnable,cod;
+    private Toolbar toolbar;
 
+    private SimilarProductAapter similarProductAapter;
+    private List<Product> pSimList=new ArrayList<>();
+    private RecyclerView simRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
+        toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Product");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         init();
 
@@ -50,7 +71,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         productNam = intent.getStringExtra("product");
 
         fetchProduct(categoryName,subCategoryName,productNam);
-
+        fetchSimilarProduct(categoryName,subCategoryName);
+        setSimProduct();
         buy_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +83,37 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void setSimProduct() {
+
+    }
+
+    private void fetchSimilarProduct(String categoryName, String subCategoryName) {
+        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(categoryName).child(subCategoryName)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        pSimList.clear();
+                        for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                            Product model = snapshot.getValue(Product.class);
+                            pSimList.add(model);
+
+                        }
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+                        simRecyclerView.setLayoutManager(gridLayoutManager);
+                        similarProductAapter.setData(pSimList);
+                        simRecyclerView.setAdapter(similarProductAapter);
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void fetchProduct(String categoryName,String subCategoryName, final String productNam) {
@@ -107,6 +160,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         buy_now = findViewById(R.id.product_detail_buy_now);
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        simRecyclerView=findViewById(R.id.product_detail_similiar_product);
+        similarProductAapter =new SimilarProductAapter(pSimList,this,ProductDetailActivity.this);
 
     }
 }

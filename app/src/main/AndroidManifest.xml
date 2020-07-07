@@ -50,6 +50,12 @@
             android:name=".activity.PersonalInfo"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.SubCategoryList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddSubCat"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
