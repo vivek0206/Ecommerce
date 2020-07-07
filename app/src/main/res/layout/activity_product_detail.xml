@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10sp">
 
 
         <LinearLayout
@@ -55,7 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Product Name"
-                android:textStyle="bold"
                 android:textSize="16dp"
                 android:padding="5dp"
                 android:id="@+id/product_detail_productName"

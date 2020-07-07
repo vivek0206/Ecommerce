@@ -62,6 +62,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         holder.Saving.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");
         holder.categoryName = model.getCategoryName();
         holder.productNam = model.getProductName();
+        holder.subCategoryName=model.getSubCategoryName();
         holder.fetchProductDetail(model.getCategoryName(),model.getProductName());
 
 
@@ -83,7 +84,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         private DatabaseReference databaseReference;
         private FirebaseUser user;
         private Product modelGlobal;
-        private String categoryName,productNam;
+        private String categoryName,productNam,subCategoryName;
 
         public CategoryItemView(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +108,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra("subCategory",subCategoryName);
                     intent.putExtra("category",categoryName);
                     intent.putExtra("product",productNam);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
