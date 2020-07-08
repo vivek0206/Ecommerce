@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
@@ -42,6 +43,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     private int fastDelivery=0,normalDelivery=0;
     private int onlinePayment=1,cod=0;
     private String orderId;
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -58,8 +60,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 onBackPressed();
             }
         });
-        Checkout.preload(getApplicationContext());
-
+        Checkout.preload(getBaseContext());
         init();
         Intent intent = getIntent();
         itemPrice = intent.getStringExtra("price");
@@ -68,6 +69,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         shippingFee.setText(shippingPrice);
         totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
         totalAmount.setText(totalPrice);
+
 
         MainActivity.fetchUserInfo();
         pay_now.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +89,9 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     }
                     else
                     {
-                        orderDone();
-                        //startPayment();
+
+                        //orderDone();
+                        startPayment("Tanish", "Tanish", "0723237826", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png", "5000");
                         //startPayment("Tanish","Order ",orderId,"https://image.shutterstock.com/image-photo/butterfly-grass-on-meadow-night-260nw-1111729556.jpg",Integer.parseInt(totalPrice)*100+"");
                     }
                 }
@@ -96,6 +99,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         });
 
     }
+
+
 
     private void orderDone() {
         databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -199,6 +204,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     }
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         price = findViewById(R.id.payment_item_total_price);
         shippingFee = findViewById(R.id.payment_item_shipping_charges);
         totalAmount = findViewById(R.id.payment_amount_total);
@@ -207,17 +213,21 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void startPayment() {
+
+    public void startPayment(String merchant,String desc,String order,String imageUrl,String amount) {
+
+
+
         /**
          * Instantiate Checkout
          */
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_Tu9mmCQr4y3e3R");
+
 
         /**
          * Set your logo here
          */
-        checkout.setImage(R.color.orange);
+        checkout.setImage(R.mipmap.ic_launcher);
 
         /**
          * Reference to current activity
@@ -234,7 +244,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
              * Merchant Name
              * eg: ACME Corp || HasGeek etc.
              */
-            options.put("name", "Merchant Name");
+            options.put("name", merchant);
 
             /**
              * Description can be anything
@@ -242,22 +252,25 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
              *     Invoice Payment
              *     etc.
              */
-            options.put("description", "Reference No. #123456");
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            options.put("order_id", "order_9A33XWu170gUtm");
+            options.put("description", desc);
+            options.put("image", imageUrl);
+            //    options.put("order_id", "order_9A33XWu170gUtm");
             options.put("currency", "INR");
 
             /**
              * Amount is always passed in currency subunits
              * Eg: "500" = INR 5.00
              */
-            options.put("amount", "500");
+            options.put("amount", amount);
 
             checkout.open(activity, options);
         } catch(Exception e) {
-            Log.e("pop op ", "Error in starting Razorpay Checkout", e);
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
+                    .show();
+            Log.e("mmmm", "Error in starting Razorpay Checkout", e);
         }
     }
+
 
     @Override
     public void onPaymentSuccess(String s) {

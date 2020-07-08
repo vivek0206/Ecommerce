@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
@@ -39,6 +40,7 @@ public class ManageOrderActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private List<UserOrderInfo> list;
     private int price=0;
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -55,6 +57,7 @@ public class ManageOrderActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        loadingDialog.startLoadingDialog();
         init();
         fetchOrders();
     }
@@ -69,16 +72,20 @@ public class ManageOrderActivity extends AppCompatActivity {
                             UserOrderInfo orderModel = ds.getValue(UserOrderInfo.class);
                             list.add(0,orderModel);
                         }
+                        loadingDialog.DismissDialog();
                         adapter.setData(list);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
+        databaseReference.child(getString(R.string.OrderInfo)).keepSynced(true);
+
     }
 
     private void init() {
@@ -87,6 +94,7 @@ public class ManageOrderActivity extends AppCompatActivity {
         list = new ArrayList<>();
         adapter = new ManageOrderAdapter(list,getBaseContext());
         layoutManager= new LinearLayoutManager(getBaseContext());
+        MainActivity.OfflineCapabilities(getApplicationContext());
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 

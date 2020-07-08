@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.MainActivity;
@@ -42,6 +43,7 @@ public class PersonalInfo extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 2;
     private Uri mImageUri;
     private String name,phone,password;
+    private LoadingDialog loadingDialog;
 
 
 
@@ -61,6 +63,7 @@ public class PersonalInfo extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadingDialog.startLoadingDialog();
                 uploadImage();
             }
         });
@@ -125,6 +128,7 @@ public class PersonalInfo extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {
                                         MainActivity.staticModel = new UserInfo(name,phone,password,uri.toString());
                                         databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
+                                        loadingDialog.DismissDialog();
                                     }
                                 });
                     }
@@ -138,6 +142,8 @@ public class PersonalInfo extends AppCompatActivity {
     }
 
     private void init() {
+
+        loadingDialog = new LoadingDialog(this);
         imageView = findViewById(R.id.edit_userImage);
         userName = findViewById(R.id.edit_userName);
         userPhone = findViewById(R.id.edit_userPhone);

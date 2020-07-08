@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SimilarProductAapter;
@@ -47,6 +48,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private SimilarProductAapter similarProductAapter;
     private List<Product> pSimList=new ArrayList<>();
     private RecyclerView simRecyclerView;
+    private LoadingDialog loadingDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
 
+        loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
         fetchSimilarProduct(categoryName,subCategoryName);
         setSimProduct();
@@ -134,7 +138,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         productDetails.setText(model.getProductDetail());
                         returnable = Integer.parseInt(model.getReturnable());
                         cod = Integer.parseInt(model.getPayOnDelivery());
-
+                        loadingDialog.DismissDialog();
                     }
 
                     @Override
@@ -145,6 +149,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        loadingDialog = new LoadingDialog(this);
         offer = findViewById(R.id.product_detail_off);
         productName = findViewById(R.id.product_detail_productName);
         rating = findViewById(R.id.product_detail_rating);

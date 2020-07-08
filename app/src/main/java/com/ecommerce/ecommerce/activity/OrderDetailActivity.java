@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderDetailAdapter;
 import com.ecommerce.ecommerce.object.Product;
@@ -34,6 +35,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private OrderDetailAdapter adapter;
     private String orderId;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
         init();
+        loadingDialog.startLoadingDialog();
         Intent intent = getIntent();
         orderId = intent.getStringExtra("orderId");
         fetchOrder();
@@ -68,6 +71,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                             Product model = ds.getValue(Product.class);
                             list.add(0,model);
                         }
+                        loadingDialog.DismissDialog();
                         adapter.setData(list);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
@@ -78,10 +82,14 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                     }
                 });
+        databaseReference.child(getString(R.string.UserOrder)).keepSynced(true);
+
 
     }
 
     private void init() {
+        MainActivity.OfflineCapabilities(getApplicationContext());
+        loadingDialog = new LoadingDialog(this);
         recyclerView = findViewById(R.id.order_detail_recyclerView);
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();

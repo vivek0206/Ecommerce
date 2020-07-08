@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
@@ -40,6 +41,8 @@ public class OrderConfirmActivity extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private Button btn;
+    private LoadingDialog loadingDialog;
+
 
 
 
@@ -63,6 +66,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         orderIdString = intent.getStringExtra("orderId");
+        loadingDialog.startLoadingDialog();
         fetchOrderDetails();
 
 
@@ -90,7 +94,9 @@ public class OrderConfirmActivity extends AppCompatActivity {
                             orderDate.setText(model.getOrderDate());
 
                         }
+
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -111,6 +117,8 @@ public class OrderConfirmActivity extends AppCompatActivity {
                                 list.add(model);
                             }
                         }
+                        loadingDialog.DismissDialog();
+
                         adapter.setData(list);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
@@ -121,10 +129,13 @@ public class OrderConfirmActivity extends AppCompatActivity {
 
                     }
                 });
+        databaseReference.child(getString(R.string.UserOrder)).keepSynced(true);
+
     }
 
     private void init() {
 
+        loadingDialog = new LoadingDialog(this);
         orderId = findViewById(R.id.order_confirm_id);
         orderDate = findViewById(R.id.order_confirm_order_Date);
         recyclerView = findViewById(R.id.order_confirm_recyclerView);
@@ -134,7 +145,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         btn = findViewById(R.id.order_confirm_btn);
-
+        MainActivity.OfflineCapabilities(getApplicationContext());
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
 import com.ecommerce.ecommerce.object.SubCategory;
@@ -46,6 +47,8 @@ public class tempActivity extends AppCompatActivity {
     private Uri mImageUri;
     private RadioButton cod,returnable;
     private int r1=0,r2=0;
+    private LoadingDialog loadingDialog;
+
 
 
 
@@ -67,6 +70,7 @@ public class tempActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadingDialog.startLoadingDialog();
                 uploadProduct();
             }
         });
@@ -136,7 +140,7 @@ public class tempActivity extends AppCompatActivity {
                                         public void onSuccess(Uri uri) {
                                             SubCategory model = new SubCategory(uri.toString(),Cname,ScName);
                                             databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.CategoryData)).child(Cname).child(ScName).setValue(model);
-
+                                            loadingDialog.DismissDialog();
                                             Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -182,6 +186,8 @@ public class tempActivity extends AppCompatActivity {
 
 
     private void init() {
+        MainActivity.OfflineCapabilities(getApplicationContext());
+        loadingDialog = new LoadingDialog(this);
         imageView = findViewById(R.id.temp_image);
         categoryName = findViewById(R.id.temp_category_name);
         subcategoryName=findViewById(R.id.temp_subcategory_name);

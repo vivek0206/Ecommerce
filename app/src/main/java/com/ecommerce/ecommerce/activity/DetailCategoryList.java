@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryItemAdapter;
 import com.ecommerce.ecommerce.object.Product;
@@ -45,6 +46,7 @@ public class DetailCategoryList extends AppCompatActivity {
     private BottomSheetBehavior bottomSheetBehavior;
     private View bottomSheet;
     private Button sortBtn,LowToHighBtn,HighToLowBtn;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class DetailCategoryList extends AppCompatActivity {
             }
         });
         init();
+        MainActivity.OfflineCapabilities(getApplicationContext());
+        loadingDialog.startLoadingDialog();
 
         Intent intent = getIntent();
         category=intent.getStringExtra("category");
@@ -89,6 +93,7 @@ public class DetailCategoryList extends AppCompatActivity {
         LowToHighBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingDialog.startLoadingDialog();
                 HighToLowBtn.setTextColor(Color.parseColor("#17202A"));
                 LowToHighBtn.setTextColor(Color.parseColor("#FF0000"));
                 fetchAllByLowToHigh(category,subCategory);
@@ -99,6 +104,7 @@ public class DetailCategoryList extends AppCompatActivity {
         HighToLowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingDialog.startLoadingDialog();
                 HighToLowBtn.setTextColor(Color.parseColor("#FF0000"));
                 LowToHighBtn.setTextColor(Color.parseColor("#17202A"));
                 fetchAllByHighToLow(category,subCategory);
@@ -112,7 +118,7 @@ public class DetailCategoryList extends AppCompatActivity {
 
     private void fetchAllCategory(String category,String subCategory) {
         Log.d("Tag","hereeee");
-        databaseReference.child(getResources().getString(R.string.Admin)).child("Category").child(category).child(subCategory)
+        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category).child(subCategory)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -125,6 +131,7 @@ public class DetailCategoryList extends AppCompatActivity {
                                 list.add(model);
                             }
                         }
+                        loadingDialog.DismissDialog();
                         adapter.setData(list);
                         resultCount.setText(Integer.toString(list.size())+"  Products");
                         recyclerView.setLayoutManager(layoutManager);
@@ -136,6 +143,8 @@ public class DetailCategoryList extends AppCompatActivity {
 
                     }
                 });
+        databaseReference.child(getString(R.string.Admin)).keepSynced(true);
+
 
 
     }
@@ -154,6 +163,7 @@ public class DetailCategoryList extends AppCompatActivity {
                                 list.add(model);
                             }
                         }
+                        loadingDialog.DismissDialog();
                         Collections.reverse(list);
                         adapter.setData(list);
                         resultCount.setText(Integer.toString(list.size())+"  Products");
@@ -185,6 +195,7 @@ public class DetailCategoryList extends AppCompatActivity {
                                 list.add(model);
                             }
                         }
+                        loadingDialog.DismissDialog();
                         adapter.setData(list);
                         resultCount.setText(Integer.toString(list.size())+"  Products");
                         recyclerView.setLayoutManager(layoutManager);
@@ -201,6 +212,7 @@ public class DetailCategoryList extends AppCompatActivity {
     }
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         resultCount = findViewById(R.id.detail_category_productCount);
 
         recyclerView = findViewById(R.id.detail_category_list_recyclerView);

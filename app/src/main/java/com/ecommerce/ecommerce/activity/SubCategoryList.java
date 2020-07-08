@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SubCategoryAdapter;
@@ -35,6 +36,8 @@ public class SubCategoryList extends AppCompatActivity {
     private List<SubCategory> subCatList=new ArrayList<>();
     private SubCategoryAdapter subCategoryAdapter;
     private Toolbar toolbar;
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +52,14 @@ public class SubCategoryList extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        MainActivity.OfflineCapabilities(getApplicationContext());
         Intent intent = getIntent();
         category = intent.getStringExtra("Category");
         Log.d("pop pop",category);
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.startLoadingDialog();
         getSubData(category);
+
         recyclerView=findViewById(R.id.subCat_recycler);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -61,10 +67,11 @@ public class SubCategoryList extends AppCompatActivity {
 
 
     }
-    private void getSubData(String catTitle){
+    private void getSubData(String catTitle)
+    {
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Admin").child("CategoryData").child(catTitle);
+        DatabaseReference myRef = database.getReference().child(getResources().getString(R.string.Admin)).child("CategoryData").child(catTitle);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
 
@@ -78,6 +85,7 @@ public class SubCategoryList extends AppCompatActivity {
                     recyclerView.setAdapter(subCategoryAdapter);
 
                 }
+                loadingDialog.DismissDialog();
 
             }
 
@@ -87,5 +95,9 @@ public class SubCategoryList extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+        myRef.child(getString(R.string.Admin)).keepSynced(true);
+
+
+
     }
 }

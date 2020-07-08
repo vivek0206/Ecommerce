@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import com.ecommerce.ecommerce.ui.OrderFragment;
 import com.ecommerce.ecommerce.ui.UserAccount;
 import com.ecommerce.ecommerce.ui.WishlistFragment;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity
     ImageView userImage;
     private FirebaseAuth auth;
     public static UserInfo staticModel;
+    private int hot_number = 0;
+    private TextView ui_hot = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle.syncState();
-
+        OfflineCapabilities(getApplicationContext());
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,10 +103,6 @@ public class MainActivity extends AppCompatActivity
                         setFragment(new WishlistFragment());
                         Toast.makeText(getApplicationContext(),"wishlist",Toast.LENGTH_SHORT).show();
                         break;
-
-//                    case R.id.nav_account:
-//                        setFragment(new UserAccount());
-//                        Toast.makeText(getApplicationContext(),"Your Account",Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
             });
-
+            databaseReference.child(getString(R.string.UserInfo)).child(user.getUid()).keepSynced(true);
             userName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -159,6 +160,45 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public static void OfflineCapabilities(final Context context)
+    {
+
+
+        DatabaseReference presenceRef = FirebaseDatabase.getInstance().getReference("disconnectmessage");
+        presenceRef.onDisconnect().setValue("I disconnected!");
+        presenceRef.onDisconnect().removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, @NonNull DatabaseReference reference) {
+                if (error != null) {
+                    Log.d("TAG", "could not establish onDisconnect event:" + error.getMessage());
+                }
+            }
+        });
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    Toast.makeText(context,"Connected",Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "connected");
+                } else {
+                    Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "not connected");
+                }
+            }
+
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Listener was cancelled");
+            }
+        });
+
+    }
+
+
     private void editPersonalInfo() {
         Intent intent = new Intent(MainActivity.this, PersonalInfo.class);
         startActivity(intent);
@@ -174,22 +214,55 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
         return true;
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(item.getItemId()==R.id.action_cart)
+        {
+            Intent intent = new Intent(MainActivity.this,CartActivity.class);
+            startActivity(intent);
         }
+        return true;
 
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        MenuItem search = menu.findItem(R.id.action_search);
+        MenuItem cart = menu.findItem(R.id.action_cart);
+
+        SearchView searchView = (SearchView)search.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
+
+
+
+
+
+        return true;
+
     }
 
     public void setFragment(Fragment fragment)

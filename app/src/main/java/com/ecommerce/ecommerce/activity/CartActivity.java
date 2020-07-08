@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Interface.OnDataChangeListener;
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.UserCartAdapter;
@@ -45,6 +46,7 @@ public class CartActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private String addressText1,addressText2,userName="Tanish";
     private int price=0;
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -63,6 +65,8 @@ public class CartActivity extends AppCompatActivity {
         });
 
         init();
+        loadingDialog.startLoadingDialog();
+        MainActivity.OfflineCapabilities(getApplicationContext());
         fetchUserCart();
         fetchUserInfo();
 
@@ -115,6 +119,8 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
                 });
+        databaseReference.child(getString(R.string.UserInfo)).child(user.getUid()).keepSynced(true);
+
     }
 
     private void fetchUserAddress() {
@@ -128,6 +134,8 @@ public class CartActivity extends AppCompatActivity {
                         {
                             addressText1+=model.getDeliveryName()+", "+model.getDeliveryPhone();
                             addressText2+=model.getDeliveryFlat()+", "+model.getDeliveryArea()+", "+model.getDeliveryLandmark()+","+model.getDeliveryCity()+","+model.getDeliveryState()+","+model.getDeliveryPinCode();
+                            address1.setText(addressText1);
+                            address2.setText(addressText2);
                         }
                         else
                         {
@@ -138,6 +146,7 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
                 });
+        databaseReference.child(getString(R.string.Address)).child(user.getUid()).keepSynced(true);
 
 
 
@@ -157,6 +166,7 @@ public class CartActivity extends AppCompatActivity {
                         price+= Integer.parseInt(model.getQuantity())*Integer.parseInt(model.getSalePrice());
                     }
                 }
+                loadingDialog.DismissDialog();
                 itemPrice.setText(price+"");
                 totalAmount.setText(price+"");
                 adapter.setData(list);
@@ -169,11 +179,14 @@ public class CartActivity extends AppCompatActivity {
 
             }
         });
+        databaseReference.child(getString(R.string.UserCart)).child(user.getUid()).keepSynced(true);
+
 
 
     }
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         address1 = findViewById(R.id.cart_address1);
         address2 = findViewById(R.id.cart_address2);
         change = findViewById(R.id.cart_address_change);

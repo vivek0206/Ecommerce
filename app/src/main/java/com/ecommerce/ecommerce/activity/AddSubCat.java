@@ -75,6 +75,7 @@ public class AddSubCat extends AppCompatActivity {
     }
 
 
+
     public void onRadioButtonClicked(View view)
     {
         boolean checked = ((RadioButton) view).isChecked();

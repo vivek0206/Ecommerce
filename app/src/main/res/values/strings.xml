@@ -28,6 +28,7 @@
     <string name="UserOrder">UserOrder</string>
     <string name="CategoryData">CategoryData</string>
     <string name="OrderInfo">OrderInfo</string>
+    <string name="Wishlist">WishList</string>
 
 
 </resources>
