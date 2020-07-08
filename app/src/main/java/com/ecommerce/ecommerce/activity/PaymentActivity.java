@@ -14,6 +14,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
@@ -26,12 +33,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
 
@@ -42,8 +53,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     private Button pay_now;
     private int fastDelivery=0,normalDelivery=0;
     private int onlinePayment=1,cod=0;
-    private String orderId;
+    private String orderId,paymentStatus="0";
     private LoadingDialog loadingDialog;
+
+
+    private RequestQueue mRequestQueue;
+    private String URL="https://fcm.googleapis.com/fcm/send";
+
 
 
     @Override
@@ -71,6 +87,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         totalAmount.setText(totalPrice);
 
 
+        mRequestQueue = Volley.newRequestQueue(this);
+        FirebaseMessaging.getInstance().subscribeToTopic("order");
         MainActivity.fetchUserInfo();
         pay_now.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +107,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     }
                     else
                     {
-
-                        //orderDone();
-                        startPayment("Tanish", "Tanish", "0723237826", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png", "5000");
-                        //startPayment("Tanish","Order ",orderId,"https://image.shutterstock.com/image-photo/butterfly-grass-on-meadow-night-260nw-1111729556.jpg",Integer.parseInt(totalPrice)*100+"");
+                        if(MainActivity.staticModel!=null)
+                        {
+                            startPayment(MainActivity.userNam,orderId,orderId,"https://s3.amazonaws.com/rzp-mobile/images/rzp.png",(100*Integer.parseInt(totalPrice))+"");
+                        }
+                        else
+                        {
+                            startPayment("Tanish", "Tanish", "0723237826", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png", "5000");
+                        }
                     }
                 }
             }
@@ -100,7 +122,61 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     }
 
+    private void sendNotification(String message) {
+  /*      //json object
+        {
+            "to": "topics/topic name"
+                notification:   {
+                    title: "some titlle"
+                     body:  "some body"
+                }
+        }*/
 
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to","/topics/"+"order");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title","Name");
+            notificationObj.put("body",message);
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","Chat");
+            extraData.put("peopleId","PeopleId");
+            extraData.put("routineId","routineId");
+
+            mainObj.put("notification",notificationObj);
+            mainObj.put("data",extraData);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAAAqZKVDg:APA91bEeSXlfcNTvt8364bTbWD9VMXcv5vb1dWB4Tvbpeh26CtVczUnDA3jGvQeVTG_BY_oW-3ea53oqcALaBoq7ETRlO1khMctmcLLQrcnQPgU4DRC87OeEf-sGUWWGXUdJqvPmxswQ");
+                    return header;
+                }
+            };
+
+            mRequestQueue.add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     private void orderDone() {
         databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -120,16 +196,16 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
                     }
                 }
-                UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"Order confirmed");
+                UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"1",paymentStatus);
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
+                sendNotification("done");
                 Toast.makeText(getApplicationContext(),"Order Done",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PaymentActivity.this,OrderConfirmActivity.class);
                 intent.putExtra("orderId",orderId);
                 startActivity(intent);
                 finish();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -138,7 +214,6 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
 
     }
-
 
     public void ChooseDeliveryType(View view)
     {
@@ -213,67 +288,30 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
-
     public void startPayment(String merchant,String desc,String order,String imageUrl,String amount) {
-
-
-
-        /**
-         * Instantiate Checkout
-         */
         Checkout checkout = new Checkout();
-
-
-        /**
-         * Set your logo here
-         */
         checkout.setImage(R.mipmap.ic_launcher);
-
-        /**
-         * Reference to current activity
-         */
         final Activity activity = this;
 
-        /**
-         * Pass your payment options to the Razorpay Checkout as a JSONObject
-         */
         try {
             JSONObject options = new JSONObject();
-
-            /**
-             * Merchant Name
-             * eg: ACME Corp || HasGeek etc.
-             */
             options.put("name", merchant);
-
-            /**
-             * Description can be anything
-             * eg: Reference No. #123123 - This order number is passed by you for your internal reference. This is not the `razorpay_order_id`.
-             *     Invoice Payment
-             *     etc.
-             */
             options.put("description", desc);
             options.put("image", imageUrl);
-            //    options.put("order_id", "order_9A33XWu170gUtm");
+         //   options.put("order_id", orderId);
             options.put("currency", "INR");
-
-            /**
-             * Amount is always passed in currency subunits
-             * Eg: "500" = INR 5.00
-             */
             options.put("amount", amount);
-
             checkout.open(activity, options);
         } catch(Exception e) {
             Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
                     .show();
-            Log.e("mmmm", "Error in starting Razorpay Checkout", e);
+            Log.e("mmmm", "Error in starting Razorpay Checkout"+e.getMessage(), e);
         }
     }
 
-
     @Override
     public void onPaymentSuccess(String s) {
+        paymentStatus="1";
         orderDone();
     }
 

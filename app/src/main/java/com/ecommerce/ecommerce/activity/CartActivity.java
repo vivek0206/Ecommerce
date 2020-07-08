@@ -102,6 +102,30 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    private void checkStock(String category, String subCategory, String product, final int quantity)
+    {
+        category = category.toLowerCase().trim();
+        subCategory = subCategory.toLowerCase().trim();
+        product = product.toLowerCase().trim();
+
+        databaseReference.child(getResources().getString(R.string.Admin)).child(category).child(subCategory).child(product)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Product model = dataSnapshot.getValue(Product.class);
+                        if(Integer.parseInt(model.getQuantity()) < quantity)
+                        {
+                            Toast.makeText(getApplicationContext(),"Out Of Stock",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
     private void fetchUserInfo() {
         databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid())
                 .addValueEventListener(new ValueEventListener() {

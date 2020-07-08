@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     public static UserInfo staticModel;
     private int hot_number = 0;
     private TextView ui_hot = null;
+    public static String userNam,userPhone,userPswd,userImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,9 +285,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
-
-
         return true;
 
     }
@@ -331,6 +329,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 staticModel = dataSnapshot.getValue(UserInfo.class);
+                if(staticModel!=null)
+                {
+                    userNam = staticModel.getUserName();
+                    userPhone = staticModel.getUserPhone();
+                    userPswd = staticModel.getUserPswd();
+                    userImageUrl = staticModel.getUserImageUrl();
+                }
             }
 
             @Override
