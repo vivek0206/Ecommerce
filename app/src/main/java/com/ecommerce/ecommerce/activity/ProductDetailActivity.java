@@ -57,7 +57,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         toolbar = (Toolbar)findViewById(R.id.bar);
         setSupportActionBar(toolbar);
-        setTitle("Product");
         toolbar.setNavigationIcon(R.drawable.arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +71,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         subCategoryName=intent.getStringExtra("subCategory");
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
+        toolbar.setTitle(productNam);
 
         loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
@@ -126,18 +126,22 @@ public class ProductDetailActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Product model = dataSnapshot.getValue(Product.class);
-                        Picasso.get().load(Uri.parse(model.getImageUrl())).into(productImg);
-                        productName.setText(model.getProductName()+" ,"+model.getQuantity());
-                        rating.setText(model.getRating());
-                        offerPrice.setText("\u20B9"+model.getSalePrice());
-                        originalPrice.setText("\u20B9"+model.getOriginalPrice());
-                        originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        savingPrice.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice())));
-                        offer.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"\nOff");
+                        if(model!=null)
+                        {
 
-                        productDetails.setText(model.getProductDetail());
-                        returnable = Integer.parseInt(model.getReturnable());
-                        cod = Integer.parseInt(model.getPayOnDelivery());
+                            Picasso.get().load(Uri.parse(model.getImageUrl())).into(productImg);
+                            productName.setText(model.getProductName()+" ,"+model.getQuantity());
+                            rating.setText(model.getRating());
+                            offerPrice.setText("\u20B9"+model.getSalePrice());
+                            originalPrice.setText("\u20B9"+model.getOriginalPrice());
+                            originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                            savingPrice.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice())));
+                            offer.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"\nOff");
+
+                            productDetails.setText(model.getProductDetail());
+                            returnable = Integer.parseInt(model.getReturnable());
+                            cod = Integer.parseInt(model.getPayOnDelivery());
+                        }
                         loadingDialog.DismissDialog();
                     }
 

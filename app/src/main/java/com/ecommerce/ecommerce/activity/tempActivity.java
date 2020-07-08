@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
 import com.ecommerce.ecommerce.object.SubCategory;
@@ -139,7 +140,12 @@ public class tempActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             SubCategory model = new SubCategory(uri.toString(),Cname,ScName);
-                                            databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.CategoryData)).child(Cname).child(ScName).setValue(model);
+                                            databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.CategoryData)).child(Cname.toLowerCase().trim()).child(ScName.toLowerCase().trim()).setValue(model);
+                                            SearchModel searchModel = new SearchModel(Cname,Cname.toLowerCase().trim(),"NA","NA",1);
+                                            databaseReference.child(getResources().getString(R.string.Search)).child(Cname.toLowerCase().trim()).setValue(searchModel);
+                                            searchModel = new SearchModel(ScName,Cname.toLowerCase().trim(),ScName.toLowerCase().trim(),"NA",2);
+                                            databaseReference.child(getResources().getString(R.string.Search)).child(ScName.toLowerCase().trim()).setValue(searchModel);
+
                                             loadingDialog.DismissDialog();
                                             Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
                                         }

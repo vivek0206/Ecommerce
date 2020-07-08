@@ -29,6 +29,7 @@
     <string name="CategoryData">CategoryData</string>
     <string name="OrderInfo">OrderInfo</string>
     <string name="Wishlist">WishList</string>
+    <string name="Search">Search</string>
 
 
 </resources>

@@ -57,8 +57,9 @@ public class ManageOrderActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        loadingDialog.startLoadingDialog();
         init();
+        loadingDialog.startLoadingDialog();
+
         fetchOrders();
     }
 
@@ -89,6 +90,7 @@ public class ManageOrderActivity extends AppCompatActivity {
     }
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         filter = findViewById(R.id.manage_order_filter);
         recyclerView = findViewById(R.id.manage_order_recyclerView);
         list = new ArrayList<>();

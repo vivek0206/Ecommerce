@@ -17,6 +17,12 @@
         app:titleTextColor="@color/white">
 
     </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/subCat_searchList_recyclerView"></androidx.recyclerview.widget.RecyclerView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subCat_recycler"
         android:layout_width="match_parent"

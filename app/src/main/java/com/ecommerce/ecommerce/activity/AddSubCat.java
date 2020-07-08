@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -56,7 +57,6 @@ public class AddSubCat extends AppCompatActivity {
 
         init();
 
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,8 +73,6 @@ public class AddSubCat extends AppCompatActivity {
 
 
     }
-
-
 
     public void onRadioButtonClicked(View view)
     {
@@ -132,7 +130,16 @@ public class AddSubCat extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             Product model = new Product(uri.toString(),Cname,Pname,originalP,offP,productQ,"0",productD,r1+"",r2+"",subcatN);
-                                            databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(Cname).child(subcatN).child(Pname).setValue(model);
+                                            databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(Cname.toLowerCase().trim()).child(subcatN.toLowerCase().trim()).child(Pname.toLowerCase().trim()).setValue(model);
+
+
+                                            SearchModel searchModel = new SearchModel(Cname,Cname,"NA","NA",1);
+                                            databaseReference.child(getResources().getString(R.string.Search)).child(Cname.toLowerCase().trim()).setValue(searchModel);
+                                            searchModel = new SearchModel(subcatN,Cname.toLowerCase().trim(),subcatN.toLowerCase().trim(),"NA",2);
+                                            databaseReference.child(getResources().getString(R.string.Search)).child(subcatN.toLowerCase().trim()).setValue(searchModel);
+
+                                            searchModel = new SearchModel(Pname,Cname.toLowerCase().trim(),subcatN.toLowerCase().trim(),Pname.toLowerCase().trim(),3);
+                                            databaseReference.child(getResources().getString(R.string.Search)).child(Pname.toLowerCase().trim()).setValue(searchModel);
 
                                             Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
                                         }
