@@ -134,11 +134,8 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
-
                 @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError databaseError) { }
             });
             databaseReference.child(getString(R.string.UserInfo)).child(user.getUid()).keepSynced(true);
             userName.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +215,6 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

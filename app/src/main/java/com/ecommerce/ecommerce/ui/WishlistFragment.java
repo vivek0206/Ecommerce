@@ -53,7 +53,7 @@ public class WishlistFragment extends Fragment {
 
     private void fetchUserWishlist() {
 
-        databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren())
@@ -75,7 +75,7 @@ public class WishlistFragment extends Fragment {
 
             }
         });
-        databaseReference.child(getString(R.string.UserCart)).keepSynced(true);
+        databaseReference.child(getString(R.string.Wishlist)).keepSynced(true);
 
 
 
