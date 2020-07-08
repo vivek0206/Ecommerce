@@ -40,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:id="@+id/payment_group_delivery"
                 android:background="@color/white">
 
                 <RadioButton
@@ -73,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:id="@+id/payment_group_payment"
                 android:background="@color/white">
 
                 <RadioButton

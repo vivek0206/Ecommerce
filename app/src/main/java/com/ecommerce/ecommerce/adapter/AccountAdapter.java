@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ecommerce.ecommerce.activity.CartActivity;
 import com.ecommerce.ecommerce.activity.DeliveryAddress;
 import com.ecommerce.ecommerce.Models.AccountModel;
+import com.ecommerce.ecommerce.activity.ManageOrderActivity;
 import com.ecommerce.ecommerce.activity.PersonalInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.ui.OrderFragment;
@@ -73,7 +75,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
 
                     if(pos==0)
                     {
-                        setFragment(new OrderFragment());
+
+                        Intent intent = new Intent(context, ManageOrderActivity.class);
+                        context.startActivity(intent);
                     }
                     else if(pos==1)
                     {
@@ -97,6 +101,12 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
                     {
 
                     }
+                    else if(pos==6)
+                    {
+
+                        Intent intent = new Intent(context, CartActivity.class);
+                        context.startActivity(intent);
+                    }
                 }
             });
 
@@ -106,6 +116,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
         {
             FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.drawer_layout,fragment);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
         }

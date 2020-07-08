@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,10 +52,11 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     private DatabaseReference databaseReference;
     private String itemPrice,shippingPrice,totalPrice;
     private Button pay_now;
-    private int fastDelivery=0,normalDelivery=0;
-    private int onlinePayment=1,cod=0;
-    private String orderId,paymentStatus="0";
+    private int normalDelivery=1;
+    private int onlinePayment=-1,cod=1;
+    private String orderId,paymentStatus="0",paymentTransactionId="NA";
     private LoadingDialog loadingDialog;
+    private RadioGroup paymentGroup,deliveryGroup;
 
 
     private RequestQueue mRequestQueue;
@@ -88,20 +90,20 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
 
         mRequestQueue = Volley.newRequestQueue(this);
-        FirebaseMessaging.getInstance().subscribeToTopic("order");
+        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
         MainActivity.fetchUserInfo();
         pay_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 orderId = System.currentTimeMillis()+"";
-                if(onlinePayment==0 && cod==0)
+                if(onlinePayment==-1 )
                 {
                     Toast.makeText(getApplicationContext(),"Select Payment Type",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else
                 {
-                    if(cod==1)
+                    if(onlinePayment==0)
                     {
                         orderDone();
                     }
@@ -120,6 +122,84 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             }
         });
 
+        paymentGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                if(id==R.id.payment_online)
+                {
+                    onlinePayment=1;
+                    Toast.makeText(getApplicationContext(),"onlinePayment1",Toast.LENGTH_SHORT).show();
+                }
+                else if(id==R.id.payment_cod)
+                {
+                    Toast.makeText(getApplicationContext(),"onlinePayment0",Toast.LENGTH_SHORT).show();
+
+                    onlinePayment=0;
+                }
+            }
+        });
+
+        deliveryGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                if(id==R.id.payment_fast)
+                {
+
+
+                    shippingPrice = "20";
+                    shippingFee.setText(shippingPrice);
+
+                    totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
+                    totalAmount.setText(totalPrice);
+                    normalDelivery=0;
+                    Toast.makeText(getApplicationContext(),"onlinede1",Toast.LENGTH_SHORT).show();
+
+                }
+                else if(id==R.id.payment_normal)
+                {
+                    shippingPrice = "0";
+                    shippingFee.setText(shippingPrice);
+                    totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
+                    totalAmount.setText(totalPrice);
+                    normalDelivery=1;
+
+                }
+            }
+        });
+    }
+
+    private void UpdateQuantity(String category, String subCategory, String productName, final String quantity)
+    {
+        category = category.toLowerCase().trim();
+        subCategory = subCategory.toLowerCase().trim();
+        productName = productName.toLowerCase().trim();
+
+        final DatabaseReference db=databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category).child(subCategory).child(productName);
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Product model = dataSnapshot.getValue(Product.class);
+                if(model!=null)
+                {
+                    model.setQuantity((Integer.parseInt(model.getQuantity())-Integer.parseInt(quantity))+"");
+                    if(model.getQuantity().equals("0"))
+                    {
+                        db.removeValue();
+                    }
+                    else {
+                        db.setValue(model);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
     private void sendNotification(String message) {
@@ -134,7 +214,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
         JSONObject mainObj = new JSONObject();
         try {
-            mainObj.put("to","/topics/"+"order");
+            mainObj.put("to","/topics/"+user.getUid());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title","Name");
             notificationObj.put("body",message);
@@ -189,14 +269,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     {
                         String productName = model.getProductName();
                         databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
-
-
+                        UpdateQuantity(model.getCategoryName(),model.getSubCategoryName(),model.getProductName(),model.getQuantity());
                         //TODO: For Admin also
 
 
                     }
                 }
-                UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"1",paymentStatus);
+
+                UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId);
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
                 sendNotification("done");
@@ -224,20 +304,23 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             case R.id.payment_fast:
                 if(checked)
                 {
-                    Toast.makeText(getApplicationContext(),"fast DElivery checked",Toast.LENGTH_SHORT);
-                    fastDelivery=1;
+                    shippingPrice = "20";
+                    shippingFee.setText(shippingPrice);
                 }
                 else
                 {
 
-                    Toast.makeText(getApplicationContext(),"fast DElivery unchecked",Toast.LENGTH_SHORT);
-                    fastDelivery=0;
+                    shippingPrice = "0";
+                    shippingFee.setText(shippingPrice);
                 }
                 break;
 
             case R.id.payment_normal:
                 if(checked)
                 {
+
+                    shippingPrice = "0";
+                    shippingFee.setText(shippingPrice);
                     normalDelivery=1;
                 }
                 else
@@ -257,6 +340,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             case R.id.payment_online:
                 if(checked)
                 {
+                    Toast.makeText(getApplicationContext(),"fast ddddddDelivery checked",Toast.LENGTH_SHORT);
+
                     onlinePayment=1;
                 }
                 else
@@ -268,6 +353,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             case R.id.payment_cod:
                 if(checked)
                 {
+                    Toast.makeText(getApplicationContext(),"fast Deliffffvery checked",Toast.LENGTH_SHORT);
+
                     cod=1;
                 }
                 else
@@ -279,6 +366,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     }
 
     private void init() {
+        paymentGroup = findViewById(R.id.payment_group_payment);
+        deliveryGroup = findViewById(R.id.payment_group_delivery);
         loadingDialog = new LoadingDialog(this);
         price = findViewById(R.id.payment_item_total_price);
         shippingFee = findViewById(R.id.payment_item_shipping_charges);
@@ -312,6 +401,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     @Override
     public void onPaymentSuccess(String s) {
         paymentStatus="1";
+        paymentTransactionId=s;
         orderDone();
     }
 

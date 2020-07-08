@@ -126,4 +126,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Out Of Stock"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/red"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:id="@+id/raw_cart_outOfStock"></TextView>
+
+
+
 </RelativeLayout>

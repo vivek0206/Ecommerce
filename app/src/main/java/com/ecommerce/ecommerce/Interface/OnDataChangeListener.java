@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.Interface;
 
 public interface OnDataChangeListener {
-    public void onDataChanged(int size,int price);
+    public void onDataChanged(int size,int price,boolean flag);
 
 }

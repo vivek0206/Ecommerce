@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.Interface.OnDataChangeListener;
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.activity.CartActivity;
+import com.ecommerce.ecommerce.activity.MainActivity;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,10 +59,9 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
         Picasso.get().load(Uri.parse(model.getImageUrl())).into(holder.productImage);
         holder.productName.setText(model.getProductName());
         holder.originalPrice.setText(model.getOriginalPrice());
-        holder.offerPrice.setText(model.getSalePrice());
-        holder.savingPrice.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");
         holder.categoryName = model.getCategoryName();
         holder.productNam = model.getProductName();
+        holder.subCategory = model.getSubCategoryName();
         holder.fetchProductDetail(model.getProductName());
     }
 
@@ -76,12 +77,13 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
     public class UserCartView extends RecyclerView.ViewHolder{
 
         private ImageView productImage,productDelete,productAdd;
-        private TextView productName,offerPrice,originalPrice,savingPrice,eligible,productQuantity;
+        private TextView productName,offerPrice,originalPrice,savingPrice,eligible,productQuantity,outOfS;
         private FirebaseUser user;
         private DatabaseReference databaseReference;
-        private String categoryName,productNam;
+        private String categoryName,productNam,subCategory;
         private Product modelGlobal;
-        private int quantity;
+        private int quantity,quantityGlobal;
+        private boolean outOfStock=false,add=false;
 
         public UserCartView(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +97,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
             savingPrice= itemView.findViewById(R.id.raw_cart_prductSaving);
             eligible= itemView.findViewById(R.id.raw_cart_eligible);
             productQuantity= itemView.findViewById(R.id.raw_cart_ProductQuantity);
+            outOfS = itemView.findViewById(R.id.raw_cart_outOfStock);
             user = FirebaseAuth.getInstance().getCurrentUser();
             databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -106,16 +109,16 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                         if(modelGlobal!=null)
                         {
                             Log.d("pop pop pop","add  "+" act");
-                            if(quantity>=5)
+                            if(quantity>quantityGlobal)
                             {
+                                Toast.makeText(context,"No more avaiable",Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
 
-                                if(onDataChangeListener != null){
-                                    Toast.makeText(context,"No more avaiable",Toast.LENGTH_SHORT).show();
-                                    onDataChangeListener.onDataChanged(list.size(),Integer.parseInt(modelGlobal.getSalePrice()));
-                                }
+                                checkStock(categoryName,subCategory,productNam,String.valueOf(quantity+1));
+
+
 
                                 quantity++;
                                 productQuantity.setText(quantity+"");
@@ -141,7 +144,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                         modelGlobal.setQuantity(quantity+"");
 
                         if(onDataChangeListener != null){
-                            onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()));
+                            onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()),outOfStock);
                             Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
                         }
                         databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
@@ -182,6 +185,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                         productAdd.setVisibility(View.VISIBLE);
                         productQuantity.setVisibility(View.VISIBLE);
                         productQuantity.setText(quantity+"");
+                        checkStock(model.getCategoryName(),model.getSubCategoryName(),model.getProductName(),model.getQuantity());
 
                     }
                     else
@@ -202,6 +206,62 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
 
         }
 
+        private void checkStock(String category, String subCategory, String product, final String quantity)
+        {
+            category = category.toLowerCase().trim();
+            subCategory = subCategory.toLowerCase().trim();
+            product = product.toLowerCase().trim();
+
+            databaseReference.child(context.getResources().getString(R.string.Admin)).child(category).child(subCategory).child(product)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Product model = dataSnapshot.getValue(Product.class);
+
+                            if(model!=null)
+                            {
+                                offerPrice.setText(model.getSalePrice());
+                                savingPrice.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");
+                                quantityGlobal = Integer.parseInt(model.getQuantity());
+                                if(Integer.parseInt(model.getQuantity()) < Integer.parseInt(quantity))
+                                {
+                                    outOfS.setVisibility(View.VISIBLE);
+                                    productAdd.setEnabled(false);
+                                    Toast.makeText(context,"Out Of Stock",Toast.LENGTH_SHORT).show();
+                                    outOfStock = true;
+
+                                    if(add==true)
+                                    {
+                                        if(onDataChangeListener != null){
+                                            onDataChangeListener.onDataChanged(list.size(),Integer.parseInt(modelGlobal.getSalePrice()),outOfStock);
+                                            Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(onDataChangeListener != null){
+                                            onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()),outOfStock);
+                                            Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    outOfStock = false;
+                                    productAdd.setEnabled(true);
+                                }
+                            }
+
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+        }
 
 
     }

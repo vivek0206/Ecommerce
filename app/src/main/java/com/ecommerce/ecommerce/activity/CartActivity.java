@@ -47,6 +47,7 @@ public class CartActivity extends AppCompatActivity {
     private String addressText1,addressText2,userName="Tanish";
     private int price=0;
     private LoadingDialog loadingDialog;
+    public static boolean outOfStock=false;
 
 
     @Override
@@ -72,12 +73,19 @@ public class CartActivity extends AppCompatActivity {
 
         adapter.setOnDataChangeListener(new OnDataChangeListener() {
             @Override
-            public void onDataChanged(int size, int pric) {
+            public void onDataChanged(int size, int pric,boolean flag) {
                 Toast.makeText(getApplicationContext(),"pop pop "+pric,Toast.LENGTH_SHORT).show();
                 Log.d("pop pop pop",pric+" tac");
-                price += pric;
-                itemPrice.setText(price+"");
-                totalAmount.setText(price+"");
+                if(flag==false)
+                {
+                    price += pric;
+                    itemPrice.setText(price+"");
+                    totalAmount.setText(price+"");
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -93,29 +101,44 @@ public class CartActivity extends AppCompatActivity {
         buy_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
-                intent.putExtra("price",price+"");
-                intent.putExtra("shippingPrice","0");
-                startActivity(intent);
+                if(list.size()==0)
+                {
+                    buy_now.setText("Add Item To Cart");
+                    Intent intent = new Intent(CartActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                    intent.putExtra("price",price+"");
+                    intent.putExtra("shippingPrice","0");
+                    startActivity(intent);
+                }
+
             }
         });
 
     }
 
-    private void checkStock(String category, String subCategory, String product, final int quantity)
+    private void checkStock(final Product productModel)
     {
-        category = category.toLowerCase().trim();
-        subCategory = subCategory.toLowerCase().trim();
-        product = product.toLowerCase().trim();
+        String category = productModel.getCategoryName().toLowerCase().trim();
+        String subCategory = productModel.getSubCategoryName().toLowerCase().trim();
+        String product = productModel.getProductName().toLowerCase().trim();
+        final String quantity = productModel.getQuantity();
 
         databaseReference.child(getResources().getString(R.string.Admin)).child(category).child(subCategory).child(product)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Product model = dataSnapshot.getValue(Product.class);
-                        if(Integer.parseInt(model.getQuantity()) < quantity)
+                        if(Integer.parseInt(model.getQuantity()) < Integer.parseInt(quantity))
                         {
-                            Toast.makeText(getApplicationContext(),"Out Of Stock",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            price+= Integer.parseInt(model.getQuantity())*Integer.parseInt(model.getSalePrice());
                         }
                     }
                     @Override
@@ -125,6 +148,7 @@ public class CartActivity extends AppCompatActivity {
                 });
 
     }
+
 
     private void fetchUserInfo() {
         databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid())
@@ -187,7 +211,7 @@ public class CartActivity extends AppCompatActivity {
                     if(model!=null)
                     {
                         list.add(model);
-                        price+= Integer.parseInt(model.getQuantity())*Integer.parseInt(model.getSalePrice());
+                        checkStock(model);
                     }
                 }
                 loadingDialog.DismissDialog();
@@ -196,6 +220,13 @@ public class CartActivity extends AppCompatActivity {
                 adapter.setData(list);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
+
+                if(list.size()==0)
+                {
+                    buy_now.setText("Add Items To Cart");
+                }
+
+
             }
 
             @Override

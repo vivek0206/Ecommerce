@@ -7,7 +7,7 @@ public class UserOrderInfo {
     public UserOrderInfo() {
     }
 
-    private String orderId,orderDate,deliveryDate,totalPrice,status,paymentStatus;
+    private String orderId,orderDate,deliveryDate,totalPrice,status,paymentStatus,paymentTransactionId;
 
     public String getPaymentStatus() {
         return paymentStatus;
@@ -17,13 +17,22 @@ public class UserOrderInfo {
         this.paymentStatus = paymentStatus;
     }
 
-    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus) {
+    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;
         this.totalPrice = totalPrice;
         this.status = status;
         this.paymentStatus = paymentStatus;
+        this.paymentTransactionId = paymentTransactionId;
+    }
+
+    public String getPaymentTransactionId() {
+        return paymentTransactionId;
+    }
+
+    public void setPaymentTransactionId(String paymentTransactionId) {
+        this.paymentTransactionId = paymentTransactionId;
     }
 
     public String getOrderId() {

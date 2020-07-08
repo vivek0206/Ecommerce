@@ -123,7 +123,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.UserWi
 
                                 if(onDataChangeListener != null){
                                     Toast.makeText(context,"No more avaiable",Toast.LENGTH_SHORT).show();
-                                    onDataChangeListener.onDataChanged(list.size(),Integer.parseInt(modelGlobal.getSalePrice()));
+                                    onDataChangeListener.onDataChanged(list.size(),Integer.parseInt(modelGlobal.getSalePrice()),false);
                                 }
 
                                 quantity++;
@@ -151,7 +151,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.UserWi
 
 
                         if(onDataChangeListener != null){
-                            onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()));
+                            onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()),false);
                             Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
                         }
                         databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);

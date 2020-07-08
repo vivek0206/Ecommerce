@@ -51,6 +51,7 @@ public class UserAccount extends Fragment {
         }
 
         list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Your Orders",0));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Your Cart",6));
         list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Your Wishlist",1));
         list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Delivery Address",2));
         list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Personal Information",3));
