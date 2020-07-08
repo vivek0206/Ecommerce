@@ -140,7 +140,6 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                         productQuantity.setText(quantity+"");
                         modelGlobal.setQuantity(quantity+"");
 
-
                         if(onDataChangeListener != null){
                             onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()));
                             Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();

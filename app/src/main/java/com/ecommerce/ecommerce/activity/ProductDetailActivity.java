@@ -71,7 +71,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         subCategoryName=intent.getStringExtra("subCategory");
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
-        toolbar.setTitle(productNam);
+        setTitle(productNam);
 
         loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
