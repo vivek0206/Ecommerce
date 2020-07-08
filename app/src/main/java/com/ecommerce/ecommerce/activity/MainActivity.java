@@ -218,11 +218,18 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem item = menu.findItem(R.id.action_cart);
+        final MenuItem item = menu.findItem(R.id.action_cart);
         MenuItemCompat.setActionView(item, R.layout.action_bar_cart_notification);
         RelativeLayout notifCount = (RelativeLayout)item.getActionView();
         TextView tv = (TextView) notifCount.findViewById(R.id.cart_no);
         setupBadge(tv);
+        View actionView = item.getActionView();
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(item);
+            }
+        });
 //        tv.setText("12");
 
 

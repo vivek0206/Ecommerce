@@ -70,6 +70,7 @@
             android:text="Sort"
             android:id="@+id/sort_btn"
             android:layout_alignParentBottom="true"/>
+
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"

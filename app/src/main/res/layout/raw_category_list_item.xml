@@ -15,35 +15,45 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:id="@+id/raw_category_productImg"
-            android:src="@color/orange"></ImageView>
+            android:src="@color/orange"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CategoryName"
+                android:text="Product Name"
                 android:textColor="@color/black"
                 android:id="@+id/raw_category_productName"
-                android:layout_margin="2dp"
-                android:textSize="14dp"></TextView>
+                android:padding="5sp"
+                android:textSize="14dp"/>
+
+<!--            <RatingBar-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:isIndicator="true"-->
+<!--                android:scaleX="0.4"-->
+<!--                android:id="@+id/raw_category_productRating"-->
+<!--                android:scaleY="0.4"-->
+<!--                android:transformPivotX="0dp"/>-->
 
             <RatingBar
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:isIndicator="true"
-                android:scaleX="0.4"
+                style = "?android:attr/ratingBarStyleSmall"
+                android:numStars="5"
                 android:id="@+id/raw_category_productRating"
-                android:scaleY="0.4"
-                android:transformPivotX="0dp"></RatingBar>
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5sp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -54,7 +64,7 @@
                     android:textStyle="bold"
                     android:id="@+id/raw_category_productOfferPrice"
                     android:layout_marginLeft="5dp"
-                    android:text="510"></TextView>
+                    android:text="510"/>
 
 
                 <TextView
@@ -64,7 +74,7 @@
                     android:id="@+id/raw_category_productOriginalPrice"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
-                    android:text="510"></TextView>
+                    android:text="510"/>
 
 
                 <TextView
@@ -75,7 +85,7 @@
                     android:id="@+id/raw_category_prductSaving"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
-                    android:text="510 Off"></TextView>
+                    android:text="510 Off"/>
 
             </LinearLayout>
 
@@ -84,14 +94,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="5sp"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_delete_24"
-                    android:id="@+id/raw_category_delete_quantity"></ImageView>
+                    android:id="@+id/raw_category_delete_quantity"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,7 +110,7 @@
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:id="@+id/raw_category_quantity"
-                    android:text="Qty:"></TextView>
+                    android:text="Qty:"/>
 
 
                 <TextView
@@ -111,13 +121,13 @@
                     android:textSize="16dp"
                     android:id="@+id/raw_category_ProductQuantity"
                     android:textColor="@color/black"
-                    android:text="2"></TextView>
+                    android:text="2"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_add_24"
-                    android:id="@+id/raw_category_add_quantity"></ImageView>
+                    android:id="@+id/raw_category_add_quantity"/>
 
             </LinearLayout>
 
@@ -130,7 +140,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_wishlist_fill"
         android:id="@+id/raw_category_wishlist"
-        android:layout_alignParentRight="true"></ImageView>
+        android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>

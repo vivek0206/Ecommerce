@@ -55,11 +55,11 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         Product model = list.get(position);
         Picasso.get().load(Uri.parse(model.getImageUrl())).into(holder.productImg);
         holder.productName.setText(model.getProductName());
-        holder.OriginalPrice.setText(model.getOriginalPrice());
+        holder.OriginalPrice.setText("\u20B9"+model.getOriginalPrice());
         holder.OriginalPrice.setPaintFlags(holder.OriginalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.OfferPrice.setText(model.getSalePrice());
+        holder.OfferPrice.setText("\u20B9"+model.getSalePrice());
         holder.ratingBar.setRating(Float.parseFloat(model.getRating()));
-        holder.Saving.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");
+        holder.Saving.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");
         holder.categoryName = model.getCategoryName();
         holder.productNam = model.getProductName();
         holder.subCategoryName=model.getSubCategoryName();
