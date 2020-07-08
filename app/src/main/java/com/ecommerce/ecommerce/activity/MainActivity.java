@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -215,10 +217,34 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        MenuItem item = menu.findItem(R.id.action_cart);
+        MenuItemCompat.setActionView(item, R.layout.action_bar_cart_notification);
+        RelativeLayout notifCount = (RelativeLayout)item.getActionView();
+        TextView tv = (TextView) notifCount.findViewById(R.id.cart_no);
+        setupBadge(tv);
+//        tv.setText("12");
+
 
         return true;
     }
+    private void setupBadge(final TextView tv) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("");
+        databaseReference.child("UserCart").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tv.setText(dataSnapshot.getChildrenCount()+"");
+                Log.d("TAG",dataSnapshot.getChildrenCount()+"vvvvvvvvv");
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
