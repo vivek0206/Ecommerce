@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clickable="true"
-    style="@android:style/Widget.ActionButton">
+    style="@android:style/Widget.ActionButton"
+    >
 
     <ImageView
         android:id="@+id/cart_icon"

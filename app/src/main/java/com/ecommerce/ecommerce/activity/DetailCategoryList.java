@@ -25,6 +25,7 @@ import com.ecommerce.ecommerce.adapter.CategoryItemAdapter;
 import com.ecommerce.ecommerce.adapter.SearchAdapter;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,7 +52,8 @@ public class DetailCategoryList extends AppCompatActivity {
     private Toolbar toolbar;
     private BottomSheetBehavior bottomSheetBehavior;
     private View bottomSheet;
-    private Button sortBtn,LowToHighBtn,HighToLowBtn;
+    private Button LowToHighBtn,HighToLowBtn;
+    private Button sortBtn;
     private LoadingDialog loadingDialog;
 
     private List<SearchModel> searchList;
@@ -330,7 +332,7 @@ public class DetailCategoryList extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.detail_category_list_recyclerView);
         bottomSheet=findViewById(R.id.bottom_sheet);
-        sortBtn=findViewById(R.id.sort_btn);
+        sortBtn= findViewById(R.id.sort_btn);
         LowToHighBtn=findViewById(R.id.low2high_btn);
         HighToLowBtn=findViewById(R.id.high2low_btn);
 

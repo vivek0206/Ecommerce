@@ -56,6 +56,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
         toolbar = (Toolbar)findViewById(R.id.bar);
+        toolbar.setTitle("Product");
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -71,7 +72,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         subCategoryName=intent.getStringExtra("subCategory");
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
-        toolbar.setTitle(productNam);
 
         loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
