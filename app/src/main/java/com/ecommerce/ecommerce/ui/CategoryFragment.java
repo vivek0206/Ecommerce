@@ -15,6 +15,7 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.activity.AddImage;
 import com.ecommerce.ecommerce.activity.AddSubCat;
 import com.ecommerce.ecommerce.activity.DetailCategoryList;
 import com.ecommerce.ecommerce.activity.SignUp;
@@ -35,7 +36,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class CategoryFragment extends Fragment {
 
-    private Button randome,temp,detailCategory,addSubCat;
+    private Button randome,temp,detailCategory,addSubCat,addImageSlider;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
@@ -93,6 +94,7 @@ public class CategoryFragment extends Fragment {
         temp = view.findViewById(R.id.temp_btn);
         detailCategory = view.findViewById(R.id.temp_detail_category);
         addSubCat=view.findViewById(R.id.add_subcategory);
+        addImageSlider=view.findViewById(R.id.add_imageSlider);
 
         expandableListView = view.findViewById(R.id.expandableListView);
 //        expandableListDetail = ExpandableListDataPump.getData();
@@ -104,9 +106,7 @@ public class CategoryFragment extends Fragment {
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-//                Toast.makeText(getApplicationContext(),
-//                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-//                        Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -115,20 +115,19 @@ public class CategoryFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        expandableListTitle.get(groupPosition)
-//                                + " -> "
-//                                + expandableListDetail.get(
-//                                expandableListTitle.get(groupPosition)).get(
-//                                childPosition), Toast.LENGTH_SHORT
-//                ).show();
                 String key=expandableListTitle.get(groupPosition);
                 Intent intent = new Intent(getContext(), DetailCategoryList.class);
                 intent.putExtra("category",key.toLowerCase().trim());
                 intent.putExtra("subCategory",expandableListDetail.get(key).get(childPosition).toLowerCase().trim());
                 startActivity(intent);
                 return false;
+            }
+        });
+        addImageSlider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent=new Intent(getContext(), AddImage.class);
+                    startActivity(intent);
             }
         });
     }

@@ -16,13 +16,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.R;
-import com.ecommerce.ecommerce.object.Product;
 import com.ecommerce.ecommerce.object.SubCategory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,32 +33,25 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-public class tempActivity extends AppCompatActivity {
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
+public class AddImage extends AppCompatActivity {
+
+    private Button submit;
     private ImageView imageView;
     private EditText categoryName,subcategoryName;
-    private Button submit;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
     private static final int PICK_IMAGE_REQUEST = 2;
-    private String Cname,Pname,originalP,offP,productQ,productD,ScName;
     private Uri mImageUri;
-    private RadioButton cod,returnable;
-    private int r1=0,r2=0;
-    private LoadingDialog loadingDialog;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_temp);
-
+        setContentView(R.layout.activity_add_image);
         init();
-
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,38 +62,23 @@ public class tempActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingDialog.startLoadingDialog();
+
                 uploadProduct();
             }
         });
-
-
     }
-
-
-
     private void uploadProduct()
     {
-        Cname = categoryName.getText().toString();
-        ScName=subcategoryName.getText().toString();
-//        Pname = productName.getText().toString();
-//        originalP = originalPrice.getText().toString();
-//        offP = offPrice.getText().toString();
-//        productQ = productQuantity.getText().toString();
-//        productD = productDetail.getText().toString();
-
-//        if(Cname.isEmpty()|| Pname.isEmpty()|| originalP.isEmpty()|| offP.isEmpty()|| productQ.isEmpty() || productD.isEmpty() || mImageUri==null)
-//        {
-//            Toast.makeText(getApplicationContext(),"Fill All Fields",Toast.LENGTH_SHORT).show();
-//        }
-        if(Cname.isEmpty()||mImageUri==null||ScName.isEmpty())
+        final String Cname = categoryName.getText().toString();
+        final String ScName=subcategoryName.getText().toString();
+        if(mImageUri==null)
         {
             Toast.makeText(getApplicationContext(),"Fill All Fields",Toast.LENGTH_SHORT).show();
         }
         else
         {
 
-            final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductImage)).child(ScName+getfilterExt(mImageUri));
+            final StorageReference reference = storageReference.child("SlideImage").child(System.currentTimeMillis()+""+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -111,14 +87,12 @@ public class tempActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            SubCategory model = new SubCategory(uri.toString(),Cname,ScName);
-                                            databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.CategoryData)).child(Cname.toLowerCase().trim()).child(ScName.toLowerCase().trim()).setValue(model);
-                                            SearchModel searchModel = new SearchModel(Cname,Cname.toLowerCase().trim(),"NA","NA",1);
-                                            databaseReference.child(getResources().getString(R.string.Search)).child(Cname.toLowerCase().trim()).setValue(searchModel);
-                                            searchModel = new SearchModel(ScName,Cname.toLowerCase().trim(),ScName.toLowerCase().trim(),"NA",2);
-                                            databaseReference.child(getResources().getString(R.string.Search)).child(ScName.toLowerCase().trim()).setValue(searchModel);
 
-                                            loadingDialog.DismissDialog();
+                                            SubCategory obj=new SubCategory(uri.toString(),Cname,ScName);
+
+                                            databaseReference.child(getResources().getString(R.string.Admin)).child("SlideImage").child(System.currentTimeMillis()+"").setValue(obj);
+
+
                                             Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -133,7 +107,6 @@ public class tempActivity extends AppCompatActivity {
         }
 
     }
-
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -161,22 +134,14 @@ public class tempActivity extends AppCompatActivity {
         }
 
     }
-
-
     private void init() {
         MainActivity.OfflineCapabilities(getApplicationContext());
-        loadingDialog = new LoadingDialog(this);
-        imageView = findViewById(R.id.temp_image);
-        categoryName = findViewById(R.id.temp_category_name);
-        subcategoryName=findViewById(R.id.temp_subcategory_name);
-//        productName = findViewById(R.id.temp_product_Name);
-//        originalPrice = findViewById(R.id.temp_product_original_price);
-//        offPrice = findViewById(R.id.temp_product_off_price);
-//        productQuantity = findViewById(R.id.temp_product_quantity);
-//        productDetail = findViewById(R.id.temp_product_product_detail);
-        submit = findViewById(R.id.temp_submit);
-//        cod=findViewById(R.id.temp_cod);
-//        returnable = findViewById(R.id.temp_return);
+
+        imageView = findViewById(R.id.add_image);
+        categoryName = findViewById(R.id.add_category_name);
+        subcategoryName=findViewById(R.id.add_subcategory_name);
+        submit = findViewById(R.id.addImage_submit);
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("");
