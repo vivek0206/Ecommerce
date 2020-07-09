@@ -7,10 +7,12 @@
     <TextView
         android:id="@+id/expandedListItem"
         android:text="Sub Title"
+        android:textSize="20sp"
+        android:textColor="#566573"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingTop="15sp"
+        android:paddingBottom="15sp" />
 
 </LinearLayout>

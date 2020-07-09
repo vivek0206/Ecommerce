@@ -123,6 +123,11 @@ public class CategoryFragment extends Fragment {
 //                                expandableListTitle.get(groupPosition)).get(
 //                                childPosition), Toast.LENGTH_SHORT
 //                ).show();
+                String key=expandableListTitle.get(groupPosition);
+                Intent intent = new Intent(getContext(), DetailCategoryList.class);
+                intent.putExtra("category",key.toLowerCase().trim());
+                intent.putExtra("subCategory",expandableListDetail.get(key).get(childPosition).toLowerCase().trim());
+                startActivity(intent);
                 return false;
             }
         });

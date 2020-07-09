@@ -50,13 +50,13 @@
 
   <FrameLayout
       android:layout_width="match_parent"
-      android:layout_height="1dp"
-      android:layout_marginTop="20dp"
-      android:background="@color/black"></FrameLayout>
+      android:layout_height="1sp"
+      android:layout_marginTop="20sp"
+      android:background="#D7DBDD"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/account_list">
 
     </androidx.recyclerview.widget.RecyclerView>
