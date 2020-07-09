@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
-import com.ecommerce.ecommerce.adapter.ManageOrderAdapter;
 import com.ecommerce.ecommerce.adapter.SearchAdapter;
 import com.ecommerce.ecommerce.ui.CategoryFragment;
 import com.ecommerce.ecommerce.ui.HomeFragment;
@@ -26,7 +25,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
-import com.ecommerce.ecommerce.ui.onBackPressed;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +36,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,7 +48,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -193,7 +189,6 @@ public class MainActivity extends AppCompatActivity
                     editPersonalInfo();
                 }
             });
-
         }
 
 

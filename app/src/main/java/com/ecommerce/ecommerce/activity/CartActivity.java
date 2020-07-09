@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Interface.OnDataChangeListener;
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.UserCartAdapter;
@@ -39,7 +41,7 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserCartAdapter adapter;
     private LinearLayoutManager layoutManager;
-    private List<Product> list;
+    private List<ProductVariation> list;
 
     private Button buy_now;
     private FirebaseUser user;
@@ -47,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
     private String addressText1,addressText2,userName="Tanish";
     private int price=0,itemNo=0;
     private LoadingDialog loadingDialog;
-    public static boolean outOfStock=false;
+    int flag=1;
 
 
     @Override
@@ -74,25 +76,33 @@ public class CartActivity extends AppCompatActivity {
         adapter.setOnDataChangeListener(new OnDataChangeListener() {
             @Override
             public void onDataChanged(int size, int pric,boolean flag) {
-                Toast.makeText(getApplicationContext(),"pop pop "+pric,Toast.LENGTH_SHORT).show();
-                Log.d("pop pop pop",pric+" tac");
-                if(flag==false)
-                {
-                    price += pric;
-                    itemPrice.setText(price+"");
-                    totalAmount.setText(price+"");
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
-                }
+
             }
 
             @Override
-            public void onDataRemoveChange() {
-                price=0;
-                fetchUserCart();
+            public void onDataRemoveChange() { }
+
+            @Override
+            public void onCheckOutOfStock(int flag,int pric) {
+                if(flag==0)
+                {
+
+                }
+                else if(flag==1)
+                {
+                    price+=pric;
+                    itemPrice.setText("\u20B9"+price+"");
+
+                }
+                else if(flag==-1)
+                {
+                    price-=pric;
+                    itemPrice.setText("\u20B9"+price+"");
+
+                }
             }
+
+
         });
 
         change.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +124,9 @@ public class CartActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
-                    intent.putExtra("price",price+"");
-                    intent.putExtra("shippingPrice","0");
-                    startActivity(intent);
+                    
+                    checkOutOfStock();
+
                 }
 
             }
@@ -125,41 +134,81 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    private void checkStock(final Product productModel)
+    private void checkOutOfStock() {
 
-    {
-        String category = productModel.getCategoryName().toLowerCase().trim();
-        String subCategory = productModel.getSubCategoryName().toLowerCase().trim();
-        String product = productModel.getProductName().toLowerCase().trim();
-        final String quantity = productModel.getQuantity();
+        loadingDialog.startLoadingDialog();
 
-        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category).child(subCategory).child(product)
+        databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Log.d("pop pop pop ",dataSnapshot.getValue()+"");
-                        Product model = dataSnapshot.getValue(Product.class);
-                        if(model!=null)
+                        for(DataSnapshot ds1: dataSnapshot.getChildren())
                         {
-                            if(Integer.parseInt(model.getQuantity()) < Integer.parseInt(quantity))
+                            for(DataSnapshot ds2: ds1.getChildren())
                             {
-                                Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                price+= Integer.parseInt(productModel.getQuantity())*Integer.parseInt(productModel.getSalePrice());
-                                itemNo++;
-                                itemPrice.setText(itemNo+"");
-                                totalAmount.setText(price+"");
+                                final ProductVariation model = ds2.getValue(ProductVariation.class);
+                                if(model!=null)
+                                {
+                                    databaseReference.child(getResources().getString(R.string.ProductVariation)).child(model.getProductName().toLowerCase().trim()).child(model.getProductVariationName().toLowerCase().trim())
+                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    ProductVariation modelI = dataSnapshot.getValue(ProductVariation.class);
+                                                    if(model.getQuantity() > modelI.getQuantity())
+                                                    {
+                                                        Log.d("popop  ", "ghr laynge  ");
+                                                        flag=0;
+                                                    }
+                                                }
 
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                    if(flag==0)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                            if(flag==0)
+                            {
+                                break;
                             }
                         }
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(flag==0)
+                                {
+                                    Toast.makeText(getApplicationContext(),"Some Items are Out Of Stock",Toast.LENGTH_SHORT).show();
+                                    loadingDialog.DismissDialog();
+                                }
+                                else
+                                {
+                                    loadingDialog.DismissDialog();
+                                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                                    intent.putExtra("price",price+"");
+                                    intent.putExtra("shippingPrice","0");
+                                    startActivity(intent);
+                                }
+
+                            }
+                        },500);
+
+
+
+
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
+
 
     }
 
@@ -218,37 +267,37 @@ public class CartActivity extends AppCompatActivity {
 
     private void fetchUserCart() {
 
-        databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren())
-                {
-                    Product model = ds.getValue(Product.class);
-                    if(model!=null)
-                    {
-                        list.add(model);
-                        checkStock(model);
+
+        databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds1: dataSnapshot.getChildren())
+                        {
+                            for(DataSnapshot ds2: ds1.getChildren())
+                            {
+                                ProductVariation model = ds2.getValue(ProductVariation.class);
+                                list.add(0,model);
+                            }
+                        }
+                        loadingDialog.DismissDialog();
+                        adapter.setData(list);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+
+                        if(list.size()==0)
+                        {
+                            buy_now.setText("Add Items To Cart");
+                        }
                     }
-                }
-                loadingDialog.DismissDialog();
-                itemPrice.setText(price+"");
-                adapter.setData(list);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
 
-                if(list.size()==0)
-                {
-                    buy_now.setText("Add Items To Cart");
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         databaseReference.child(getString(R.string.UserCart)).child(user.getUid()).keepSynced(true);
 
 

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderDetailAdapter;
 import com.ecommerce.ecommerce.object.Product;
@@ -87,6 +88,11 @@ public class OrderDetailActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick() {
+
+            }
+
+            @Override
+            public void onItemClick(ProductVariation model) {
 
             }
         });

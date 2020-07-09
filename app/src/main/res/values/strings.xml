@@ -30,6 +30,7 @@
     <string name="OrderInfo">OrderInfo</string>
     <string name="Wishlist">WishList</string>
     <string name="Search">Search</string>
+    <string name="ProductVariation">ProductVariation</string>
 
 
 </resources>

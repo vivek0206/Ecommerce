@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ecommerce.ecommerce.Interface.OnDataChangeListener;
+import com.ecommerce.ecommerce.Interface.onBackPressed;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.MainActivity;
-import com.ecommerce.ecommerce.adapter.UserCartAdapter;
 import com.ecommerce.ecommerce.adapter.WishlistAdapter;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +59,11 @@ public class WishlistFragment extends Fragment implements onBackPressed {
 
             @Override
             public void onDataRemoveChange() {
+
+            }
+
+            @Override
+            public void onCheckOutOfStock(int flag, int price) {
 
             }
         });
