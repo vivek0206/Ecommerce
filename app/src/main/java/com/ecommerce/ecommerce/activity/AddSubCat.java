@@ -129,7 +129,7 @@ public class AddSubCat extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            Product model = new Product(uri.toString(),Cname,Pname,originalP,offP,productQ,"0",productD,r1+"",r2+"",subcatN,"-1");
+                                            Product model = new Product(uri.toString(),Cname,Pname,originalP,offP,productQ,"0",productD,r1+"",r2+"",subcatN,"-1",0,0,0,0,0);
                                             databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(Cname.toLowerCase().trim()).child(subcatN.toLowerCase().trim()).child(Pname.toLowerCase().trim()).setValue(model);
 
 

@@ -8,6 +8,67 @@ public class Product {
 
     private String imageUrl,categoryName,productName,originalPrice,salePrice,quantity,rating,productDetail,returnable,payOnDelivery;
     private String subCategoryName,orderStatus;
+    private int rate1=0,rate2=0,rate3=0,rate4=0,rate5=0;
+
+    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery, String subCategoryName, String orderStatus, int rate1, int rate2, int rate3, int rate4, int rate5) {
+        this.imageUrl = imageUrl;
+        this.categoryName = categoryName;
+        this.productName = productName;
+        this.originalPrice = originalPrice;
+        this.salePrice = salePrice;
+        this.quantity = quantity;
+        this.rating = rating;
+        this.productDetail = productDetail;
+        this.returnable = returnable;
+        this.payOnDelivery = payOnDelivery;
+        this.subCategoryName = subCategoryName;
+        this.orderStatus = orderStatus;
+        this.rate1 = rate1;
+        this.rate2 = rate2;
+        this.rate3 = rate3;
+        this.rate4 = rate4;
+        this.rate5 = rate5;
+    }
+
+    public int getRate1() {
+        return rate1;
+    }
+
+    public void setRate1(int rate1) {
+        this.rate1 = rate1;
+    }
+
+    public int getRate2() {
+        return rate2;
+    }
+
+    public void setRate2(int rate2) {
+        this.rate2 = rate2;
+    }
+
+    public int getRate3() {
+        return rate3;
+    }
+
+    public void setRate3(int rate3) {
+        this.rate3 = rate3;
+    }
+
+    public int getRate4() {
+        return rate4;
+    }
+
+    public void setRate4(int rate4) {
+        this.rate4 = rate4;
+    }
+
+    public int getRate5() {
+        return rate5;
+    }
+
+    public void setRate5(int rate5) {
+        this.rate5 = rate5;
+    }
 
     public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery, String subCategoryName) {
         this.imageUrl = imageUrl;

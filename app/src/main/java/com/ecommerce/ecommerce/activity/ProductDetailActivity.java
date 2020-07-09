@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -18,8 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.AccountModel;
+import com.ecommerce.ecommerce.Models.RatingInfo;
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.adapter.AccountAdapter;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
+import com.ecommerce.ecommerce.adapter.RatingAdapter;
 import com.ecommerce.ecommerce.adapter.SimilarProductAapter;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +56,12 @@ public class ProductDetailActivity extends AppCompatActivity {
     private RecyclerView simRecyclerView;
     private LoadingDialog loadingDialog;
     private Product modelGlobal;
+
+    //Rating
+    private RecyclerView ratingRecyclerView;
+    private List<RatingInfo> ratingList;
+    private RatingAdapter ratingAdapter;
+    private LinearLayoutManager ratingLayoutManager;
 
 
     @Override
@@ -178,6 +189,20 @@ public class ProductDetailActivity extends AppCompatActivity {
                             productDetails.setText(model.getProductDetail());
                             returnable = Integer.parseInt(model.getReturnable());
                             cod = Integer.parseInt(model.getPayOnDelivery());
+
+                            Integer totalRating=model.getRate1()+model.getRate2()+model.getRate3()+model.getRate4()+model.getRate5();
+                            ratingList.clear();
+                            ratingList.add(new RatingInfo("5 ",model.getRate5()));
+                            ratingList.add(new RatingInfo("4 ",model.getRate4()));
+                            ratingList.add(new RatingInfo("3 ",model.getRate3()));
+                            ratingList.add(new RatingInfo("2 ",model.getRate2()));
+                            ratingList.add(new RatingInfo("1 ",model.getRate1()));
+
+                            ratingAdapter = new RatingAdapter(ratingList,getApplicationContext(),totalRating);
+                            ratingRecyclerView.setHasFixedSize(true);
+                            ratingAdapter.setData(ratingList);
+                            ratingRecyclerView.setLayoutManager(ratingLayoutManager);
+                            ratingRecyclerView.setAdapter(ratingAdapter);
                         }
                         loadingDialog.DismissDialog();
                     }
@@ -210,6 +235,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         simRecyclerView=findViewById(R.id.product_detail_similiar_product);
         similarProductAapter =new SimilarProductAapter(pSimList,this,ProductDetailActivity.this);
+
+        //Rating
+        ratingRecyclerView = findViewById(R.id.rating_list);
+        ratingList = new ArrayList<>();
+        ratingLayoutManager = new LinearLayoutManager(this);
+
 
     }
 }
