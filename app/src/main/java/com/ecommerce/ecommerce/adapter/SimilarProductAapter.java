@@ -53,7 +53,7 @@ public class SimilarProductAapter extends RecyclerView.Adapter<SimilarProductAap
     @Override
     public void onBindViewHolder(@NonNull CategoryItemView holder, int position) {
         Product model = list.get(position);
-        Picasso.get().load(Uri.parse(model.getImageUrl())).into(holder.productImg);
+        Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.placeholder).into(holder.productImg);
         holder.productName.setText(model.getProductName());
         holder.OriginalPrice.setText("\u20B9"+model.getOriginalPrice());
         holder.OriginalPrice.setPaintFlags(holder.OriginalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

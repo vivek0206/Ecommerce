@@ -8,15 +8,16 @@
     android:clickable="true"
     android:layout_gravity="center"
     android:layout_marginRight="1sp"
-    android:layout_marginBottom="1sp"
-    android:padding="8sp"
+    android:layout_marginBottom="2sp"
+    android:paddingBottom="20sp"
     >
     <ImageView
         android:id="@+id/psimage"
         android:layout_width="200sp"
         android:layout_height="200sp"
         android:layout_gravity="center"
-        android:background="@android:color/darker_gray"
+        android:padding="20sp"
+        android:src="@drawable/placeholder"
         android:layout_centerInParent="true"
         />
     <LinearLayout
@@ -31,7 +32,7 @@
             android:id="@+id/pssalePrice"
             android:text="saleprice"
             android:textSize="20sp"
-            android:padding="5sp"
+            android:paddingHorizontal="5sp"
             android:textColor="@android:color/holo_red_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -39,7 +40,7 @@
             android:id="@+id/psorigPrice"
             android:text="orgprice"
             android:textSize="20sp"
-            android:padding="5sp"
+            android:paddingHorizontal="5sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -49,7 +50,6 @@
         android:id="@+id/pstitle"
         android:text="title"
         android:textSize="18sp"
-        android:padding="2sp"
         android:textColor="@android:color/black"
         android:layout_below="@+id/price_bar"
         android:layout_gravity="center_horizontal"
