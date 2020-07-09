@@ -142,7 +142,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
 
                     Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
-                            list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());                    wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
+                            list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());
+                    wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
                     databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
 
                 }

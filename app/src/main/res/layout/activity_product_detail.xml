@@ -245,7 +245,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Product Details"
-                                android:textColor="@color/black"
+                                android:textColor="#393A3A"
+                                android:textStyle="bold"
                                 android:layout_marginStart="10sp"
                                 android:layout_marginTop="20sp"
                                 android:textSize="14dp"/>
@@ -261,6 +262,21 @@
                                 android:text="Product Detail">
 
                             </TextView>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Rating"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                android:padding="10sp"
+                                android:textColor="#393A3A"/>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/rating_list">
+
+                            </androidx.recyclerview.widget.RecyclerView>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
