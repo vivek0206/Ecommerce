@@ -14,6 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
@@ -26,9 +33,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
@@ -41,6 +54,9 @@ public class OrderDetailActivity extends AppCompatActivity {
     private String orderId;
     private LoadingDialog loadingDialog;
 
+
+    private RequestQueue mRequestQueue;
+    private String URL="https://fcm.googleapis.com/fcm/send";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +83,11 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Product model, int type) {
                 OnCancel(model);
+            }
+
+            @Override
+            public void onItemClick() {
+
             }
         });
 
@@ -102,10 +123,117 @@ public class OrderDetailActivity extends AppCompatActivity {
                 databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
                 alertDialog.cancel();
                 Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                sendNotification("Order has been Cancelled");
+                sendNotificationAdmin("Order has been Cancelled");
             }
         });
 
 
+        mRequestQueue = Volley.newRequestQueue(this);
+        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+
+
+    }
+
+    private void sendNotificationAdmin(String message) {
+
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to","/topics/"+"Admin");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title","OrderId:"+orderId);
+            notificationObj.put("body",message);
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","Chat");
+            extraData.put("peopleId","PeopleId");
+            extraData.put("routineId","routineId");
+
+            mainObj.put("notification",notificationObj);
+            mainObj.put("data",extraData);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAAAqZKVDg:APA91bEeSXlfcNTvt8364bTbWD9VMXcv5vb1dWB4Tvbpeh26CtVczUnDA3jGvQeVTG_BY_oW-3ea53oqcALaBoq7ETRlO1khMctmcLLQrcnQPgU4DRC87OeEf-sGUWWGXUdJqvPmxswQ");
+                    return header;
+                }
+            };
+
+            mRequestQueue.add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void sendNotification(String message) {
+  /*      //json object
+        {
+            "to": "topics/topic name"
+                notification:   {
+                    title: "some titlle"
+                     body:  "some body"
+                }
+        }*/
+
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to","/topics/"+user.getUid());
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title","OrderId:"+orderId);
+            notificationObj.put("body",message);
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","Chat");
+            extraData.put("peopleId","PeopleId");
+            extraData.put("routineId","routineId");
+
+            mainObj.put("notification",notificationObj);
+            mainObj.put("data",extraData);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAAAqZKVDg:APA91bEeSXlfcNTvt8364bTbWD9VMXcv5vb1dWB4Tvbpeh26CtVczUnDA3jGvQeVTG_BY_oW-3ea53oqcALaBoq7ETRlO1khMctmcLLQrcnQPgU4DRC87OeEf-sGUWWGXUdJqvPmxswQ");
+                    return header;
+                }
+            };
+
+            mRequestQueue.add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }

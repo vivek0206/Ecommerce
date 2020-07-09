@@ -168,6 +168,54 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         });
     }
 
+    private void sendNotificationAdmin(String message) {
+
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("to","/topics/"+"Admin");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title","OrderId:"+orderId);
+            notificationObj.put("body",message);
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","Chat");
+            extraData.put("peopleId","PeopleId");
+            extraData.put("routineId","routineId");
+
+            mainObj.put("notification",notificationObj);
+            mainObj.put("data",extraData);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(),"Process",Toast.LENGTH_SHORT).show();
+
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAAAqZKVDg:APA91bEeSXlfcNTvt8364bTbWD9VMXcv5vb1dWB4Tvbpeh26CtVczUnDA3jGvQeVTG_BY_oW-3ea53oqcALaBoq7ETRlO1khMctmcLLQrcnQPgU4DRC87OeEf-sGUWWGXUdJqvPmxswQ");
+                    return header;
+                }
+            };
+
+            mRequestQueue.add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     private void UpdateQuantity(String category, String subCategory, String productName, final String quantity)
     {
         category = category.toLowerCase().trim();
@@ -279,7 +327,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId);
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
-                sendNotification("done");
+                sendNotification("Your Order has been Placed with orderId:"+orderId);
+                sendNotificationAdmin("Order with:"+orderId+" is placed Check it soon");
                 Toast.makeText(getApplicationContext(),"Order Done",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PaymentActivity.this,OrderConfirmActivity.class);
                 intent.putExtra("orderId",orderId);

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ecommerce.ecommerce.Interface.OnDataChangeListener;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.MainActivity;
@@ -28,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WishlistFragment extends Fragment {
+public class WishlistFragment extends Fragment implements onBackPressed {
 
     private RecyclerView recyclerView;
     private WishlistAdapter adapter;
@@ -48,6 +49,20 @@ public class WishlistFragment extends Fragment {
         init(view);
         loadingDialog.startLoadingDialog();
         fetchUserWishlist();
+
+        adapter.setOnDataChangeListener(new OnDataChangeListener() {
+            @Override
+            public void onDataChanged(int size, int price, boolean flag) {
+                loadingDialog.startLoadingDialog();
+                fetchUserWishlist();
+            }
+
+            @Override
+            public void onDataRemoveChange() {
+
+            }
+        });
+
         return view;
     }
 
@@ -56,6 +71,7 @@ public class WishlistFragment extends Fragment {
         databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     Product model = ds.getValue(Product.class);
@@ -93,6 +109,11 @@ public class WishlistFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }

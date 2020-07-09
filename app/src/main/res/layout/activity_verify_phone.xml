@@ -8,14 +8,37 @@
     tools:context=".activity.verifyPhone">
 
 
-    <FrameLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/black"></FrameLayout>
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/bar"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="2dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="@color/white">
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
     <EditText
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textAlignment="center"
+        android:hint="000000"
         android:inputType="numberSigned"
         android:id="@+id/otp_input"></EditText>
 
@@ -28,13 +51,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verify"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
         android:id="@+id/otp_verify"></Button>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Resend"
+            android:layout_margin="10dp"
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:id="@+id/otp_resend"></Button>
 
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

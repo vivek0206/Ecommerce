@@ -104,6 +104,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.UserWi
                 @Override
                 public void onClick(View view) {
                     databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(productNam).removeValue();
+                    if(onDataChangeListener!=null)
+                    {
+                        onDataChangeListener.onDataChanged(10,10,true);
+                    }
                 }
             });
 
@@ -160,12 +164,12 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.UserWi
                         if(quantity==0)
                         {
                             //delete it
-
                             if(getAdapterPosition()>0) {
                                 list.remove(getAdapterPosition());
                                 notifyItemRemoved(getAdapterPosition() + 1);
                                 notifyItemRangeChanged(getAdapterPosition() + 1, list.size());
                             }
+
                             databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).removeValue();
                             databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).removeValue();
 

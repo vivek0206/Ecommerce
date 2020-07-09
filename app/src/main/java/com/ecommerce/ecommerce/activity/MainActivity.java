@@ -26,6 +26,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import com.ecommerce.ecommerce.ui.onBackPressed;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +44,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +57,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -75,6 +79,8 @@ public class MainActivity extends AppCompatActivity
     private LinearLayoutManager layoutManager2;
     private RecyclerView searchRecyclerView;
     int flag=2;
+    private MenuItem search;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +116,12 @@ public class MainActivity extends AppCompatActivity
                 switch (item.getItemId())
                 {
                     case R.id.nav_home:
-                        setFragment(new HomeFragment());
+                        setFragment(new HomeFragment(),"not home");
                         Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_category:
-                        setFragment(new CategoryFragment());
+                        setFragment(new CategoryFragment(),"not home");
                         Toast.makeText(getApplicationContext(),"catego",Toast.LENGTH_SHORT).show();
                         break;
 
@@ -128,12 +134,12 @@ public class MainActivity extends AppCompatActivity
                         break;
 
                     case R.id.nav_wishlist:
-                        setFragment(new WishlistFragment());
+                        setFragment(new WishlistFragment(),"not home");
                         Toast.makeText(getApplicationContext(),"wishlist",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_account:
-                        setFragment(new UserAccount());
+                        setFragment(new UserAccount(),"not home");
                         Toast.makeText(getApplicationContext(),"User Account",Toast.LENGTH_SHORT).show();
                         break;
 
@@ -281,10 +287,14 @@ public class MainActivity extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        final MenuItem search = menu.findItem(R.id.action_search);
+        search = menu.findItem(R.id.action_search);
         MenuItem cart = menu.findItem(R.id.action_cart);
 
-        SearchView searchView = (SearchView) search.getActionView();
+        searchView = (SearchView) search.getActionView();
+        ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
+
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -333,11 +343,15 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                search.collapseActionView();
+                searchView.setQuery("",false);
+                searchView.onActionViewCollapsed();
+                searchList.clear();
+                flag=2;
                 searchRecyclerView.setVisibility(View.GONE);
                 return true;
             }
         });
-
 
 
         return true;
@@ -346,23 +360,64 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
+
         if(flag==1)
         {
+            search.collapseActionView();
+            searchView.setQuery("",false);
+            searchView.onActionViewCollapsed();
             searchList.clear();
             flag=2;
             searchRecyclerView.setVisibility(View.GONE);
         }
         else
         {
-            super.onBackPressed();
+            int p = 0;
+            p = tellFragments();
+            if(p==0)
+                super.onBackPressed();
 
         }
+
     }
 
-    public void setFragment(Fragment fragment)
+    private int tellFragments(){
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment f : fragments){
+            if(f != null && (f instanceof WishlistFragment)) {
+                ((WishlistFragment) f).onBackPressed();
+            }
+        }
+        return 0;
+    }
+
+    public void setFragment(Fragment fragment,String name)
     {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.drawer_layout,fragment);
+
+        final int count = fragmentManager.getBackStackEntryCount();
+        if( name.equals( "not home") ) {
+            fragmentTransaction.addToBackStack(name);
+        }
+
+
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                // If the stack decreases it means I clicked the back button
+                if( fragmentManager.getBackStackEntryCount() <= count){
+                    // pop all the fragment and remove the listener
+                    fragmentManager.popBackStack("not home", POP_BACK_STACK_INCLUSIVE);
+                    fragmentManager.removeOnBackStackChangedListener(this);
+                    // set the home button selected
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                }
+            }
+        });
+
         fragmentTransaction.commit();
         drawer.closeDrawers();
 
@@ -374,18 +429,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            setFragment(new HomeFragment());
+            setFragment(new HomeFragment(),"home");
             Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_category) {
-            setFragment(new CategoryFragment());
+            setFragment(new CategoryFragment(),"not home");
             Toast.makeText(getApplicationContext(),"category",Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_orders) {
-            setFragment(new OrderFragment());
+            setFragment(new OrderFragment(),"not home");
             Toast.makeText(getApplicationContext(),"orders",Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_wishlist) {
-            setFragment(new WishlistFragment());
+            setFragment(new WishlistFragment(),"not home");
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

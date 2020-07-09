@@ -87,8 +87,13 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
                 }
             }
-        });
 
+            @Override
+            public void onDataRemoveChange() {
+                price=0;
+                fetchUserCart();
+            }
+        });
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override

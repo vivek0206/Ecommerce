@@ -141,9 +141,32 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
 
 
-                    Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
-                            list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());                    wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
-                    databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
+                    final Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
+                            list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());
+                    databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(productNam)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Product wishlistModel = dataSnapshot.getValue(Product.class);
+                                    if(wishlistModel!=null)
+                                    {
+                                        databaseReference.child("WishList").child(user.getUid()).child(productNam).removeValue();
+                                        wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
+                                    }
+                                    else
+                                    {
+                                        databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
+                                        wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
 
                 }
             });
