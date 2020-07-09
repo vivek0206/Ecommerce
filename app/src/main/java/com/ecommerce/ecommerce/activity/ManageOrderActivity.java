@@ -61,6 +61,9 @@ public class ManageOrderActivity extends AppCompatActivity {
         loadingDialog.startLoadingDialog();
 
         fetchOrders();
+
+        
+
     }
 
     private void fetchOrders() {

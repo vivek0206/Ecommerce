@@ -7,7 +7,7 @@ import java.util.Map;
 public class Product {
 
     private String imageUrl,categoryName,productName,originalPrice,salePrice,quantity,rating,productDetail,returnable,payOnDelivery;
-    private String subCategoryName;
+    private String subCategoryName,orderStatus;
 
     public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery, String subCategoryName) {
         this.imageUrl = imageUrl;
@@ -23,24 +23,7 @@ public class Product {
         this.subCategoryName = subCategoryName;
     }
 
-    public Product() {
-    }
-
-    public Product(String productName) {
-        this.productName = productName;
-    }
-
-    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating) {
-        this.imageUrl = imageUrl;
-        this.categoryName = categoryName;
-        this.productName = productName;
-        this.originalPrice = originalPrice;
-        this.salePrice = salePrice;
-        this.quantity = quantity;
-        this.rating = rating;
-    }
-
-    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery) {
+    public Product(String imageUrl, String categoryName, String productName, String originalPrice, String salePrice, String quantity, String rating, String productDetail, String returnable, String payOnDelivery, String subCategoryName, String orderStatus) {
         this.imageUrl = imageUrl;
         this.categoryName = categoryName;
         this.productName = productName;
@@ -51,7 +34,25 @@ public class Product {
         this.productDetail = productDetail;
         this.returnable = returnable;
         this.payOnDelivery = payOnDelivery;
+        this.subCategoryName = subCategoryName;
+        this.orderStatus = orderStatus;
     }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public Product() {
+    }
+
+    public Product(String productName) {
+        this.productName = productName;
+    }
+
 
     public String getSubCategoryName() {
         return subCategoryName;

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@color/orange"
         android:id="@+id/raw_order_detail_image"></ImageView>
 
@@ -15,20 +15,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item Name"
+        android:textColor="@color/black"
         android:layout_toRightOf="@id/raw_order_detail_image"
         android:layout_marginLeft="10dp"
         android:padding="5dp"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:id="@+id/raw_order_detail_itemName"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item Price"
+        android:textColor="@color/black"
         android:layout_alignParentRight="true"
         android:padding="5dp"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:id="@+id/raw_order_detail_itemPrice"></TextView>
+
+
+
 
 
     <TextView
@@ -43,7 +48,21 @@
         android:id="@+id/raw_order_detail_cancelItem"
         android:textStyle="bold"
         android:background="@color/red"
+
         ></TextView>
+
+
+
+    <com.kofigyan.stateprogressbar.StateProgressBar
+        android:id="@+id/raw_manage_order_progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:spb_currentStateNumber="three"
+        android:layout_marginTop="5dp"
+        app:spb_stateBackgroundColor="@color/green"
+        app:spb_currentStateDescriptionColor="@color/green"
+        android:layout_below="@id/raw_order_detail_image"
+        app:spb_maxStateNumber="four"/>
 
 
 </RelativeLayout>

@@ -108,9 +108,9 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ProductDetailActivity.class);
-                    intent.putExtra("subCategory",subCategoryName);
-                    intent.putExtra("category",categoryName);
-                    intent.putExtra("product",productNam);
+                    intent.putExtra("subCategory",subCategoryName.toLowerCase().trim());
+                    intent.putExtra("category",categoryName.toLowerCase().trim());
+                    intent.putExtra("product",productNam.toLowerCase().trim());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -121,7 +121,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 public void onClick(View view) {
                     if(quantity==0)
                     {
-                        modelGlobal = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating());
+                        modelGlobal = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
+                                list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());
                         databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
                         databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
                         delete.setVisibility(View.VISIBLE);
@@ -137,8 +138,11 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
             wishlist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),list.get(getAdapterPosition()).getQuantity(),list.get(getAdapterPosition()).getRating());
-                    wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
+
+
+
+                    Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
+                            list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());                    wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
                     databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
 
                 }
@@ -148,22 +152,9 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 @Override
                 public void onClick(View view) {
                     //first fetch then increase
-                    if(modelGlobal!=null)
-                    {
-                        if(quantity>=Integer.parseInt(list.get(getAdapterPosition()).getQuantity()))
-                        {
-                            Toast.makeText(context,"No more avaiable",Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            quantity++;
-                            ProductQuantity.setText(quantity+"");
-                            modelGlobal.setQuantity(quantity+"");
-                            databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
-                            databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
 
-                        }
-                    }
+                    increaseQuantity();
+
                 }
             });
 
@@ -197,6 +188,24 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
             });
         }
 
+        private void increaseQuantity() {
+            if(modelGlobal!=null)
+            {
+                if(quantity>=Integer.parseInt(list.get(getAdapterPosition()).getQuantity()))
+                {
+                    Toast.makeText(context,"No more avaiable",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    quantity++;
+                    ProductQuantity.setText(quantity+"");
+                    modelGlobal.setQuantity(quantity+"");
+                    databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                    databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
+
+                }
+            }
+        }
 
 
         private void fetchProductDetail(String category,String product) {

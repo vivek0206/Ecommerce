@@ -81,7 +81,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
         private FirebaseUser user;
         private DatabaseReference databaseReference;
         private String categoryName,productNam,subCategory;
-        private Product modelGlobal;
+        private Product modelGlobal,modelAdmin;
         private int quantity,quantityGlobal;
         private boolean outOfStock=false,add=false;
 
@@ -106,28 +106,8 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                 public void onClick(View view) {
                     if(modelGlobal!=null)
                     {
-                        if(modelGlobal!=null)
-                        {
-                            Log.d("pop pop pop","add  "+" act");
-                            if(quantity>quantityGlobal)
-                            {
-                                Toast.makeText(context,"No more avaiable",Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-
-                                checkStock(categoryName,subCategory,productNam,String.valueOf(quantity+1));
-
-
-
-                                quantity++;
-                                productQuantity.setText(quantity+"");
-                                modelGlobal.setQuantity(quantity+"");
-                                databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
-                                databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
-
-                            }
-                        }
+                        add=true;
+                        checkStock(categoryName,subCategory,productNam,String.valueOf(quantity+1));
                     }
                 }
             });
@@ -206,7 +186,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
 
         }
 
-        private void checkStock(String category, String subCategory, String product, final String quantity)
+        private void checkStock(String category, String subCategory, String product, final String quantit)
         {
             category = category.toLowerCase().trim();
             subCategory = subCategory.toLowerCase().trim();
@@ -220,22 +200,36 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
 
                             if(model!=null)
                             {
+                                modelAdmin = dataSnapshot.getValue(Product.class);
                                 offerPrice.setText(model.getSalePrice());
                                 savingPrice.setText((Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"Off");
                                 quantityGlobal = Integer.parseInt(model.getQuantity());
-                                if(Integer.parseInt(model.getQuantity()) < Integer.parseInt(quantity))
+                                if(Integer.parseInt(model.getQuantity()) < quantity)
                                 {
                                     outOfS.setVisibility(View.VISIBLE);
                                     productAdd.setEnabled(false);
-                                    Toast.makeText(context,"Out Of Stock",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"Out Of Stockkkkkkkkkkkkkkkkkkk",Toast.LENGTH_SHORT).show();
                                     outOfStock = true;
-
+                                        if(onDataChangeListener != null){
+                                            onDataChangeListener.onDataChanged(list.size(),-1*Integer.parseInt(modelGlobal.getSalePrice()),outOfStock);
+                                            Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
+                                        }
+                                }
+                                else
+                                {
                                     if(add==true)
                                     {
                                         if(onDataChangeListener != null){
                                             onDataChangeListener.onDataChanged(list.size(),Integer.parseInt(modelGlobal.getSalePrice()),outOfStock);
                                             Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
                                         }
+
+                                        quantity = quantity+1;
+                                        productQuantity.setText(quantity+"");
+                                        modelGlobal.setQuantity(quantity+"");
+                                        databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
+                                        databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
+
                                     }
                                     else
                                     {
@@ -244,16 +238,10 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                                             Toast.makeText(context,"Quantity   ",Toast.LENGTH_SHORT).show();
                                         }
                                     }
-
-
-                                }
-                                else
-                                {
                                     outOfStock = false;
                                     productAdd.setEnabled(true);
                                 }
                             }
-
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {

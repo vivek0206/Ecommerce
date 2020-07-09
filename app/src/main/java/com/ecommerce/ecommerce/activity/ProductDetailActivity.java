@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
@@ -49,6 +50,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private List<Product> pSimList=new ArrayList<>();
     private RecyclerView simRecyclerView;
     private LoadingDialog loadingDialog;
+    private Product modelGlobal;
 
 
     @Override
@@ -81,12 +83,47 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
+                increaseQuantity();
                 startActivity(intent);
             }
         });
 
 
 
+    }
+
+    private void increaseQuantity() {
+        if(modelGlobal!=null)
+        {
+            databaseReference.child(getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Product model = dataSnapshot.getValue(Product.class);
+                            if(model!=null)
+                            {
+                            }
+                            else
+                            {
+                                if (Integer.parseInt(modelGlobal.getQuantity())>0)
+                                {
+                                    model = modelGlobal;
+                                    model.setQuantity("1");
+                                    databaseReference.child(getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(model);
+                                    databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(model);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+        }
     }
 
     private void setSimProduct() {
@@ -128,7 +165,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         Product model = dataSnapshot.getValue(Product.class);
                         if(model!=null)
                         {
-
+                            modelGlobal = dataSnapshot.getValue(Product.class);
                             Picasso.get().load(Uri.parse(model.getImageUrl())).into(productImg);
                             productName.setText(model.getProductName()+" ,"+model.getQuantity());
                             rating.setText(model.getRating());

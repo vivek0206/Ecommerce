@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.ManageOrderAdapter;
+import com.ecommerce.ecommerce.adapter.SearchAdapter;
 import com.ecommerce.ecommerce.ui.CategoryFragment;
 import com.ecommerce.ecommerce.ui.HomeFragment;
 import com.ecommerce.ecommerce.ui.OrderFragment;
@@ -31,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -41,12 +44,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +68,13 @@ public class MainActivity extends AppCompatActivity
     private int hot_number = 0;
     private TextView ui_hot = null;
     public static String userNam,userPhone,userPswd,userImageUrl;
+    private DatabaseReference databaseReference;
+
+    private List<SearchModel> searchList;
+    private SearchAdapter searchAdapter;
+    private LinearLayoutManager layoutManager2;
+    private RecyclerView searchRecyclerView;
+    int flag=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +86,23 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
+
+        layoutManager2 = new LinearLayoutManager(getApplicationContext());
+        searchList = new ArrayList<>();
+        searchRecyclerView = findViewById(R.id.mainActivity_searchList_recyclerView);
+        searchAdapter = new SearchAdapter(searchList,getBaseContext());
+        searchRecyclerView.setLayoutManager(layoutManager2);
+        searchRecyclerView.setHasFixedSize(true);
+
         auth = FirebaseAuth.getInstance();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle.syncState();
         OfflineCapabilities(getApplicationContext());
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -212,34 +237,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    @Override
-    public void onBackPressed() {
-            super.onBackPressed();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        final MenuItem item = menu.findItem(R.id.action_cart);
-        MenuItemCompat.setActionView(item, R.layout.action_bar_cart_notification);
-        RelativeLayout notifCount = (RelativeLayout)item.getActionView();
-        TextView tv = (TextView) notifCount.findViewById(R.id.cart_no);
-        setupBadge(tv);
-        View actionView = item.getActionView();
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(item);
-            }
-        });
-//        tv.setText("12");
-
-
-        return true;
-    }
     private void setupBadge(final TextView tv) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("");
@@ -260,6 +257,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
@@ -276,29 +281,82 @@ public class MainActivity extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        MenuItem search = menu.findItem(R.id.action_search);
+        final MenuItem search = menu.findItem(R.id.action_search);
         MenuItem cart = menu.findItem(R.id.action_cart);
 
-        SearchView searchView = (SearchView)search.getActionView();
+        SearchView searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+                searchRecyclerView.setVisibility(View.VISIBLE);
 
+                flag=1;
+                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
+                flag=1;
+                searchRecyclerView.setVisibility(View.VISIBLE);
+
+                searchList.clear();
+                Query firebaseQuery = databaseReference.child(getResources().getString(R.string.Search)).orderByKey().startAt(newText.toLowerCase().trim()).endAt(newText.toLowerCase().trim()+"\uf8ff");
+                firebaseQuery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds:dataSnapshot.getChildren())
+                        {
+
+                            SearchModel model = ds.getValue(SearchModel.class);
+                            searchList.add(model);
+                        }
+                        searchAdapter.setData(searchList);
+                        searchRecyclerView.setLayoutManager(layoutManager2);
+                        searchRecyclerView.setAdapter(searchAdapter);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_SHORT).show();
+
 
                 return false;
             }
         });
 
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchRecyclerView.setVisibility(View.GONE);
+                return true;
+            }
+        });
+
+
 
         return true;
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(flag==1)
+        {
+            searchList.clear();
+            flag=2;
+            searchRecyclerView.setVisibility(View.GONE);
+        }
+        else
+        {
+            super.onBackPressed();
+
+        }
     }
 
     public void setFragment(Fragment fragment)

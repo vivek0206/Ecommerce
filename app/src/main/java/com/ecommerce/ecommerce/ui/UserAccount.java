@@ -50,12 +50,13 @@ public class UserAccount extends Fragment {
             userPhone.setText(phone);
         }
 
-        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Your Orders",0));
-        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Your Cart",6));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_order,null),"Your Orders",0));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_cart_red,null),"Your Cart",6));
         list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Your Wishlist",1));
-        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Delivery Address",2));
-        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Personal Information",3));
-        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Change Password",4));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_delivery,null),"Delivery Address",2));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_person,null),"Personal Information",3));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_invite,null),"Invite on Super Local Baazar",7));
+        list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_password,null),"Change Password",4));
         list.add(new AccountModel(getResources().getDrawable(R.drawable.ic_wishlist,null),"Sign Out",5));
 
         adapter.setData(list);

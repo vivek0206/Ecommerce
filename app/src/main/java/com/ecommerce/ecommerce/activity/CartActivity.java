@@ -45,7 +45,7 @@ public class CartActivity extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private String addressText1,addressText2,userName="Tanish";
-    private int price=0;
+    private int price=0,itemNo=0;
     private LoadingDialog loadingDialog;
     public static boolean outOfStock=false;
 
@@ -121,24 +121,33 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void checkStock(final Product productModel)
+
     {
         String category = productModel.getCategoryName().toLowerCase().trim();
         String subCategory = productModel.getSubCategoryName().toLowerCase().trim();
         String product = productModel.getProductName().toLowerCase().trim();
         final String quantity = productModel.getQuantity();
 
-        databaseReference.child(getResources().getString(R.string.Admin)).child(category).child(subCategory).child(product)
+        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category).child(subCategory).child(product)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Log.d("pop pop pop ",dataSnapshot.getValue()+"");
                         Product model = dataSnapshot.getValue(Product.class);
-                        if(Integer.parseInt(model.getQuantity()) < Integer.parseInt(quantity))
+                        if(model!=null)
                         {
-                            Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            price+= Integer.parseInt(model.getQuantity())*Integer.parseInt(model.getSalePrice());
+                            if(Integer.parseInt(model.getQuantity()) < Integer.parseInt(quantity))
+                            {
+                                Toast.makeText(getApplicationContext(),"Some Items are out of Stock",Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                price+= Integer.parseInt(productModel.getQuantity())*Integer.parseInt(productModel.getSalePrice());
+                                itemNo++;
+                                itemPrice.setText(itemNo+"");
+                                totalAmount.setText(price+"");
+
+                            }
                         }
                     }
                     @Override
@@ -148,7 +157,6 @@ public class CartActivity extends AppCompatActivity {
                 });
 
     }
-
 
     private void fetchUserInfo() {
         databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid())
@@ -177,6 +185,9 @@ public class CartActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        addressText1="";
+                        addressText2="";
+
                         UserInfo model = dataSnapshot.getValue(UserInfo.class);
                         if(model!=null)
                         {
@@ -216,7 +227,6 @@ public class CartActivity extends AppCompatActivity {
                 }
                 loadingDialog.DismissDialog();
                 itemPrice.setText(price+"");
-                totalAmount.setText(price+"");
                 adapter.setData(list);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);

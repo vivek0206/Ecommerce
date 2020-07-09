@@ -10,14 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="2dp"
-        android:textSize="16dp"
+        android:textSize="12dp"
+        android:textColor="@color/black"
         android:text="Order Id"
         android:id="@+id/raw_manage_order_orderId"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="14dp"
+        android:textColor="@color/black"
         android:text="Order Date"
         android:padding="2dp"
         android:layout_below="@id/raw_manage_order_orderId"
@@ -26,7 +28,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="14dp"
+        android:textColor="@color/black"
         android:text="Expected Delivery Date"
         android:padding="2dp"
         android:layout_below="@id/raw_manage_order_orderDate"
@@ -37,20 +40,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Price"
+        android:textColor="@color/black"
         android:padding="2dp"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:id="@+id/raw_manage_order_orderPrice"
         android:layout_alignParentRight="true"></TextView>
 
-    <com.kofigyan.stateprogressbar.StateProgressBar
-        android:id="@+id/raw_manage_order_progress_bar_id"
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:spb_currentStateNumber="three"
-        app:spb_stateBackgroundColor="@color/green"
-        app:spb_currentStateDescriptionColor="@color/green"
-        app:spb_maxStateNumber="four"
-        android:layout_below="@id/raw_manage_order_DeliveryDate"/>
+        android:id="@+id/raw_manage_order_recyclerView"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/raw_manage_order_DeliveryDate"></androidx.recyclerview.widget.RecyclerView>
+
+
 
 
 </RelativeLayout>

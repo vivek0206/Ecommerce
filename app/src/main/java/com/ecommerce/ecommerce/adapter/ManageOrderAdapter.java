@@ -16,6 +16,7 @@ import com.ecommerce.ecommerce.Models.OrderInfoModel;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.OrderDetailActivity;
+import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +41,10 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
     private List<UserOrderInfo> list;
     private Context context;
 
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    List<Product> nestedList = new ArrayList<>();
+
     public ManageOrderAdapter(List<UserOrderInfo> list, Context context) {
         this.list = list;
         this.context = context;
@@ -53,7 +58,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ManageOrderItemView holder, int position) {
+    public void onBindViewHolder(@NonNull final ManageOrderItemView holder, int position) {
 
         UserOrderInfo orderModel = list.get(position);
         holder.orderId.setText(orderModel.getOrderId());
@@ -61,8 +66,34 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         holder.totalPrice.setText(orderModel.getTotalPrice());
         holder.orderIdString = orderModel.getOrderId();
         holder.orderStatus = orderModel.getStatus();
-        Log.d("pop pop pop ",orderModel.getStatus()+" oo ");
 
+        final NestedManageOrderAdapter adapter = new NestedManageOrderAdapter(nestedList,context,holder.orderIdString);
+        holder.recyclerView.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        nestedList.clear();
+
+        databaseReference.child(context.getResources().getString(R.string.UserOrder)).child(user.getUid()).child(holder.orderIdString)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds: dataSnapshot.getChildren())
+                        {
+                            Product model = ds.getValue(Product.class);
+                            if(model!=null)
+                            {
+                                nestedList.add(model);
+                            }
+                        }
+                        adapter.setData(nestedList);
+                        holder.recyclerView.setLayoutManager(layoutManager);
+                        holder.recyclerView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public void setData(List<UserOrderInfo> list)
@@ -78,54 +109,16 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
     public class ManageOrderItemView extends RecyclerView.ViewHolder{
 
         private TextView orderId,orderDate,totalPrice,deliveryDate;
-        private FirebaseUser user;
-        private DatabaseReference databaseReference;
+        private RecyclerView recyclerView;
         private String orderIdString,orderStatus="2";
-        private StateProgressBar stateProgressBar;
-        private String[] descriptionData = {"Confirmed", "Packed", "Out For Delivery", "Delivered"};
-
-
 
 
         public ManageOrderItemView(@NonNull View itemView) {
             super(itemView);
 
             init(itemView);
-            stateProgressBar.setStateDescriptionData(descriptionData);
-            Log.d("pop pop",orderStatus+" pop pop ");
-            if(!orderStatus.isEmpty() &&orderStatus.equals("1"))
-            {
-
-                stateProgressBar.setCurrentStateNumber(ONE);
-                stateProgressBar.enableAnimationToCurrentState(true);
-                stateProgressBar.checkStateCompleted(true);
 
 
-            }
-            else if(!orderStatus.isEmpty() &&orderStatus.equals("2"))
-            {
-                stateProgressBar.setCurrentStateNumber(TWO);
-                stateProgressBar.enableAnimationToCurrentState(true);
-                stateProgressBar.checkStateCompleted(true);
-
-
-            }
-            else if(!orderStatus.isEmpty() &&orderStatus.equals("3"))
-            {
-                stateProgressBar.setCurrentStateNumber(THREE);
-                stateProgressBar.enableAnimationToCurrentState(true);
-                stateProgressBar.checkStateCompleted(true);
-
-
-            }
-            else if(!orderStatus.isEmpty() &&orderStatus.equals("4"))
-            {
-                stateProgressBar.setCurrentStateNumber(FOUR);
-                stateProgressBar.enableAnimationToCurrentState(true);
-                stateProgressBar.setAllStatesCompleted(true);
-                stateProgressBar.checkStateCompleted(true);
-
-            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,15 +135,17 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
 
 
 
-        private void init(View itemView) {
 
+
+        private void init(View itemView) {
             orderId=itemView.findViewById(R.id.raw_manage_order_orderId);
             orderDate=itemView.findViewById(R.id.raw_manage_order_orderDate);
             totalPrice=itemView.findViewById(R.id.raw_manage_order_orderPrice);
-            stateProgressBar = itemView.findViewById(R.id.raw_manage_order_progress_bar_id);
             deliveryDate = itemView.findViewById(R.id.raw_manage_order_DeliveryDate);
-            user = FirebaseAuth.getInstance().getCurrentUser();
-            databaseReference = FirebaseDatabase.getInstance().getReference();
+
+            recyclerView = itemView.findViewById(R.id.raw_manage_order_recyclerView);
+
+
 
         }
 

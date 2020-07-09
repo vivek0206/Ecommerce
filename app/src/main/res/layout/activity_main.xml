@@ -18,12 +18,18 @@
             android:id="@+id/include"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/include"
+            android:id="@+id/mainActivity_searchList_recyclerView"></androidx.recyclerview.widget.RecyclerView>
+
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/drawer_layout"
-            android:layout_below="@id/include">
+            android:layout_below="@id/mainActivity_searchList_recyclerView">
         </FrameLayout>
 
     </RelativeLayout>

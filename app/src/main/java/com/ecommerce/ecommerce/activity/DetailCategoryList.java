@@ -130,6 +130,8 @@ public class DetailCategoryList extends AppCompatActivity {
 
     }
 
+
+
     private void fetchAllCategory(String category,String subCategory) {
         Log.d("Tag","hereeee");
         databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category).child(subCategory)
