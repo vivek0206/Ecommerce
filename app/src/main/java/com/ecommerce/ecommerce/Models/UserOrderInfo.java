@@ -7,8 +7,30 @@ public class UserOrderInfo {
     public UserOrderInfo() {
     }
 
-    private String orderId,orderDate,deliveryDate,totalPrice,status,paymentStatus,paymentTransactionId,shippingCharges,address1,address2;
+    private String orderId,orderDate,deliveryDate,totalPrice,status,paymentStatus,paymentTransactionId,shippingCharges,address1,address2,delivery;
 
+
+    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId, String shippingCharges, String address1, String address2, String delivery) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.deliveryDate = deliveryDate;
+        this.totalPrice = totalPrice;
+        this.status = status;
+        this.paymentStatus = paymentStatus;
+        this.paymentTransactionId = paymentTransactionId;
+        this.shippingCharges = shippingCharges;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.delivery = delivery;
+    }
+
+    public String getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(String delivery) {
+        this.delivery = delivery;
+    }
 
     public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId, String shippingCharges, String address1, String address2) {
         this.orderId = orderId;

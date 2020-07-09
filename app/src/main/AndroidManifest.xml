@@ -22,7 +22,6 @@
         <activity android:name=".activity.AddProductVariation"></activity>
         <activity android:name=".activity.OrderIndividualActivity" />
         <activity android:name=".activity.AddImage"></activity>
-        <activity android:name=".activity.OrderIndividualActivity" />
         <activity
             android:name=".activity.SplashScreenActivity"
             android:screenOrientation="portrait">

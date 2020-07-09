@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.AddImage;
+import com.ecommerce.ecommerce.activity.AddProductVariation;
 import com.ecommerce.ecommerce.activity.AddSubCat;
 import com.ecommerce.ecommerce.activity.DetailCategoryList;
 import com.ecommerce.ecommerce.activity.SignUp;
@@ -54,7 +55,7 @@ public class CategoryFragment extends Fragment {
         randome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), SignUp.class);
+                Intent intent = new Intent(getContext(), AddProductVariation.class);
                 startActivity(intent);
             }
         });

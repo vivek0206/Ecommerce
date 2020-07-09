@@ -59,6 +59,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
     @Override
     public void onBindViewHolder(@NonNull UserCartView holder, int position) {
         ProductVariation model = list.get(position);
+        Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.border_square_red).into(holder.productImage);
         holder.modelGlobal = list.get(position);
         holder.productName.setText(model.getProductName());
         holder.originalPrice.setText("\u20B9"+model.getProductActualPrice());
@@ -208,6 +209,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                 }
                 else{
                     //again load the list
+
                 }
 
         }

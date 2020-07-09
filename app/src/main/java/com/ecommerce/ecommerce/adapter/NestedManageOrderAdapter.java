@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.OrderIndividualActivity;
 import com.ecommerce.ecommerce.object.Product;
@@ -24,11 +25,11 @@ import java.util.List;
 
 public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageOrderAdapter.NestedView> {
 
-    private List<Product> list;
+    private List<ProductVariation> list;
     private Context context;
     private String orderId;
 
-    public NestedManageOrderAdapter(List<Product> list, Context context, String orderId) {
+    public NestedManageOrderAdapter(List<ProductVariation> list, Context context, String orderId) {
         this.list = list;
         this.context = context;
         this.orderId = orderId;
@@ -43,16 +44,17 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
 
     @Override
     public void onBindViewHolder(@NonNull NestedView holder, int position) {
-        Product item = list.get(position);
+        ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
         holder.itemName.setText(item.getProductName());
-        holder.itemPrice.setText(item.getSalePrice());
-        holder.orderStatus = item.getOrderStatus();
+        holder.itemPrice.setText(item.getProductActualPrice()+"");
+        holder.orderStatus = "2";
         holder.productName = item.getProductName().toLowerCase().trim();
+        holder.proVar=item.getProductVariationName().toLowerCase().trim();
         Log.d("pop pop oop ","yeep");
     }
 
-    public void setData(List<Product> list){this.list = list;}
+    public void setData(List<ProductVariation> list){this.list = list;}
 
 
     @Override
@@ -65,7 +67,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
         private ImageView img;
         private TextView itemName,itemPrice,cancel;
         private CardView card;
-        private String orderStatus="2",productName;
+        private String orderStatus="2",productName,proVar;
 
         public NestedView(@NonNull View itemView) {
             super(itemView);
@@ -77,7 +79,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
                 public void onClick(View view) {
                     Intent intent = new Intent(context, OrderIndividualActivity.class);
                     intent.putExtra("orderId",orderId);
-                    intent.putExtra("productName",productName);
+                    intent.putExtra("productName",productName+proVar);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

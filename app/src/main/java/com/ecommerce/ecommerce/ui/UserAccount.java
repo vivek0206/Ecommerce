@@ -78,7 +78,7 @@ public class UserAccount extends Fragment {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Product model, int type) {
+            public void onItemClick(ProductVariation model, int type) {
 
             }
 

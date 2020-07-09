@@ -3,7 +3,27 @@ package com.ecommerce.ecommerce.Models;
 public class ProductVariation {
     private String categoryName,subCategoryName,productName,productVariationName;
     private int quantity,productSalePrice,ProductActualPrice;
-    private String imageUrl;
+    private String imageUrl,orderStatus;
+
+    public ProductVariation(String categoryName, String subCategoryName, String productName, String productVariationName, int quantity, int productSalePrice, int productActualPrice, String imageUrl, String orderStatus) {
+        this.categoryName = categoryName;
+        this.subCategoryName = subCategoryName;
+        this.productName = productName;
+        this.productVariationName = productVariationName;
+        this.quantity = quantity;
+        this.productSalePrice = productSalePrice;
+        ProductActualPrice = productActualPrice;
+        this.imageUrl = imageUrl;
+        this.orderStatus = orderStatus;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public ProductVariation(String categoryName, String subCategoryName, String productName, String productVariationName, int quantity, int productSalePrice, int productActualPrice, String imageUrl) {
         this.categoryName = categoryName;

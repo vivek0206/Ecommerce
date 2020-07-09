@@ -49,7 +49,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private List<Product> list;
+    private List<ProductVariation> list;
     private LinearLayoutManager layoutManager;
     private OrderDetailAdapter adapter;
     private String orderId;
@@ -82,7 +82,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Product model, int type) {
+            public void onItemClick(ProductVariation model, int type) {
                 OnCancel(model);
             }
 
@@ -100,7 +100,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     }
 
-    private void OnCancel(final Product model) {
+    private void OnCancel(final ProductVariation model) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -253,7 +253,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
                             Log.e("pop oop::",ds.getValue()+"\n");
-                            Product model = ds.getValue(Product.class);
+                            ProductVariation model = ds.getValue(ProductVariation.class);
                             list.add(0,model);
                         }
                         loadingDialog.DismissDialog();

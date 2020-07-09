@@ -97,7 +97,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         quantityAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Product model, int type) {
+            public void onItemClick(ProductVariation model, int type) {
 
             }
 
@@ -125,12 +125,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         buy_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
                 increaseQuantity();
-                startActivity(intent);
             }
         });
-
 
 
     }
@@ -176,6 +173,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
                             }
+                            Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override

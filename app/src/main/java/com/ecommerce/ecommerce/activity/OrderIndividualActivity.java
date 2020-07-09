@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
@@ -54,19 +55,16 @@ public class OrderIndividualActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Product model = dataSnapshot.getValue(Product.class);
+                        ProductVariation model = dataSnapshot.getValue(ProductVariation.class);
                         if(model!=null)
                         {
                             itemName.setText(model.getProductName());
-                            itemPrice.setText(model.getSalePrice());
+                            itemPrice.setText(model.getProductSalePrice()+"");
                             Picasso.get().load(Uri.parse(model.getImageUrl())).into(itemImage);
                         }
                     }
-
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
                 });
     }
 

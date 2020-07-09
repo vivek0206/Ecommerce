@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
@@ -22,10 +23,10 @@ import java.util.List;
 
 public class OrderConfirmAdapter extends RecyclerView.Adapter<OrderConfirmAdapter.OrderItemView>{
 
-    private List<Product> list;
+    private List<ProductVariation> list;
     private Context context;
 
-    public OrderConfirmAdapter(List<Product> list, Context context) {
+    public OrderConfirmAdapter(List<ProductVariation> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -40,15 +41,15 @@ public class OrderConfirmAdapter extends RecyclerView.Adapter<OrderConfirmAdapte
     @Override
     public void onBindViewHolder(@NonNull OrderItemView holder, int position) {
 
-        Product item = list.get(position);
+        ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
         holder.itemName.setText(item.getProductName());
-        holder.itemPrice.setText(item.getSalePrice());
+        holder.itemPrice.setText("\u20B9"+item.getProductSalePrice());
 
 
     }
 
-    public void setData(List<Product> list){this.list = list;}
+    public void setData(List<ProductVariation> list){this.list = list;}
 
     @Override
     public int getItemCount() {

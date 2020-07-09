@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +35,7 @@ import static com.kofigyan.stateprogressbar.StateProgressBar.StateNumber.TWO;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.OrderDetailView> {
 
-    private List<Product> list;
+    private List<ProductVariation> list;
     private Context context;
     private View customView;
     LayoutInflater inflater;
@@ -45,7 +46,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         this.onItemClickListener = onItemClickListener;
     }
 
-    public OrderDetailAdapter(List<Product> list, Context context) {
+    public OrderDetailAdapter(List<ProductVariation> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -61,17 +62,17 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull OrderDetailView holder, int position) {
-        Product item = list.get(position);
+        ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
         holder.itemName.setText(item.getProductName());
-        holder.itemPrice.setText(item.getSalePrice());
+        holder.itemPrice.setText(item.getProductActualPrice()+"");
         holder.productName = item.getProductName().toLowerCase().trim();
     }
 
     @Override
     public int getItemCount() { return list.size(); }
 
-    public void setData(List<Product> list){this.list = list;}
+    public void setData(List<ProductVariation> list){this.list = list;}
 
     public class OrderDetailView extends RecyclerView.ViewHolder{
 

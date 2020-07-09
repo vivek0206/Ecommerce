@@ -24,6 +24,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.ProductVariation;
+import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
@@ -41,8 +43,11 @@ import com.razorpay.PaymentResultListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
@@ -57,7 +62,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     private String orderId,paymentStatus="0",paymentTransactionId="NA";
     private LoadingDialog loadingDialog;
     private RadioGroup paymentGroup,deliveryGroup;
-
+    private String address1,address2;
 
     private RequestQueue mRequestQueue;
     private String URL="https://fcm.googleapis.com/fcm/send";
@@ -145,18 +150,26 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 if(id==R.id.payment_fast)
                 {
 
+                    if(Integer.parseInt(itemPrice)<300)
+                    {
 
-                    shippingPrice = "20";
-                    shippingFee.setText(shippingPrice);
-
-                    totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
-                    totalAmount.setText(totalPrice);
+                        shippingPrice = "20";
+                        shippingFee.setText(shippingPrice);
+                        totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
+                        totalAmount.setText(totalPrice);
+                        normalDelivery=0;
+                        Toast.makeText(getApplicationContext(),"onlinede1",Toast.LENGTH_SHORT).show();
+                    }
                     normalDelivery=0;
-                    Toast.makeText(getApplicationContext(),"onlinede1",Toast.LENGTH_SHORT).show();
+
 
                 }
                 else if(id==R.id.payment_normal)
                 {
+                    if(Integer.parseInt(itemPrice)>300)
+                    {
+                        normalDelivery=0;
+                    }
                     shippingPrice = "0";
                     shippingFee.setText(shippingPrice);
                     totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
@@ -166,7 +179,11 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 }
             }
         });
+
+
+
     }
+
 
     private void sendNotificationAdmin(String message) {
 
@@ -216,27 +233,20 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     }
 
 
-    private void UpdateQuantity(String category, String subCategory, String productName, final String quantity)
+    private void UpdateQuantity(String productName,String proVarName ,final int quantity)
     {
-        category = category.toLowerCase().trim();
-        subCategory = subCategory.toLowerCase().trim();
         productName = productName.toLowerCase().trim();
+        proVarName = proVarName.toLowerCase().trim();
 
-        final DatabaseReference db=databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category).child(subCategory).child(productName);
+        final DatabaseReference db=databaseReference.child(getResources().getString(R.string.ProductVariation)).child(productName).child(proVarName);
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Product model = dataSnapshot.getValue(Product.class);
+                ProductVariation model = dataSnapshot.getValue(ProductVariation.class);
                 if(model!=null)
                 {
-                    model.setQuantity((Integer.parseInt(model.getQuantity())-Integer.parseInt(quantity))+"");
-                    if(model.getQuantity().equals("0"))
-                    {
-                        db.removeValue();
-                    }
-                    else {
-                        db.setValue(model);
-                    }
+                    model.setQuantity(model.getQuantity()-quantity);
+                    db.setValue(model);
                 }
             }
 
@@ -312,19 +322,28 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds:dataSnapshot.getChildren())
                 {
-                    Product model = ds.getValue(Product.class);
-                    if(model!=null)
+
+                    for (DataSnapshot ds2:ds.getChildren())
                     {
-                        String productName = model.getProductName();
-                        databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
-                        UpdateQuantity(model.getCategoryName(),model.getSubCategoryName(),model.getProductName(),model.getQuantity());
-                        //TODO: For Admin also
+                        ProductVariation model = ds2.getValue(ProductVariation.class);
+                        if(model!=null && model.getQuantity()>0)
+                        {
+                            String productName = model.getProductVariationName();
+                            String pp = model.getProductName().toLowerCase().trim();
+                            model.setOrderStatus("1");
+                            databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(pp+productName.toLowerCase().trim()).setValue(model);
+                                UpdateQuantity(model.getProductName(),model.getProductVariationName(),model.getQuantity());
+                            //TODO: For Admin also
 
-
+                        }
                     }
                 }
+                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-                UserOrderInfo model  = new UserOrderInfo(orderId,"Order Date","Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId);
+
+
+
+                UserOrderInfo model  = new UserOrderInfo(orderId,date,"Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId,shippingPrice,address1,address2,normalDelivery+"");
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
                 sendNotification("Your Order has been Placed with orderId:"+orderId);
@@ -341,7 +360,32 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             }
         });
 
+        fetchUserAddress();
 
+
+    }
+
+    private void fetchUserAddress() {
+        databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                address1="";
+                address2="";
+
+                UserInfo model = dataSnapshot.getValue(UserInfo.class);
+                if(model!=null)
+                {
+                    address1+=model.getDeliveryName()+", "+model.getDeliveryPhone();
+                    address2+=model.getDeliveryFlat()+", "+model.getDeliveryArea()+", "+model.getDeliveryLandmark()+","+model.getDeliveryCity()+","+model.getDeliveryState()+","+model.getDeliveryPinCode();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void ChooseDeliveryType(View view)

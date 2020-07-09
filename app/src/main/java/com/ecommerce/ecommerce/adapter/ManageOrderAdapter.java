@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.OrderDetailActivity;
@@ -65,7 +66,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         holder.totalPrice.setText(orderModel.getTotalPrice());
         holder.orderIdString = orderModel.getOrderId();
         holder.orderStatus = orderModel.getStatus();
-        final List<Product> nestedList = new ArrayList<>();
+        final List<ProductVariation> nestedList = new ArrayList<>();
 
         final NestedManageOrderAdapter adapter = new NestedManageOrderAdapter(nestedList,context,holder.orderIdString);
         holder.recyclerView.setHasFixedSize(true);
@@ -79,7 +80,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
                         nestedList.clear();
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
-                            Product model = ds.getValue(Product.class);
+                            ProductVariation model = ds.getValue(ProductVariation.class);
                             if(model!=null)
                             {
                                 nestedList.add(0,model);
