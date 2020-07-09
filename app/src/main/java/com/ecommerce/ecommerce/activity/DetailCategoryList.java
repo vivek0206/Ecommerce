@@ -26,6 +26,7 @@ import com.ecommerce.ecommerce.adapter.SearchAdapter;
 import com.ecommerce.ecommerce.object.Product;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -60,6 +61,7 @@ public class DetailCategoryList extends AppCompatActivity {
     private SearchAdapter searchAdapter;
     private LinearLayoutManager layoutManager2;
     private RecyclerView searchRecyclerView;
+    private FloatingActionButton floatingBtn;
     int flag=2;
 
     @Override
@@ -98,12 +100,18 @@ public class DetailCategoryList extends AppCompatActivity {
                 // React to dragging events
             }
         });
-        sortBtn.setOnClickListener(new View.OnClickListener() {
+        floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
+//        sortBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            }
+//        });
         LowToHighBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -334,7 +342,9 @@ public class DetailCategoryList extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.detail_category_list_recyclerView);
         bottomSheet=findViewById(R.id.bottom_sheet);
-        sortBtn= findViewById(R.id.sort_btn);
+//        sortBtn= findViewById(R.id.sort_btn);
+        floatingBtn = findViewById(R.id.floating_btn);
+
         LowToHighBtn=findViewById(R.id.low2high_btn);
         HighToLowBtn=findViewById(R.id.high2low_btn);
 

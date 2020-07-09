@@ -48,7 +48,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
         final SubCategory data=productList.get(i);
         viewHolder.title.setText(data.getSubCategoryName());
-        Picasso.get().load(data.getImageUrl()).into(viewHolder.image);
+        Picasso.get().load(data.getImageUrl()).placeholder(R.drawable.placeholder).into(viewHolder.image);
         Log.d(TAG, "Value is: "+data.getCategoryName());
         Log.d(TAG, "Value is: "+data.getSubCategoryName());
         viewHolder.rviewGroup.setOnClickListener(new View.OnClickListener() {

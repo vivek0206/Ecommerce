@@ -64,12 +64,24 @@
             android:id="@+id/detail_category_list_recyclerView">
 
         </androidx.recyclerview.widget.RecyclerView>
-        <Button
-            android:layout_width="match_parent"
+<!--        <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Sort"-->
+<!--            android:id="@+id/sort_btn"-->
+<!--            android:layout_alignParentBottom="true"/>-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort"
-            android:id="@+id/sort_btn"
-            android:layout_alignParentBottom="true"/>
+            android:layout_gravity="end|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/outline_sort_24"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:tint="@android:color/white"
+            android:layout_margin="16dp" />
 
     </RelativeLayout>
     <LinearLayout
@@ -116,6 +128,7 @@
             android:textAllCaps="false"
             android:background="?android:attr/selectableItemBackground"
             android:id="@+id/high2low_btn"/>
+
 
     </LinearLayout>
 

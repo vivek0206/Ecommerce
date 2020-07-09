@@ -166,7 +166,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         if(model!=null)
                         {
                             modelGlobal = dataSnapshot.getValue(Product.class);
-                            Picasso.get().load(Uri.parse(model.getImageUrl())).into(productImg);
+                            Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.placeholder).into(productImg);
                             productName.setText(model.getProductName()+" ,"+model.getQuantity());
                             rating.setText(model.getRating());
                             offerPrice.setText("\u20B9"+model.getSalePrice());

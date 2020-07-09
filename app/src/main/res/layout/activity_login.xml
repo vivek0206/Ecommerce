@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="20sp"
     tools:context=".activity.Login">
 
 
@@ -12,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Welcome"
-        android:layout_margin="10dp"
-        android:textSize="26dp"
+        android:layout_margin="10sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="#000000">
     </TextView>
@@ -25,9 +27,9 @@
         android:layout_height="wrap_content"
         android:hint="Phone No"
         android:id="@+id/login_phone"
-        android:textSize="16dp"
-        android:layout_margin="10dp"
-        android:textColor="@color/black"></EditText>
+        android:textSize="16sp"
+        android:layout_marginTop="10sp"
+        android:textColor="@color/black"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -43,8 +45,8 @@
             android:textSize="16dp"
             android:id="@+id/login_pswd"
             android:inputType="textPassword"
-            android:layout_margin="10dp"
-            android:textColor="@color/black"></EditText>
+            android:layout_marginTop="10sp"
+            android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -56,13 +58,14 @@
         android:textSize="16dp"
         android:textColor="@color/white"
         android:id="@+id/login_btn"
-        android:layout_margin="10dp"
+       android:layout_marginTop="10sp"
         android:background="@color/orange"
-        ></Button>
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
         android:text="Reset Password">
     </TextView>
 

@@ -13,9 +13,10 @@
             android:id="@+id/category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edible Oil Ghee"
+            android:text="Caterogy Title"
             android:textSize="18dp"
             android:padding="8sp"
+            android:layout_marginStart="10sp"
             android:layout_centerVertical="true"
             android:textColor="@android:color/black"/>
         <Button
@@ -40,6 +41,7 @@
         android:id="@+id/home_sub_recyclerview"
         android:layout_width="match_parent"
         android:elevation="2dp"
+        android:paddingLeft="10sp"
         android:layout_height="wrap_content"/>
 
 

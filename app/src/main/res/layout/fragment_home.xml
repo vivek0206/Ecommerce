@@ -16,8 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-
-
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,12 +39,12 @@
                     />
             </RelativeLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id = "@+id/recycler_view1"
-                    android:layout_width = "match_parent"
-                    android:layout_height = "match_parent"
-                    android:background="#F0F3F4"
-                    android:scrollbars = "vertical" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id = "@+id/recycler_view1"
+                android:layout_width = "match_parent"
+                android:layout_height = "match_parent"
+                android:background="#F0F3F4"
+                android:scrollbars = "vertical" />
 
         </LinearLayout>
     </ScrollView>

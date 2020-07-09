@@ -40,6 +40,7 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:cardElevation="0sp"
                         >
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -192,19 +193,40 @@
                                 android:layout_marginStart="10sp"
                                 android:orientation="horizontal">
 
-                                <ImageView
-                                    android:layout_width="70sp"
-                                    android:layout_height="80sp"
-                                    android:layout_margin="5dp"
-                                    android:id="@+id/product_detail_payOnDelivery"
-                                    android:src="@drawable/pay_on_delivary"/>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="50sp"
+                                        android:layout_height="70sp"
+                                        android:layout_margin="5sp"
+                                        android:id="@+id/product_detail_payOnDelivery"
+                                        android:src="@drawable/pay_on_delivary"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#1F1F20"
+                                        android:text="Cash on Delivary"/>
+                                </LinearLayout>
 
-                                <ImageView
-                                    android:layout_width="50sp"
-                                    android:layout_height="70sp"
-                                    android:layout_margin="5dp"
-                                    android:id="@+id/product_detail_non_returnable"
-                                    android:src="@drawable/non_returnable"/>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10sp"
+                                    android:orientation="vertical">
+                                    <ImageView
+                                        android:layout_width="50sp"
+                                        android:layout_height="70sp"
+                                        android:layout_margin="5dp"
+                                        android:id="@+id/product_detail_non_returnable"
+                                        android:src="@drawable/non_returnable"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#1F1F20"
+                                        android:text="Non-Returnable"/>
+                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -225,12 +247,15 @@
                                 android:text="Product Details"
                                 android:textColor="@color/black"
                                 android:layout_marginStart="10sp"
+                                android:layout_marginTop="20sp"
                                 android:textSize="14dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textMultiLine"
                                 android:layout_marginStart="15sp"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginBottom="20sp"
                                 android:textSize="12dp"
                                 android:id="@+id/product_detail_product_details"
                                 android:text="Product Detail">
@@ -256,6 +281,7 @@
                                 android:text="Similar Product"
                                 android:textSize="20sp"
                                 android:padding="10sp"
+                                android:layout_marginStart="10sp"
                                 android:textColor="@android:color/black"/>
                             <View
                                 android:layout_below="@+id/viewAll"

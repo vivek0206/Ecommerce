@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.ecommerce.ecommerce.Tool.ToolFunctions.CapStringFirstLetter;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
@@ -51,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int i) {
         final String catTitle=catList.get(i);
-        viewHolder.title.setText(catTitle);
+        viewHolder.title.setText(CapStringFirstLetter(catTitle));
         viewHolder.subCatList.clear();
         getSubData(viewHolder,catTitle);
         viewHolder.viewAll.setOnClickListener(new View.OnClickListener() {
