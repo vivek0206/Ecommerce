@@ -21,6 +21,7 @@ import com.ecommerce.ecommerce.adapter.CategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SubCategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SlidingImage_Adapter;
 import com.ecommerce.ecommerce.object.Product;
+import com.ecommerce.ecommerce.object.SubCategory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
     private Timer timer;
     private int image_pos=0;
     private List<Integer> imageList=new ArrayList<>();
+    private List<SubCategory> imageUrlList=new ArrayList<>();
     private List<String> catList=new ArrayList<>();
     private LinearLayout dotLayout;
     private int dot_pos=0;
@@ -65,25 +67,15 @@ public class HomeFragment extends Fragment {
 
         mViewPager = view.findViewById(R.id.imageslider_pager);
         dotLayout=view.findViewById(R.id.dotContainer);
-        prepareSlide();
-        SlidingImage_Adapter adapterView = new SlidingImage_Adapter(imageList,view.getContext());
-        mViewPager.setAdapter(adapterView);
-        preDot(image_pos);
-        createSlider();
+        getSlideData();
+//        prepareSlide();
+
         getCatData(view);
 
 
 
         mRecyclerView1=view.findViewById(R.id.recycler_view1);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(),1);
-//        mRecyclerView1.setLayoutManager(gridLayoutManager);
-
-//        subCategoryAdpater =new SubCategoryAdapter(view.getContext(),pList1);
-//        mRecyclerView1.setAdapter(homeCategory_adpater);
-//        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
-//        linearLayoutManager.setOrientation();
         mRecyclerView1.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        Log.d(TAG, "Value is:starttt ");
 
 
 
@@ -95,7 +87,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                if(image_pos>imageList.size())
+                if(image_pos>=imageUrlList.size())
                     image_pos=0;
                 preDot(image_pos);
 
@@ -109,21 +101,47 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-    private void prepareSlide(){
-//        private int[] sliderImageId = new int[]{
-//                R.drawable.s1,R.drawable.s2,R.drawable.s3,
-//        };
-        imageList.add(R.drawable.s1);
-        imageList.add(R.drawable.s2);
-        imageList.add(R.drawable.s3);
 
+    private void getSlideData() {
+        Log.d("TAG","vvvvvvvvvvv");
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("Admin").child("SlideImage");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                imageUrlList.clear();
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+
+//                    String url=snapshot.child("imageUrl").getValue(String.class);
+                    SubCategory data=snapshot.getValue(SubCategory.class);
+                    imageUrlList.add(data);
+//                    Log.d("TAG",url+"qwerty");
+
+
+
+                }
+                SlidingImage_Adapter adapterView = new SlidingImage_Adapter(imageUrlList,getContext());
+                mViewPager.setAdapter(adapterView);
+                image_pos=0;
+                preDot(image_pos);
+                createSlider();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
+
     private void preDot(int currImage_pos){
         if(dotLayout.getChildCount()>0){
             dotLayout.removeAllViews();
         }
-        ImageView dots[]=new ImageView[imageList.size()];
-        for(int i=0;i<imageList.size();i++){
+        ImageView dots[]=new ImageView[imageUrlList.size()];
+        for(int i=0;i<imageUrlList.size();i++){
             if(getContext()!=null)
             {
                 dots[i]=new ImageView(this.getContext());

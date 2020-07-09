@@ -65,6 +65,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Product modelGlobal;
 
     //Rating
+    private TextView avgRatingTv;
     private RecyclerView ratingRecyclerView;
     private List<RatingInfo> ratingList;
     private RatingAdapter ratingAdapter;
@@ -278,6 +279,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                             ratingAdapter.setData(ratingList);
                             ratingRecyclerView.setLayoutManager(ratingLayoutManager);
                             ratingRecyclerView.setAdapter(ratingAdapter);
+
+                            avgRatingTv.setText(model.getRating()+"/5 \u2605");
                         }
                         loadingDialog.DismissDialog();
                     }
@@ -310,6 +313,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         similarProductAapter =new SimilarProductAapter(pSimList,this,ProductDetailActivity.this);
 
         //Rating
+        avgRatingTv=findViewById(R.id.avg_rating);
         ratingRecyclerView = findViewById(R.id.rating_list);
         ratingList = new ArrayList<>();
         ratingLayoutManager = new LinearLayoutManager(this);

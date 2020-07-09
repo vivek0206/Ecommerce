@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.tempActivity">
+    tools:context=".activity.AddImage">
 
     <ImageView
         android:layout_gravity="center_horizontal"
@@ -13,26 +13,22 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@color/orange"
-        android:id="@+id/temp_image">
+        android:id="@+id/add_image">
     </ImageView>
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="CategoryName"
-        android:id="@+id/temp_category_name"/>
+        android:id="@+id/add_category_name"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="subCategoryName"
-        android:id="@+id/temp_subcategory_name"/>
-
-
+        android:id="@+id/add_subcategory_name"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="submit"
-        android:id="@+id/temp_submit"></Button>
-
+        android:id="@+id/addImage_submit"></Button>
 
 </LinearLayout>

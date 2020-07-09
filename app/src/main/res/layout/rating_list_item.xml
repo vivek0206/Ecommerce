@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginTop="8sp">
+    android:layout_marginTop="1sp">
 
         <TextView
             android:id="@+id/rating_name"
@@ -22,7 +22,6 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10sp"
             android:max="100"
-
             android:minHeight="20sp"
             android:minWidth="200sp"
             android:progress="4" />
