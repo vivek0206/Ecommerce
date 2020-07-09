@@ -165,7 +165,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                         productAdd.setVisibility(View.VISIBLE);
                         productQuantity.setVisibility(View.VISIBLE);
                         productQuantity.setText(quantity+"");
-                        checkStock(model.getCategoryName(),model.getSubCategoryName(),model.getProductName(),model.getQuantity());
+                        checkStock(model.getCategoryName().toLowerCase().trim(),model.getSubCategoryName().toLowerCase().trim(),model.getProductName().toLowerCase().trim(),model.getQuantity());
 
                     }
                     else

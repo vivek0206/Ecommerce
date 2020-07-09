@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ public class DeliveryAddress extends AppCompatActivity {
     private DatabaseReference databaseReference;
 
     private String Sname,Sphone,Sflat,Sarea,Slandmark,Sstate,Scity,Spincode;
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -36,10 +38,12 @@ public class DeliveryAddress extends AppCompatActivity {
         setContentView(R.layout.activity_delivery_address);
 
         init();
+        loadingDialog = new LoadingDialog(this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadingDialog.startLoadingDialog();
                 updateAddress();
             }
         });
@@ -49,6 +53,7 @@ public class DeliveryAddress extends AppCompatActivity {
     }
 
     private void updateAddress() {
+
         Sname = name.getText().toString();
         Sphone = phone.getText().toString();
         Sflat = flat.getText().toString();
@@ -61,11 +66,14 @@ public class DeliveryAddress extends AppCompatActivity {
         if(Sname.isEmpty() || Sphone.isEmpty()|| Sflat.isEmpty()|| Sarea.isEmpty()|| Slandmark.isEmpty()|| Sstate.isEmpty()|| Scity.isEmpty()|| Spincode.isEmpty() )
         {
             Toast.makeText(getApplicationContext(),"Fill All Fields ",Toast.LENGTH_SHORT).show();
+
         }
         else
         {
             UserInfo model = new UserInfo(Sname,Sphone,Sflat,Sarea,Slandmark,Sstate,Scity,Spincode);
             databaseReference.child(getResources().getString(R.string.Address)).child(user.getUid()).setValue(model);
+            loadingDialog.DismissDialog();
+            Toast.makeText(getApplicationContext(),"Updated ",Toast.LENGTH_SHORT).show();
         }
     }
 

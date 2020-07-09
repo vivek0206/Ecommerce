@@ -121,7 +121,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
 
         }
 
-
     }
 
 }

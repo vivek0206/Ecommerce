@@ -76,6 +76,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        nestedList.clear();
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
                             Product model = ds.getValue(Product.class);
