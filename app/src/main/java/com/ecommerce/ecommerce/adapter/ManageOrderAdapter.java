@@ -43,7 +43,6 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    List<Product> nestedList = new ArrayList<>();
 
     public ManageOrderAdapter(List<UserOrderInfo> list, Context context) {
         this.list = list;
@@ -66,6 +65,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         holder.totalPrice.setText(orderModel.getTotalPrice());
         holder.orderIdString = orderModel.getOrderId();
         holder.orderStatus = orderModel.getStatus();
+        final List<Product> nestedList = new ArrayList<>();
 
         final NestedManageOrderAdapter adapter = new NestedManageOrderAdapter(nestedList,context,holder.orderIdString);
         holder.recyclerView.setHasFixedSize(true);
@@ -82,9 +82,10 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
                             Product model = ds.getValue(Product.class);
                             if(model!=null)
                             {
-                                nestedList.add(model);
+                                nestedList.add(0,model);
                             }
                         }
+                        Log.d("NestedList :",nestedList.size()+"");
                         adapter.setData(nestedList);
                         holder.recyclerView.setLayoutManager(layoutManager);
                         holder.recyclerView.setAdapter(adapter);

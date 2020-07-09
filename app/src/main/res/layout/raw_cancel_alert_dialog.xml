@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You really want to Cancel the Order?"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        android:padding="2dp">
+    </TextView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yes,Cancel"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="50dp"
+        android:padding="2dp"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:id="@+id/raw_alert_cancel_cancelled"
+        android:textStyle="bold"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No, Dont Cancel"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="5dp"
+        android:padding="2dp"
+        android:layout_marginTop="50dp"
+        android:layout_toLeftOf="@id/raw_alert_cancel_cancelled"
+        android:id="@+id/raw_alert_cancel_dont_cancel"
+        android:layout_marginLeft="5dp"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:textStyle="bold"></Button>
+
+
+
+
+</RelativeLayout>

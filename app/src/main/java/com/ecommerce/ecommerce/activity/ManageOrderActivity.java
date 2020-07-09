@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.ecommerce.ecommerce.LoadingDialog;
@@ -62,15 +65,116 @@ public class ManageOrderActivity extends AppCompatActivity {
 
         fetchOrders();
 
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FilterMenu(view);
+            }
+        });
+
 
 
     }
+
+    private void FilterMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.filter_menu,popupMenu.getMenu());
+        popupMenu.show();
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+
+                switch (menuItem.getItemId())
+                {
+                    case R.id.filter_menu_inTransit:
+                        fetchTransitOrders();
+                        break;
+                    case R.id.filter_menu_delivered:
+                        fetchFilterOrders("4");
+                        break;
+                    case R.id.filter_menu_cancelled:
+                        fetchFilterOrders("5");
+                        break;
+                }
+
+
+
+                return true;
+            }
+        });
+
+
+    }
+
+    private void fetchFilterOrders(final String s) {
+        loadingDialog.startLoadingDialog();
+        databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        list.clear();
+                        for(DataSnapshot ds: dataSnapshot.getChildren())
+                        {
+                            UserOrderInfo orderModel = ds.getValue(UserOrderInfo.class);
+                            if(orderModel.getStatus().equals(s))
+                            {
+                                list.add(0,orderModel);
+                            }
+                        }
+                        loadingDialog.DismissDialog();
+                        adapter.setData(list);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void fetchTransitOrders() {
+        loadingDialog.startLoadingDialog();
+        databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        list.clear();
+                        for(DataSnapshot ds: dataSnapshot.getChildren())
+                        {
+                            UserOrderInfo orderModel = ds.getValue(UserOrderInfo.class);
+                            if(orderModel.getStatus().equals("1")||orderModel.getStatus().equals("2")||orderModel.getStatus().equals("3"))
+                            {
+                                list.add(0,orderModel);
+                            }
+                        }
+                        loadingDialog.DismissDialog();
+                        adapter.setData(list);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
 
     private void fetchOrders() {
         databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        list.clear();
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
                             UserOrderInfo orderModel = ds.getValue(UserOrderInfo.class);
