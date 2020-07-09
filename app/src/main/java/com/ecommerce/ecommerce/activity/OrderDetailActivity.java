@@ -6,11 +6,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderDetailAdapter;
@@ -37,6 +41,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private String orderId;
     private LoadingDialog loadingDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +63,53 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderId = intent.getStringExtra("orderId");
         fetchOrder();
 
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(Product model, int type) {
+                OnCancel(model);
+            }
+        });
+
+
     }
+
+    private void OnCancel(final Product model) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        View customView = getLayoutInflater().inflate(R.layout.raw_cancel_alert_dialog,null);
+        builder.setView(customView);
+
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+        Button not_cancel = customView.findViewById(R.id.raw_alert_cancel_dont_cancel);
+        Button cancelled = customView.findViewById(R.id.raw_alert_cancel_cancelled);
+
+        not_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.cancel();
+            }
+        });
+
+        final String productName = model.getProductName().toLowerCase().trim();
+        cancelled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                model.setOrderStatus("5");
+                databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
+                alertDialog.cancel();
+                Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+    }
+
 
     private void fetchOrder() {
         databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId)

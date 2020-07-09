@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/filter_menu_inTransit"
+        android:title="In Transit"
+        ></item>
+
+    <item android:id="@+id/filter_menu_delivered"
+        android:title="Delivered Order"
+        ></item>
+    <item android:id="@+id/filter_menu_cancelled"
+        android:title="Cancelled"
+        ></item>
+
+
+
+</menu>

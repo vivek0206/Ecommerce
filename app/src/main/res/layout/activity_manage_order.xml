@@ -28,12 +28,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
             android:text="All Orders"></TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
+            android:gravity="center_vertical"
+            android:layout_marginTop="2dp"
             android:id="@+id/manage_order_filter"
             android:layout_toLeftOf="@id/manage_order_next_icon"
             android:text="Filter"></TextView>
