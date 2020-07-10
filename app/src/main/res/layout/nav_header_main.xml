@@ -21,9 +21,8 @@
             android:id="@+id/userImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/person_outline_24"
+            android:src="@drawable/ic_person"
             android:paddingTop="2dp"
-            app:srcCompat="@drawable/temp"
             android:scaleType="centerCrop"
             />
     </androidx.cardview.widget.CardView>

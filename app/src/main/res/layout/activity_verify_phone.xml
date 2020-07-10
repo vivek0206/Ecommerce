@@ -28,24 +28,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_marginTop="20sp"
+        android:orientation="vertical"
+        android:paddingHorizontal="20sp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please wait. "
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We will auto verify the OTP sent to"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone_No"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textSize="30sp"
         android:textAlignment="center"
-        android:hint="000000"
+        android:hint="_ _ _ _ _ _"
         android:inputType="numberSigned"
-        android:id="@+id/otp_input"></EditText>
+        android:id="@+id/otp_input"
+        android:layout_marginTop="20sp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
     <Button
         android:layout_width="wrap_content"
@@ -53,18 +74,17 @@
         android:text="Verify"
         android:background="@color/orange"
         android:textColor="@color/white"
-        android:layout_margin="10dp"
         android:textStyle="bold"
-        android:id="@+id/otp_verify"></Button>
+        android:id="@+id/otp_verify"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Resend"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
             android:background="@color/orange"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:id="@+id/otp_resend"></Button>
+            android:id="@+id/otp_resend"/>
 
     </LinearLayout>
     </LinearLayout>
