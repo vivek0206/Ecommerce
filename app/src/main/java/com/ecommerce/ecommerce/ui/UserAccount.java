@@ -96,6 +96,21 @@ public class UserAccount extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        if(MainActivity.staticModel!=null)
+        {
+            url = MainActivity.staticModel.getUserImageUrl();
+            name = MainActivity.staticModel.getUserName();
+            phone = MainActivity.staticModel.getUserPhone();
+            password = MainActivity.staticModel.getUserPswd();
+            Picasso.get().load(Uri.parse(url)).into(img);
+            userName.setText(name);
+            userPhone.setText(phone);
+        }
+        super.onResume();
+    }
+
     private void chanePassword() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity
     int flag=2;
     private MenuItem search;
     private SearchView searchView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager().beginTransaction().add(R.id.drawer_layout,new HomeFragment()).commit();
-        Toolbar toolbar = findViewById(R.id.toolbar);
+         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
@@ -112,31 +113,34 @@ public class MainActivity extends AppCompatActivity
                 switch (item.getItemId())
                 {
                     case R.id.nav_home:
+                        toolbar.setTitle("Ecommerce");
                         setFragment(new HomeFragment(),"not home");
                         Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_category:
+                        toolbar.setTitle("Shop by Category");
                         setFragment(new CategoryFragment(),"not home");
-                        Toast.makeText(getApplicationContext(),"catego",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"catego",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_orders:
-
                         Intent intent = new Intent(MainActivity.this, ManageOrderActivity.class);
                         startActivity(intent);
                     //    setFragment(new OrderFragment());
-                        Toast.makeText(getApplicationContext(),"order",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"order",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_wishlist:
+                        toolbar.setTitle("Wish List");
                         setFragment(new WishlistFragment(),"not home");
-                        Toast.makeText(getApplicationContext(),"wishlist",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"wishlist",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_account:
+                        toolbar.setTitle("User Account");
                         setFragment(new UserAccount(),"not home");
-                        Toast.makeText(getApplicationContext(),"User Account",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"User Account",Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -193,6 +197,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
 
     public static void OfflineCapabilities(final Context context)
     {
@@ -356,7 +361,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-
+        toolbar.setTitle("Ecommerce");
         if(flag==1)
         {
             search.collapseActionView();

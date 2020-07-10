@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.BuildConfig;
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.AccountModel;
@@ -71,6 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private List<RatingInfo> ratingList;
     private RatingAdapter ratingAdapter;
     private LinearLayoutManager ratingLayoutManager;
+
 
 
     @Override
@@ -151,6 +154,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                share();
 
             }
         });
@@ -158,7 +162,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         shareText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                share();
             }
         });
 
@@ -177,6 +181,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void share(){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody ="https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
 
@@ -451,6 +464,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         addtocart = findViewById(R.id.activity_product_cart_text);
         share = findViewById(R.id.activity_product_share);
         shareText = findViewById(R.id.activity_product_share_text);
+        share.setVisibility(View.GONE);
+        shareText.setVisibility(View.GONE);
         addToWishlist = findViewById(R.id.activity_product_wishlist);
         addtowishlist = findViewById(R.id.activity_product_wishlist_text);
 

@@ -137,8 +137,29 @@ public class PersonalInfo extends AppCompatActivity {
             {
                 MainActivity.staticModel.setUserName(name);
                 MainActivity.staticModel.setUserPhone(phone);
-                databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
+                databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                loadingDialog.DismissDialog();
+                                Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
+                                MainActivity.fetchUserInfo();
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                loadingDialog.DismissDialog();
+                                Toast.makeText(PersonalInfo.this,"Something went wrong",Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                MainActivity.fetchUserInfo();
                 loadingDialog.DismissDialog();
+                Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
+
             }
             else
             {
@@ -163,6 +184,9 @@ public class PersonalInfo extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+
+                                loadingDialog.DismissDialog();
+                                Toast.makeText(PersonalInfo.this,"Something went wrong",Toast.LENGTH_SHORT).show();
 
                             }
                         });

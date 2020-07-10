@@ -181,57 +181,58 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/ic_baseline_shopping_cart_24"
                                     android:id="@+id/activity_product_cart_image"
-                                    ></ImageView>
+                                    android:layout_marginLeft="4sp"
+                                    />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="14dp"
                                     android:padding="2dp"
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/activity_product_cart_text"
-                                    android:text="Add To Basket"></TextView>
+                                    android:text="Add To Basket"/>
 
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/ic_baseline_share_24"
                                     android:id="@+id/activity_product_share"
-                                    ></ImageView>
+                                    android:layout_marginLeft="4sp"
+                                    />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="14dp"
                                     android:padding="2dp"
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/activity_product_share_text"
-                                    android:text="Share"></TextView>
+                                    android:text="Share"/>
 
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/ic_wishlist_fill"
                                     android:id="@+id/activity_product_wishlist"
-                                    ></ImageView>
+                                    android:layout_marginLeft="4sp"
+                                    />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="14dp"
                                     android:padding="2dp"
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/activity_product_wishlist_text"
-                                    android:text="Add To Wishlist"></TextView>
+                                    android:text="Add To Wishlist"/>
 
 
 
