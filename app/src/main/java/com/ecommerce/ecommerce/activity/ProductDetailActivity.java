@@ -165,14 +165,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         addToWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                wishlist();
             }
         });
 
         addtowishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                wishlist();
             }
         });
 
@@ -247,6 +247,54 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setSimProduct() {
+
+    }
+
+
+    private void wishlist(){
+
+
+        databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(categoryName.toLowerCase().trim()).child(subCategoryName.toLowerCase().trim())
+                .child(productNam.toLowerCase().trim())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final Product model = dataSnapshot.getValue(Product.class);
+                        if (model!=null)
+                        {
+                            databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).child(productNam)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Product wishlistModel = dataSnapshot.getValue(Product.class);
+                                            if(wishlistModel!=null)
+                                            {
+                                                databaseReference.child("WishList").child(user.getUid()).child(productNam).removeValue();
+                                                addToWishlist.setImageDrawable(getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
+                                            }
+                                            else
+                                            {
+                                                databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
+                                                addToWishlist.setImageDrawable(getResources().getDrawable(R.drawable.ic_wishlist,null));
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
 
     }
 

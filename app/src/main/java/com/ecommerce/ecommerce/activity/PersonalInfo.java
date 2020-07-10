@@ -88,7 +88,6 @@ public class PersonalInfo extends AppCompatActivity {
             password = MainActivity.staticModel.getUserPswd();
             if(!MainActivity.staticModel.getUserImageUrl().isEmpty())
             {
-                mImageUri = Uri.parse(MainActivity.staticModel.getUserImageUrl());
                 Picasso.get().load(MainActivity.staticModel.getUserImageUrl()).into(imageView);
             }
             userName.setText(name);
@@ -128,29 +127,49 @@ public class PersonalInfo extends AppCompatActivity {
     private void uploadImage() {
         name = userName.getText().toString();
         phone = userPhone.getText().toString();
-        final StorageReference reference = storageReference.child(getResources().getString(R.string.UserImage)).child(user.getUid()+getfilterExt(mImageUri));
-        reference.putFile(mImageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        reference.getDownloadUrl()
-                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        MainActivity.staticModel = new UserInfo(name,phone,password,uri.toString());
-                                        databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
-                                        loadingDialog.DismissDialog();
-                                        Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
-                    }
-                });
+        if(name.isEmpty() || phone.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(),"Invalidate Input",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            if(mImageUri==null)
+            {
+                MainActivity.staticModel.setUserName(name);
+                MainActivity.staticModel.setUserPhone(phone);
+                databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
+                loadingDialog.DismissDialog();
+            }
+            else
+            {
+                final StorageReference reference = storageReference.child(getResources().getString(R.string.UserImage)).child(user.getUid()+getfilterExt(mImageUri));
+                reference.putFile(mImageUri)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                reference.getDownloadUrl()
+                                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                MainActivity.staticModel = new UserInfo(name,phone,password,uri.toString());
+                                                databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
+                                                loadingDialog.DismissDialog();
+                                                Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
+                                                MainActivity.fetchUserInfo();
+                                            }
+                                        });
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+            }
+        }
+
+
     }
 
     private void init() {
