@@ -108,9 +108,9 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ProductDetailActivity.class);
-                    intent.putExtra("subCategory",subCategoryName.toLowerCase().trim());
-                    intent.putExtra("category",categoryName.toLowerCase().trim());
-                    intent.putExtra("product",productNam.toLowerCase().trim());
+                    intent.putExtra("subCategory",subCategoryName);
+                    intent.putExtra("category",categoryName);
+                    intent.putExtra("product",productNam);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

@@ -55,7 +55,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Button buy_now;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private String categoryName,productNam,subCategoryName,proVarName;
+    private String categoryName,productNam,subCategoryName,proVarName,productOriginalName;
     private int returnable,cod;
     private Toolbar toolbar;
 
@@ -94,6 +94,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         subCategoryName=intent.getStringExtra("subCategory");
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
+        productOriginalName=productNam;
+        subCategoryName=subCategoryName.toLowerCase().trim();
+        categoryName = categoryName.toLowerCase().trim();
+        productNam = productNam.toLowerCase().trim();
 
 
         quantityAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -129,7 +133,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                 increaseQuantity();
             }
         });
-
 
 
     }
@@ -208,6 +211,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                             if(model!=null)
                             {
                                 proVarName = model.getProductVariationName();
+                                productOriginalName+=","+model.getProductVariationName();
+                                productName.setText(productOriginalName);
                                 quantityList.add(0,model);
                                 offerPrice.setText("\u20B9"+model.getProductSalePrice());
                                 originalPrice.setText("\u20B9"+model.getProductActualPrice());
@@ -215,6 +220,18 @@ public class ProductDetailActivity extends AppCompatActivity {
                                 savingPrice.setText("\u20B9"+(model.getProductActualPrice()-model.getProductSalePrice()));
                                 offer.setText("\u20B9"+(model.getProductActualPrice()-model.getProductSalePrice())+"\nOff");
                             }
+                            else
+                            {
+                                offer.setText("Out Of Stock");
+                                buy_now.setEnabled(false);
+                            }
+                        }
+                        if(dataSnapshot.getChildrenCount()==0)
+                        {
+                            offer.setText("Out Of Stock");
+                            buy_now.setEnabled(false);
+                            buy_now.setText("Out Of Stock");
+                            buy_now.setBackgroundColor(getResources().getColor(R.color.grey));
                         }
                         quantityAdapter.setData(quantityList);
                         recyclerView2.setLayoutManager(quantiyLayoutManager);
@@ -266,7 +283,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                         {
                             modelGlobal = dataSnapshot.getValue(Product.class);
                             Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.placeholder).into(productImg);
-                            productName.setText(model.getProductName()+" ,"+model.getQuantity());
                             rating.setText(model.getRating());
                             productDetails.setText(model.getProductDetail());
                             returnable = Integer.parseInt(model.getReturnable());

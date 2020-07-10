@@ -11,4 +11,5 @@
     <color name="inactive_dot">#ffffff</color>
     <color name="green">#0D8F12</color>
     <color name="red">#990000</color>
+    <color name="grey">#34222020</color>
 </resources>

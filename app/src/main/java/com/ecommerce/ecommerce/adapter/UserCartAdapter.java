@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
@@ -61,8 +62,9 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
         ProductVariation model = list.get(position);
         Picasso.get().load(Uri.parse(model.getImageUrl())).into(holder.productImage);
         holder.modelGlobal = list.get(position);
-        holder.productName.setText(model.getProductName());
+        holder.productName.setText(model.getProductName()+" ,"+model.getProductVariationName());
         holder.originalPrice.setText("\u20B9"+model.getProductActualPrice());
+        holder.originalPrice.setPaintFlags(holder.originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productQuantity.setText(model.getQuantity()+"");
         holder.categoryName = model.getCategoryName().toLowerCase().trim();
         holder.productNam = model.getProductName().toLowerCase().trim();
@@ -147,7 +149,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                         outOfS.setText("Max Limit");
 
                     }
-                    else if(Tquantity<modelGlobal.getQuantity()){
+                    else if(Tquantity>modelGlobal.getQuantity()){
                         productAdd.setEnabled(true);
                         outOfS.setVisibility(View.GONE);
                     }

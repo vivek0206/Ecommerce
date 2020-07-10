@@ -11,6 +11,7 @@
         android:src="@color/orange"
         android:id="@+id/raw_nested_detail_image"></ImageView>
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,6 +22,19 @@
         android:padding="5dp"
         android:textSize="14dp"
         android:id="@+id/raw_nested_detail_itemName"></TextView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Quantity"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@id/raw_nested_detail_image"
+        android:layout_below="@id/raw_nested_detail_itemName"
+        android:layout_marginLeft="10dp"
+        android:padding="5dp"
+        android:textSize="14dp"
+        android:id="@+id/raw_nested_detail_itemQuantiy"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,7 +55,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="5dp"
-        android:layout_below="@id/raw_nested_detail_itemName"
+        android:layout_below="@id/raw_nested_detail_itemQuantiy"
         android:layout_toRightOf="@id/raw_nested_detail_image"
         android:id="@+id/raw_nested_order_card"
         app:cardCornerRadius="10dp"
@@ -51,7 +65,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/raw_nested_detail_itemName"
+        android:layout_below="@id/raw_nested_detail_itemQuantiy"
         android:text="Cancelled"
         android:layout_toRightOf="@id/raw_nested_order_card"
         android:textColor="@color/black"

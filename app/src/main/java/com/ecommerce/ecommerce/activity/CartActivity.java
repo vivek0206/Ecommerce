@@ -92,12 +92,14 @@ public class CartActivity extends AppCompatActivity {
                 {
                     price+=pric;
                     itemPrice.setText("\u20B9"+price+"");
+                    totalAmount.setText("\u20B9"+price+"");
 
                 }
                 else if(flag==-1)
                 {
                     price-=pric;
                     itemPrice.setText("\u20B9"+price+"");
+                    totalAmount.setText("\u20B9"+price+"");
 
                 }
             }
