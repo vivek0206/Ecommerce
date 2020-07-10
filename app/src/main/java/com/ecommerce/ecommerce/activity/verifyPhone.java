@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Models.UserInfo;
@@ -37,6 +38,7 @@ public class verifyPhone extends AppCompatActivity {
 
     private EditText otp;
     private Button verify;
+    private TextView phoneNoTv;
     private String string_otp,mobile,password,name;
     private FirebaseAuth mAuth;
     private String mVerificationId;
@@ -50,8 +52,10 @@ public class verifyPhone extends AppCompatActivity {
         init();
         Intent intent = getIntent();
         mobile = intent.getStringExtra("phone");
-        password = intent.getStringExtra("password");
-        name = intent.getStringExtra("name");
+        Toast.makeText(getApplicationContext(),mobile,Toast.LENGTH_SHORT).show();
+//        password = intent.getStringExtra("password");
+//        name = intent.getStringExtra("name");
+        phoneNoTv.setText("+91"+mobile);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -127,9 +131,10 @@ public class verifyPhone extends AppCompatActivity {
                 .addOnCompleteListener(verifyPhone.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Toast.makeText(getApplicationContext(),"checking",Toast.LENGTH_SHORT).show();
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
-
+                            Toast.makeText(getApplicationContext(),"success to me",Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid())
@@ -139,23 +144,15 @@ public class verifyPhone extends AppCompatActivity {
                                             UserInfo model = dataSnapshot.getValue(UserInfo.class);
                                             if(model==null)
                                             {
-                                                UserInfo modelU = new UserInfo(name,mobile,password,"");
-                                                databaseReference.child(getResources().getString(R.string.UserInfo)).child(mAuth.getCurrentUser().getUid()).setValue(modelU);
-                                                Intent intent = new Intent(verifyPhone.this, MainActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                Intent intent = new Intent(verifyPhone.this, SignUp.class);
+                                                intent.putExtra("phone",mobile);
                                                 startActivity(intent);
-
                                             }
                                             else {
-                                                String message = "Already have an Account Please LogIn";
-                                                Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-                                                snackbar.setAction("Dismiss", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) { }
-                                                });
-                                                snackbar.show();                                            }
+                                                Intent intent = new Intent(verifyPhone.this, MainActivity.class);
+                                                    startActivity(intent);
+                                            }
                                         }
-
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -164,17 +161,18 @@ public class verifyPhone extends AppCompatActivity {
 
                         } else {
                             //verification unsuccessful.. display an error message
-                            String message = "Somthing is wrong, we will fix it soon...";
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                message = "Invalid code entered...";
-                            }
-
-                            Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-                            snackbar.setAction("Dismiss", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) { }
-                            });
-                            snackbar.show();
+//                            String message = "Somthing is wrong, we will fix it soon...";
+//                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+//                                message = "Invalid code entered...";
+//                            }
+//
+//                            Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
+//                            snackbar.setAction("Dismiss", new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) { }
+//                            });
+//                            snackbar.show();
+                            Toast.makeText(getApplicationContext(),"error hai",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -182,6 +180,7 @@ public class verifyPhone extends AppCompatActivity {
 
     private void init() {
         mAuth = FirebaseAuth.getInstance();
+        phoneNoTv=findViewById(R.id.phone_No);
         otp = findViewById(R.id.otp_input);
         verify = findViewById(R.id.otp_verify);
         databaseReference = FirebaseDatabase.getInstance().getReference("");
