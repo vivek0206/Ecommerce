@@ -37,7 +37,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class CategoryFragment extends Fragment {
 
-    private Button randome,temp,detailCategory,addSubCat,addImageSlider;
+    private Button randome,temp,addSubCat,addImageSlider;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
@@ -67,15 +67,6 @@ public class CategoryFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        detailCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), DetailCategoryList.class);
-                intent.putExtra("subCategory","Edible Oil And Ghee");
-                startActivity(intent);
-            }
-        });
         addSubCat.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -93,7 +84,6 @@ public class CategoryFragment extends Fragment {
     private void init(View view) {
         randome = view.findViewById(R.id.random);
         temp = view.findViewById(R.id.temp_btn);
-        detailCategory = view.findViewById(R.id.temp_detail_category);
         addSubCat=view.findViewById(R.id.add_subcategory);
         addImageSlider=view.findViewById(R.id.add_imageSlider);
 
