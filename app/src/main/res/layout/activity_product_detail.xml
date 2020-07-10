@@ -311,7 +311,8 @@
                             android:layout_width="match_parent"
                             android:orientation="vertical"
 
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:weightSum="10">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -319,7 +320,8 @@
                                 android:textSize="20sp"
                                 android:padding="10sp"
                                 android:layout_marginStart="10sp"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="@android:color/black"
+                                android:layout_weight="4"/>
                             <View
                                 android:layout_below="@+id/viewAll"
                                 android:layout_width="match_parent"
@@ -329,9 +331,10 @@
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:background="#ECF0F1 "
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/product_detail_similiar_product">
+                                android:id="@+id/product_detail_similiar_product"
+                                android:layout_weight="6">
                             </androidx.recyclerview.widget.RecyclerView>
                         </LinearLayout>
 
