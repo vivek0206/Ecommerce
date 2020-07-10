@@ -392,8 +392,8 @@
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:background="#ECF0F1 "
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:id="@+id/product_detail_similiar_product"
                                 android:layout_weight="6">
                             </androidx.recyclerview.widget.RecyclerView>
