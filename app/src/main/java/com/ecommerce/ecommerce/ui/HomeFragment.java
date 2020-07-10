@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SubCategoryAdapter;
@@ -56,17 +57,19 @@ public class HomeFragment extends Fragment {
     private int dot_pos=0;
     FirebaseDatabase database;
     private FirebaseAuth auth;
+    private LoadingDialog loadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view =  inflater.inflate(R.layout.fragment_home, container, false);
-
+        loadingDialog = new LoadingDialog(getActivity());
         auth = FirebaseAuth.getInstance();
 
         mViewPager = view.findViewById(R.id.imageslider_pager);
         dotLayout=view.findViewById(R.id.dotContainer);
+        loadingDialog.startLoadingDialog();
         getSlideData();
 //        prepareSlide();
 
@@ -126,6 +129,7 @@ public class HomeFragment extends Fragment {
                 image_pos=0;
                 preDot(image_pos);
                 createSlider();
+                loadingDialog.DismissDialog();
             }
 
             @Override
