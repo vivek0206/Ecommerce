@@ -147,10 +147,12 @@ public class verifyPhone extends AppCompatActivity {
                                                 Intent intent = new Intent(verifyPhone.this, SignUp.class);
                                                 intent.putExtra("phone",mobile);
                                                 startActivity(intent);
+                                                finish();
                                             }
                                             else {
                                                 Intent intent = new Intent(verifyPhone.this, MainActivity.class);
                                                     startActivity(intent);
+                                                    finish();
                                             }
                                         }
                                         @Override

@@ -53,23 +53,13 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(SignUp.this, Login.class);
-//                startActivity(intent);
-//            }
-//        });
-
-
     }
 
 
     private void RegisterUser() {
         userName = name.getText().toString();
         userPhone = mobileNo;
-//        userPswd = pswd.getText().toString();
-//        userCnf = cnfPswd.getText().toString();
+
 
         if(userName.isEmpty() || userPhone.isEmpty())
         {
@@ -87,23 +77,12 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-//                                String message = "Welcome Your Account is Registered Successfully";
-//                                Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-//                                snackbar.setAction("Dismiss", new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) { }
-//                                });
-//                                snackbar.show();
+
                                 Intent intent = new Intent(SignUp.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
                             }else{
-//                                String message = "Something went wrong";
-//                                Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-//                                snackbar.setAction("Dismiss", new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) { }
-//                                });
-//                                snackbar.show();
+
 
                             }
                         }
@@ -115,10 +94,8 @@ public class SignUp extends AppCompatActivity {
     private void init() {
         name = findViewById(R.id.signup_yourname);
         phoneNo = findViewById(R.id.signup_phone);
-//        pswd = findViewById(R.id.signup_pswd);
         signup = findViewById(R.id.signup_btn);
-//        cnfPswd = findViewById(R.id.signup_cnfpswd);
-//        login = findViewById(R.id.signup_login);
+
     }
 
 

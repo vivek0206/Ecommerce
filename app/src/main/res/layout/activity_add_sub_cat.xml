@@ -53,8 +53,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Product Quantity"
-        android:inputType="numberSigned"
+        android:hint="Product Unit"
         android:id="@+id/add_product_quantity"></EditText>
 
 

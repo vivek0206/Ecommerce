@@ -80,7 +80,7 @@ public class AddProductVariation extends AppCompatActivity {
         }
         else
         {
-            final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductVariation)).child(proVarName+getfilterExt(mImageUri));
+            final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductVariation)).child(proName+proVarName+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

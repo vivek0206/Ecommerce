@@ -40,7 +40,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import id.zelory.compressor.Compressor;
 
 public class tempActivity extends AppCompatActivity {
 
@@ -108,7 +107,7 @@ public class tempActivity extends AppCompatActivity {
         else
         {
 
-            final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductImage)).child(ScName+getfilterExt(mImageUri));
+            final StorageReference reference = storageReference.child(getResources().getString(R.string.CategoryImage)).child(ScName+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -163,13 +162,6 @@ public class tempActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
-
-            byte[] thumb_byte_data;
-            Uri resultUri = mImageUri;
-
-            //getting imageUri and store in file. and compress to bitmap
-
-
             Picasso.get().load(mImageUri).into(imageView);
         }
 

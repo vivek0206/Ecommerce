@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(Login.this, verifyPhone.class);
                 intent.putExtra("phone",userPhone);
                 startActivity(intent);
+                finish();
             }
         });
 //        linearLayout.setOnClickListener(new View.OnClickListener() {

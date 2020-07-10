@@ -119,7 +119,6 @@ public class AddSubCat extends AppCompatActivity {
         }
         else
         {
-
             final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductImage)).child(Pname+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

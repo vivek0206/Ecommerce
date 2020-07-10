@@ -59,7 +59,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
     @Override
     public void onBindViewHolder(@NonNull UserCartView holder, int position) {
         ProductVariation model = list.get(position);
-        Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.border_square_red).into(holder.productImage);
+        Picasso.get().load(Uri.parse(model.getImageUrl())).into(holder.productImage);
         holder.modelGlobal = list.get(position);
         holder.productName.setText(model.getProductName());
         holder.originalPrice.setText("\u20B9"+model.getProductActualPrice());
@@ -102,7 +102,6 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
             offerPrice= itemView.findViewById(R.id.raw_cart_productOfferPrice);
             originalPrice= itemView.findViewById(R.id.raw_cart_productOriginalPrice);
             savingPrice= itemView.findViewById(R.id.raw_cart_prductSaving);
-            eligible= itemView.findViewById(R.id.raw_cart_eligible);
             productQuantity= itemView.findViewById(R.id.raw_cart_ProductQuantity);
             outOfS = itemView.findViewById(R.id.raw_cart_outOfStock);
             user = FirebaseAuth.getInstance().getCurrentUser();
