@@ -86,6 +86,7 @@ public class PersonalInfo extends AppCompatActivity {
             name = MainActivity.staticModel.getUserName();
             phone = MainActivity.staticModel.getUserPhone();
             password = MainActivity.staticModel.getUserPswd();
+            mImageUri = Uri.parse(MainActivity.staticModel.getUserImageUrl());
             if(!MainActivity.staticModel.getUserImageUrl().isEmpty())
             {
                 Picasso.get().load(MainActivity.staticModel.getUserImageUrl()).into(imageView);
@@ -115,7 +116,6 @@ public class PersonalInfo extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Log.d("2323232","111111");
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
@@ -140,7 +140,7 @@ public class PersonalInfo extends AppCompatActivity {
                                         MainActivity.staticModel = new UserInfo(name,phone,password,uri.toString());
                                         databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
                                         loadingDialog.DismissDialog();
-                                        Toast.makeText(PersonalInfo.this,"SucessFully Update",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
@@ -164,4 +164,6 @@ public class PersonalInfo extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
     }
+
+
 }
