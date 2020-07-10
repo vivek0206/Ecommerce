@@ -48,10 +48,10 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
         holder.itemName.setText(item.getProductName());
         holder.itemPrice.setText(item.getProductActualPrice()+"");
+        holder.itemQuantity.setText("Quantity: "+item.getQuantity());
         holder.orderStatus = "2";
         holder.productName = item.getProductName().toLowerCase().trim();
         holder.proVar=item.getProductVariationName().toLowerCase().trim();
-        Log.d("pop pop oop ","yeep");
     }
 
     public void setData(List<ProductVariation> list){this.list = list;}
@@ -65,7 +65,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
     public class NestedView extends RecyclerView.ViewHolder{
 
         private ImageView img;
-        private TextView itemName,itemPrice,cancel;
+        private TextView itemName,itemPrice,cancel,itemQuantity;
         private CardView card;
         private String orderStatus="2",productName,proVar;
 
@@ -116,6 +116,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
             itemPrice = itemView.findViewById(R.id.raw_nested_detail_itemPrice);
             cancel = itemView.findViewById(R.id.raw_nested_detail_cancelItem);
             card = itemView.findViewById(R.id.raw_nested_order_card);
+            itemQuantity = itemView.findViewById(R.id.raw_nested_detail_itemQuantiy);
         }
     }
 

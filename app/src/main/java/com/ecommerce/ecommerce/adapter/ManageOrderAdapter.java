@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,8 +62,8 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
     public void onBindViewHolder(@NonNull final ManageOrderItemView holder, int position) {
 
         UserOrderInfo orderModel = list.get(position);
-        holder.orderId.setText(orderModel.getOrderId());
-        holder.orderDate.setText(orderModel.getOrderDate());
+        holder.orderId.setText("Order Id:"+orderModel.getOrderId());
+        holder.orderDate.setText("Order Date:"+orderModel.getOrderDate());
         holder.totalPrice.setText(orderModel.getTotalPrice());
         holder.orderIdString = orderModel.getOrderId();
         holder.orderStatus = orderModel.getStatus();
@@ -114,6 +115,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         private TextView orderId,orderDate,totalPrice,deliveryDate;
         private RecyclerView recyclerView;
         private String orderIdString,orderStatus="2";
+        private Button track;
 
 
         public ManageOrderItemView(@NonNull View itemView) {
@@ -121,6 +123,16 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
 
             init(itemView);
 
+
+            track.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderDetailActivity.class);
+                    intent.putExtra("orderId",orderIdString);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +157,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
             orderDate=itemView.findViewById(R.id.raw_manage_order_orderDate);
             totalPrice=itemView.findViewById(R.id.raw_manage_order_orderPrice);
             deliveryDate = itemView.findViewById(R.id.raw_manage_order_DeliveryDate);
-
+            track = itemView.findViewById(R.id.raw_manage_order_track);
             recyclerView = itemView.findViewById(R.id.raw_manage_order_recyclerView);
 
 

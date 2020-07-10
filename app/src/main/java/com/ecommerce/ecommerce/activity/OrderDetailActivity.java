@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -111,8 +112,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         alertDialog.show();
 
 
-        Button not_cancel = customView.findViewById(R.id.raw_alert_cancel_dont_cancel);
-        Button cancelled = customView.findViewById(R.id.raw_alert_cancel_cancelled);
+        TextView not_cancel = customView.findViewById(R.id.raw_alert_cancel_dont_cancel);
+        TextView cancelled = customView.findViewById(R.id.raw_alert_cancel_cancelled);
 
         not_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
