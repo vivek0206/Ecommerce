@@ -65,7 +65,7 @@ public class DetailCategoryList extends AppCompatActivity {
     private RecyclerView searchRecyclerView;
     private FloatingActionButton floatingBtn;
     int flag=2;
-    private MenuItem search;
+    private MenuItem search,cart;
     private SearchView searchView;
 
     @Override
@@ -284,7 +284,7 @@ public class DetailCategoryList extends AppCompatActivity {
         super.onPrepareOptionsMenu(menu);
 
         search = menu.findItem(R.id.action_search);
-        MenuItem cart = menu.findItem(R.id.action_cart);
+        final MenuItem cart = menu.findItem(R.id.action_cart);
 
         searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -293,6 +293,7 @@ public class DetailCategoryList extends AppCompatActivity {
                 searchRecyclerView.setVisibility(View.VISIBLE);
 
                 flag=1;
+                cart.setVisible(false);
                 Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -301,6 +302,7 @@ public class DetailCategoryList extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
 
                 flag=1;
+                cart.setVisible(false);
                 searchRecyclerView.setVisibility(View.VISIBLE);
 
                 searchList.clear();
@@ -340,6 +342,7 @@ public class DetailCategoryList extends AppCompatActivity {
                 searchView.onActionViewCollapsed();
                 searchList.clear();
                 flag=2;
+                cart.setVisible(true);
                 searchRecyclerView.setVisibility(View.GONE);
                 return true;
             }
@@ -359,6 +362,7 @@ public class DetailCategoryList extends AppCompatActivity {
             searchView.onActionViewCollapsed();
             searchList.clear();
             flag=2;
+            cart.setVisible(true);
             searchRecyclerView.setVisibility(View.GONE);
         }
         else

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,8 @@ import com.squareup.picasso.Picasso;
 public class PersonalInfo extends AppCompatActivity {
 
     private ImageView imageView;
-    private TextView userName,userPhone;
+    private TextView userPhone;
+    private EditText userName;
     private Button save;
     private DatabaseReference databaseReference;
     private FirebaseUser user;
@@ -86,6 +88,7 @@ public class PersonalInfo extends AppCompatActivity {
             name = MainActivity.staticModel.getUserName();
             phone = MainActivity.staticModel.getUserPhone();
             password = MainActivity.staticModel.getUserPswd();
+
             if(!MainActivity.staticModel.getUserImageUrl().isEmpty())
             {
                 Picasso.get().load(MainActivity.staticModel.getUserImageUrl()).into(imageView);

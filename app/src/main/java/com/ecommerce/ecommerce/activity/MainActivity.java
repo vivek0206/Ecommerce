@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     private LinearLayoutManager layoutManager2;
     private RecyclerView searchRecyclerView;
     int flag=2;
-    private MenuItem search;
+    private MenuItem search,cart;
     private SearchView searchView;
     private Toolbar toolbar;
 
@@ -279,6 +279,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,CartActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId()==R.id.action_search)
+        {
+            flag=1;
+            cart.setVisible(false);
+        }
         return true;
 
     }
@@ -288,10 +293,10 @@ public class MainActivity extends AppCompatActivity
         super.onPrepareOptionsMenu(menu);
 
         search = menu.findItem(R.id.action_search);
-        MenuItem cart = menu.findItem(R.id.action_cart);
+         cart = menu.findItem(R.id.action_cart);
 
         searchView = (SearchView) search.getActionView();
-        ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
+
 
 
 
@@ -301,6 +306,7 @@ public class MainActivity extends AppCompatActivity
                 searchRecyclerView.setVisibility(View.VISIBLE);
 
                 flag=1;
+                cart.setVisible(false);
                 Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -309,6 +315,7 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(String newText) {
 
                 flag=1;
+                cart.setVisible(false);
                 searchRecyclerView.setVisibility(View.VISIBLE);
 
                 searchList.clear();
@@ -348,6 +355,7 @@ public class MainActivity extends AppCompatActivity
                 searchView.onActionViewCollapsed();
                 searchList.clear();
                 flag=2;
+                cart.setVisible(true);
                 searchRecyclerView.setVisibility(View.GONE);
                 return true;
             }
@@ -369,6 +377,7 @@ public class MainActivity extends AppCompatActivity
             searchView.onActionViewCollapsed();
             searchList.clear();
             flag=2;
+            cart.setVisible(true);
             searchRecyclerView.setVisibility(View.GONE);
         }
         else
