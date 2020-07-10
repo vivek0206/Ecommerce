@@ -86,8 +86,16 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(ProductVariation model, int type) {
 
-                RateUs();
-                //OnCancel(model);
+                if(type==2)
+                {
+                    RateUs(model);
+
+                }
+                else if(type==1)
+                {
+                    OnCancel(model);
+
+                }
             }
 
             @Override
@@ -97,8 +105,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void RateUs()
+    private void RateUs(ProductVariation model)
     {
+
+        final String category = model.getCategoryName();
+        final String subCategory = model.getSubCategoryName();
+        final String productName = model.getProductName();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         View customView = getLayoutInflater().inflate(R.layout.raw_rate_product,null);
@@ -115,30 +128,94 @@ public class OrderDetailActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String totalStars = "Total Stars:: " + ratingBar.getNumStars();
-                String rating = "Rating :: " + ratingBar.getRating();
-                Toast.makeText(getApplicationContext(), totalStars + "\n" + rating, Toast.LENGTH_LONG).show();
-          //      alertDialog.cancel();
-            }
-        });
-/*
-        final String productName = model.getProductName().toLowerCase().trim();
-        cancelled.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                model.setOrderStatus("5");
-                databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
+                UpdateRating(category,subCategory,productName,ratingBar.getRating());
                 alertDialog.cancel();
-                Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
-                sendNotification("Order has been Cancelled");
-                sendNotificationAdmin("Order has been Cancelled");
             }
         });
-*/
 
-        mRequestQueue = Volley.newRequestQueue(this);
-        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
 
+    }
+
+    private void UpdateRating(final String category, final String subCategory, final String productName, final float rating) {
+        //check User Already rate it or not
+        databaseReference.child(getResources().getString(R.string.UserProductRating)).child(user.getUid()).child(subCategory.toLowerCase().trim()+":"+productName.toLowerCase().trim())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getChildrenCount()==0)
+                        {
+                            databaseReference.child(getResources().getString(R.string.UserProductRating)).child(user.getUid()).child(subCategory.toLowerCase().trim()+":"+productName.toLowerCase().trim())
+                                    .child(user.getUid()).setValue("1");
+
+                            databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category.toLowerCase().trim())
+                                    .child(subCategory.toLowerCase().trim()).child(productName.toString().toLowerCase())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Product model = dataSnapshot.getValue(Product.class);
+                                            if(model!=null && model instanceof Product)
+                                            {
+                                                int rate = (int) Math.ceil(1.0*rating);
+                                                double avgRating=0;
+
+                                                switch(rate)
+                                                {
+                                                    case 1:
+                                                        model.setRate1(model.getRate1()+1);
+                                                        break;
+                                                    case 2:
+                                                        model.setRate2(model.getRate2()+1);
+                                                        break;
+                                                    case 3:
+                                                        model.setRate3(model.getRate3()+1);
+                                                        break;
+                                                    case 4:
+                                                        model.setRate4(model.getRate4()+1);
+                                                        break;
+                                                    case 5:
+                                                        model.setRate5(model.getRate5()+1);
+                                                        break;
+                                                }
+                                                avgRating =(1.0*(model.getRate1()*1+model.getRate2()*2+model.getRate3()*3+model.getRate4()*4+model.getRate5()*5))/(model.getRate1()*1+model.getRate2()+model.getRate3()+model.getRate4()+model.getRate5());
+                                                 avgRating = round(avgRating,2);
+
+                                                model.setRating(String.valueOf(avgRating));
+
+                                                databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(category.toLowerCase().trim())
+                                                        .child(subCategory.toLowerCase().trim()).child(productName.toString().toLowerCase()).setValue(model);
+
+                                                Toast.makeText(getApplicationContext(),"Thank You For Rating Us",Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"You Already rate the product",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
     private void OnCancel(final ProductVariation model) {

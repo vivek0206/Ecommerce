@@ -43,8 +43,8 @@ public class OrderConfirmAdapter extends RecyclerView.Adapter<OrderConfirmAdapte
 
         ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
-        holder.itemName.setText(item.getProductName());
-        holder.itemPrice.setText("\u20B9"+item.getProductSalePrice());
+        holder.itemName.setText(item.getProductName()+", "+item.getProductVariationName());
+        holder.itemPrice.setText("\u20B9"+item.getProductSalePrice()*item.getQuantity());
 
 
     }

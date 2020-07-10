@@ -15,19 +15,34 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:isIndicator="true"
+        android:isIndicator="false"
         android:numStars="5"
+        android:rating="3.5"
         android:id="@+id/raw_rate_rateUs"
         />
     </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discard"
+        android:textColor="@color/orange"
+        android:textStyle="bold"
+        android:padding="3dp"
+        android:textSize="16dp"
+        android:id="@+id/raw_rateUs_discard_btn"
+        android:layout_below="@id/raw_rate_us_layout"
+        android:layout_toLeftOf="@id/raw_rateUs_btn"
+        android:layout_margin="10dp"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rate Us"
-        android:background="@color/orange"
-        android:textColor="@color/white"
+        android:textColor="@color/orange"
         android:textStyle="bold"
+        android:padding="3dp"
         android:textSize="16dp"
         android:id="@+id/raw_rateUs_btn"
         android:layout_below="@id/raw_rate_us_layout"

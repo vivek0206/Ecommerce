@@ -77,8 +77,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
     public class CategoryItemView extends RecyclerView.ViewHolder{
 
-        private ImageView productImg,delete,add,wishlist;
-        private TextView productName,OfferPrice,OriginalPrice,Saving,ProductQuantity,quantityName;
+        private ImageView productImg,wishlist;
+        private TextView productName,OfferPrice,OriginalPrice,Saving;
         private RatingBar ratingBar;
         private int quantity;
         private DatabaseReference databaseReference;
@@ -90,12 +90,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
             super(itemView);
 
             productImg = itemView.findViewById(R.id.raw_category_productImg);
-            delete  = itemView.findViewById(R.id.raw_category_delete_quantity);
-            add = itemView.findViewById(R.id.raw_category_add_quantity);
             wishlist = itemView.findViewById(R.id.raw_category_wishlist);
             productName = itemView.findViewById(R.id.raw_category_productName);
-            quantityName = itemView.findViewById(R.id.raw_category_quantity);
-            ProductQuantity = itemView.findViewById(R.id.raw_category_ProductQuantity);
             OfferPrice = itemView.findViewById(R.id.raw_category_productOfferPrice);
             OriginalPrice = itemView.findViewById(R.id.raw_category_productOriginalPrice);
             Saving = itemView.findViewById(R.id.raw_category_prductSaving);
@@ -113,25 +109,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                     intent.putExtra("product",productNam);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                }
-            });
-
-            quantityName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(quantity==0)
-                    {
-                        modelGlobal = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
-                                list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());
-                        databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
-                        databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
-                        delete.setVisibility(View.VISIBLE);
-                        add.setVisibility(View.VISIBLE);
-                        ProductQuantity.setVisibility(View.VISIBLE);
-                        quantityName.setText("Qty:");
-                        quantity++;
-                        ProductQuantity.setText(quantity+"");
-                    }
                 }
             });
 
@@ -171,44 +148,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 }
             });
 
-            add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //first fetch then increase
-
-                    increaseQuantity();
-
-                }
-            });
-
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(quantity>0)
-                    {
-                        quantity--;
-                        ProductQuantity.setText(quantity+"");
-                        modelGlobal.setQuantity(quantity+"");
-                        databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
-                        databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);
-
-                        if(quantity==0)
-                        {
-                            //delete it
-                            databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).removeValue();
-                            databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).removeValue();
-                            delete.setVisibility(View.GONE);
-                            add.setVisibility(View.GONE);
-                            ProductQuantity.setVisibility(View.GONE);
-                            quantityName.setText("Add To Basket");
-                            ProductQuantity.setText(quantity+"");
-
-                        }
-
-                    }
-
-                }
-            });
         }
 
         private void increaseQuantity() {
@@ -221,7 +160,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
                 else
                 {
                     quantity++;
-                    ProductQuantity.setText(quantity+"");
                     modelGlobal.setQuantity(quantity+"");
                     databaseReference.child(context.getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(modelGlobal);
                     databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(modelGlobal);

@@ -64,7 +64,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         UserOrderInfo orderModel = list.get(position);
         holder.orderId.setText("Order Id:"+orderModel.getOrderId());
         holder.orderDate.setText("Order Date:"+orderModel.getOrderDate());
-        holder.totalPrice.setText(orderModel.getTotalPrice());
+        holder.totalPrice.setText("\u20B9"+orderModel.getTotalPrice());
         holder.orderIdString = orderModel.getOrderId();
         holder.orderStatus = orderModel.getStatus();
         final List<ProductVariation> nestedList = new ArrayList<>();

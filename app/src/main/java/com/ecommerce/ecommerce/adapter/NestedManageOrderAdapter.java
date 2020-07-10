@@ -46,10 +46,10 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
     public void onBindViewHolder(@NonNull NestedView holder, int position) {
         ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
-        holder.itemName.setText(item.getProductName());
-        holder.itemPrice.setText(item.getProductActualPrice()+"");
+        holder.itemName.setText(item.getProductName()+", "+item.getProductVariationName());
+        holder.itemPrice.setText("\u20B9"+item.getProductActualPrice()+"");
         holder.itemQuantity.setText("Quantity: "+item.getQuantity());
-        holder.orderStatus = "2";
+        holder.orderStatus = item.getOrderStatus();
         holder.productName = item.getProductName().toLowerCase().trim();
         holder.proVar=item.getProductVariationName().toLowerCase().trim();
     }

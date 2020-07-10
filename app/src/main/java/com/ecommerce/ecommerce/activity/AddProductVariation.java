@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,6 +40,7 @@ public class AddProductVariation extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 2;
     private Uri mImageUri;
     private StorageReference storageReference;
+    private LoadingDialog loadingDialog;
 
     private String catName,subName,proName,proVarName,proQua,proSalePrice,proActualPrice;
 
@@ -66,6 +68,7 @@ public class AddProductVariation extends AppCompatActivity {
     }
 
     private void AddProductCategory() {
+
        catName = categoryName.getText().toString().trim();
        subName = subCategoryName.getText().toString().trim();
         proName= productName.getText().toString().trim();
@@ -80,6 +83,7 @@ public class AddProductVariation extends AppCompatActivity {
         }
         else
         {
+            loadingDialog.startLoadingDialog();
             final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductVariation)).child(proName+proVarName+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -89,9 +93,9 @@ public class AddProductVariation extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            ProductVariation model = new ProductVariation(catName,subName,proName,proVarName,Integer.parseInt(proQua),Integer.parseInt(proSalePrice),Integer.parseInt(proActualPrice),uri.toString());
+                                            ProductVariation model = new ProductVariation(catName,subName,proName,proVarName,Integer.parseInt(proQua),Integer.parseInt(proSalePrice),Integer.parseInt(proActualPrice),uri.toString(),"0");
                                             databaseReference.child(getResources().getString(R.string.ProductVariation)).child(proName.toLowerCase()).child(proVarName.toLowerCase()).setValue(model);
-
+                                            loadingDialog.DismissDialog();
                                         }
                                     });
                         }
@@ -102,6 +106,7 @@ public class AddProductVariation extends AppCompatActivity {
     }
 
     private void init() {
+        loadingDialog = new LoadingDialog(this);
         img = findViewById(R.id.activity_add_product_Image);
         categoryName=findViewById(R.id.activity_add_product_categoryName);
         subCategoryName=findViewById(R.id.activity_add_product_subCatName);

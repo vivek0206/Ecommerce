@@ -55,7 +55,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5sp"
-                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView
@@ -91,48 +90,6 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:visibility="gone"
-                android:layout_marginStart="5sp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete_24"
-                    android:id="@+id/raw_category_delete_quantity"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/black"
-                    android:id="@+id/raw_category_quantity"
-                    android:text="Qty:"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textSize="16dp"
-                    android:id="@+id/raw_category_ProductQuantity"
-                    android:textColor="@color/black"
-                    android:text="2"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_24"
-                    android:id="@+id/raw_category_add_quantity"/>
-
-            </LinearLayout>
 
         </LinearLayout>
 

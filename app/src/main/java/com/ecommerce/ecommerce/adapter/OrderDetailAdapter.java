@@ -2,7 +2,11 @@ package com.ecommerce.ecommerce.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,9 +69,10 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public void onBindViewHolder(@NonNull OrderDetailView holder, int position) {
         ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
-        holder.itemName.setText(item.getProductName());
-        holder.itemPrice.setText(item.getProductActualPrice()+"");
+        holder.itemName.setText(item.getProductName()+", "+item.getProductVariationName());
+        holder.itemPrice.setText("\u20B9"+item.getProductActualPrice()+"");
         holder.productName = item.getProductName().toLowerCase().trim();
+        holder.orderStatus=item.getOrderStatus();
     }
 
     @Override
@@ -96,8 +102,20 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                 public void onClick(View view) {
                     if(onItemClickListener!=null)
                     {
-                        onItemClickListener.onItemClick(list.get(getAdapterPosition()),1);
-                        orderStatus="5";
+
+                        if(orderStatus=="4")
+                        {
+                            onItemClickListener.onItemClick(list.get(getAdapterPosition()),2);
+                        }
+                        else if(orderStatus.equals("5"))
+                        {
+                            Toast.makeText(context,"You alreay Cancelled the product",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            onItemClickListener.onItemClick(list.get(getAdapterPosition()),1);
+                            orderStatus="5";
+                        }
+
                     }
                 }
             });
@@ -135,6 +153,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             }
             else if(!orderStatus.isEmpty() &&orderStatus.equals("4"))
             {
+                cancel.setText("Rate Us");
+                cancel.setBackgroundColor(context.getResources().getColor(R.color.green));
                 stateProgressBar.setCurrentStateNumber(FOUR);
                 stateProgressBar.enableAnimationToCurrentState(true);
                 stateProgressBar.setAllStatesCompleted(true);
@@ -143,7 +163,11 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             }
             else if(orderStatus.equals("5"))
             {
-                cancel.setText("Cancelled");
+                Spannable wordtoSpan = new SpannableString("\u2022");
+
+                wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 0, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                stateProgressBar.setVisibility(View.GONE);
+                cancel.setText(wordtoSpan+"  Cancelled");
                 cancel.setEnabled(false);
             }
         }

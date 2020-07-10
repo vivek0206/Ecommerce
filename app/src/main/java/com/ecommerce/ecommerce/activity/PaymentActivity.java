@@ -157,12 +157,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                         shippingFee.setText(shippingPrice);
                         totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
                         totalAmount.setText(totalPrice);
-                        normalDelivery=0;
-                        Toast.makeText(getApplicationContext(),"onlinede1",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+
+                        shippingPrice = "0";
+                        shippingFee.setText(shippingPrice);
                     }
                     normalDelivery=0;
-
-
                 }
                 else if(id==R.id.payment_normal)
                 {
@@ -339,9 +341,6 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     }
                 }
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
-
-
 
                 UserOrderInfo model  = new UserOrderInfo(orderId,date,"Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId,shippingPrice,address1,address2,normalDelivery+"");
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
