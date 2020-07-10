@@ -86,9 +86,9 @@ public class PersonalInfo extends AppCompatActivity {
             name = MainActivity.staticModel.getUserName();
             phone = MainActivity.staticModel.getUserPhone();
             password = MainActivity.staticModel.getUserPswd();
-            mImageUri = Uri.parse(MainActivity.staticModel.getUserImageUrl());
             if(!MainActivity.staticModel.getUserImageUrl().isEmpty())
             {
+                mImageUri = Uri.parse(MainActivity.staticModel.getUserImageUrl());
                 Picasso.get().load(MainActivity.staticModel.getUserImageUrl()).into(imageView);
             }
             userName.setText(name);
