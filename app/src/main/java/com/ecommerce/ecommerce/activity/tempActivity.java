@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+import id.zelory.compressor.Compressor;
+
 public class tempActivity extends AppCompatActivity {
 
     private ImageView imageView;
@@ -49,7 +56,6 @@ public class tempActivity extends AppCompatActivity {
     private RadioButton cod,returnable;
     private int r1=0,r2=0;
     private LoadingDialog loadingDialog;
-
 
 
 
@@ -157,6 +163,13 @@ public class tempActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
+
+            byte[] thumb_byte_data;
+            Uri resultUri = mImageUri;
+
+            //getting imageUri and store in file. and compress to bitmap
+
+
             Picasso.get().load(mImageUri).into(imageView);
         }
 

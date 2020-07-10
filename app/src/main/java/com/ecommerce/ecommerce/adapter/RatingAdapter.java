@@ -18,6 +18,8 @@ import com.ecommerce.ecommerce.R;
 
 import java.util.List;
 
+import static java.lang.StrictMath.max;
+
 public class RatingAdapter  extends RecyclerView.Adapter<RatingAdapter .AccountView>{
 
     private List<RatingInfo> list;
@@ -39,7 +41,7 @@ public class RatingAdapter  extends RecyclerView.Adapter<RatingAdapter .AccountV
 
     @Override
     public void onBindViewHolder(@NonNull AccountView holder, int position) {
-        double rateValue=(100*list.get(position).getRatingValue())/totalRating;
+        double rateValue=(100*list.get(position).getRatingValue())/max(1,totalRating);
         String rateName=list.get(position).getRatingName()+"\u2605";
         if(position==0) {
             holder.ratingName.setText(rateName);

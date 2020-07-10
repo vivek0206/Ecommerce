@@ -124,9 +124,7 @@ public class CartActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    
                     checkOutOfStock();
-
                 }
 
             }
@@ -142,6 +140,7 @@ public class CartActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        flag=1;
                         for(DataSnapshot ds1: dataSnapshot.getChildren())
                         {
                             for(DataSnapshot ds2: ds1.getChildren())
@@ -196,7 +195,7 @@ public class CartActivity extends AppCompatActivity {
                                 }
 
                             }
-                        },500);
+                        },1500);
 
 
 

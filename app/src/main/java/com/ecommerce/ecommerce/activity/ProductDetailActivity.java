@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -130,9 +131,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
 
-    }
 
-    //TODO:CHECK FOR THE OUT OF STOCK
+    }
 
     private void increaseQuantity() {
         if(modelGlobal!=null)
@@ -173,8 +173,15 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
                             }
-                            Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
-                            startActivity(intent);
+                            loadingDialog.startLoadingDialog();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadingDialog.DismissDialog();
+                                    Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
+                                    startActivity(intent);
+                                }
+                            },500);
                         }
 
                         @Override
@@ -325,4 +332,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
     }
+
+
 }
