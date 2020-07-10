@@ -50,6 +50,7 @@
         android:textColor="@color/black"
         android:id="@+id/edit_userName">
     </EditText>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

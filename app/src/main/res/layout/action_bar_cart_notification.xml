@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clickable="true"
     style="@android:style/Widget.ActionButton"
     >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/cart_icon"
@@ -29,5 +33,7 @@
         android:gravity="center"
         android:text="@null"
         android:background="@drawable/badge_background"/>
-</RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>
 

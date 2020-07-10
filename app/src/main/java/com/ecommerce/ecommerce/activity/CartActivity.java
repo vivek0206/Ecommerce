@@ -46,7 +46,7 @@ public class CartActivity extends AppCompatActivity {
     private Button buy_now;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private String addressText1,addressText2,userName="Tanish";
+    private String addressText1="",addressText2="",userName="Tanish";
     private int price=0,itemNo=0;
     private LoadingDialog loadingDialog;
     int flag=1;
@@ -126,7 +126,15 @@ public class CartActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    checkOutOfStock();
+                    if(addressText1.isEmpty() || addressText2.isEmpty())
+                    {
+                        Toast.makeText(getApplicationContext(),"Enter Address",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        checkOutOfStock();
+
+                    }
+
                 }
 
             }

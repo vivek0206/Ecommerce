@@ -31,7 +31,6 @@ public class DeliveryAddress extends AppCompatActivity {
     private String Sname,Sphone,Sflat,Sarea,Slandmark,Sstate,Scity,Spincode;
     private LoadingDialog loadingDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +62,10 @@ public class DeliveryAddress extends AppCompatActivity {
         Scity = city.getText().toString();
         Spincode = pinCode.getText().toString();
 
-        if(Sname.isEmpty() || Sphone.isEmpty()|| Sflat.isEmpty()|| Sarea.isEmpty()|| Slandmark.isEmpty()|| Sstate.isEmpty()|| Scity.isEmpty()|| Spincode.isEmpty() )
+        if(Sname.isEmpty() || Sphone.isEmpty()|| Sarea.isEmpty()|| Slandmark.isEmpty()|| Sstate.isEmpty()|| Scity.isEmpty()|| Spincode.isEmpty() )
         {
             Toast.makeText(getApplicationContext(),"Fill All Fields ",Toast.LENGTH_SHORT).show();
-
+            loadingDialog.DismissDialog();
         }
         else
         {

@@ -113,7 +113,6 @@ public class PersonalInfo extends AppCompatActivity {
 
     }
 
-
     private void uploadImage() {
         name = userName.getText().toString();
         phone = userPhone.getText().toString();

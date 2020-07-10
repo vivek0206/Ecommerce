@@ -144,6 +144,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                     }
                     if(Tquantity==modelGlobal.getQuantity())
                     {
+
                         productAdd.setEnabled(false);
                         outOfS.setVisibility(View.VISIBLE);
                         outOfS.setText("Max Limit");
@@ -209,8 +210,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
 
                 }
                 else{
-                    //again load the list
-
+                    databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).child(proVarName).removeValue();
                 }
 
         }

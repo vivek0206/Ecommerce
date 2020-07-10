@@ -107,9 +107,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onItemClick() {
-
-            }
+            public void onItemClick() { }
 
             @Override
             public void onItemClick(ProductVariation model) {
