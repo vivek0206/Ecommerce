@@ -46,8 +46,8 @@ import java.util.List;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    private TextView offer,productName,rating,offerPrice,originalPrice,savingPrice,productDetails;
-    private ImageView productImg,payOnDelivery,nonReturnable;
+    private TextView offer,productName,rating,offerPrice,originalPrice,savingPrice,productDetails,addtocart,addtowishlist,shareText;
+    private ImageView productImg,payOnDelivery,nonReturnable,addToCart,share,addToWishlist;
     private RecyclerView recyclerView2;
     private LinearLayoutManager quantiyLayoutManager;
     private ProductVarQuantityAdapter quantityAdapter;
@@ -128,13 +128,59 @@ public class ProductDetailActivity extends AppCompatActivity {
         buy_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                increaseQuantity();
+                increaseQuantity(1);
             }
         });
 
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                increaseQuantity(0);
+                Toast.makeText(getApplicationContext(),"Item Added in your cart",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        addtocart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                increaseQuantity(0);
+                Toast.makeText(getApplicationContext(),"Item Added in your cart",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        shareText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        addToWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        addtowishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
     }
 
-    private void increaseQuantity() {
+
+    private void increaseQuantity(final int flag) {
         if(modelGlobal!=null)
         {
             databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam.toLowerCase().trim()).child(proVarName.toLowerCase().trim())
@@ -145,9 +191,14 @@ public class ProductDetailActivity extends AppCompatActivity {
                             ProductVariation model = dataSnapshot.getValue(ProductVariation.class);
                             if(model!=null)
                             {
-                                model.setQuantity(model.getQuantity()+1);
+
+                                if(flag==0)
+                                {
+                                    Toast.makeText(getApplicationContext(),"Item is already present in your Basket",Toast.LENGTH_SHORT).show();
+                                }
+                          /*
                                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam.toLowerCase().trim()).child(proVarName.toLowerCase().trim())
-                                        .setValue(model);
+                                        .setValue(model);*/
 
                             }
                             else
@@ -173,15 +224,18 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
                             }
-                            loadingDialog.startLoadingDialog();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadingDialog.DismissDialog();
-                                    Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
-                                    startActivity(intent);
-                                }
-                            },500);
+                            if(flag==1)
+                            {
+                                loadingDialog.startLoadingDialog();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loadingDialog.DismissDialog();
+                                        Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
+                                        startActivity(intent);
+                                    }
+                                },500);
+                            }
                         }
 
                         @Override
@@ -221,6 +275,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                             {
                                 offer.setText("Out Of Stock");
                                 buy_now.setEnabled(false);
+                                addToCart.setEnabled(false);
+                                addtocart.setEnabled(false);
                             }
                         }
                         if(dataSnapshot.getChildrenCount()==0)
@@ -229,6 +285,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                             buy_now.setEnabled(false);
                             buy_now.setText("Out Of Stock");
                             buy_now.setBackgroundColor(getResources().getColor(R.color.grey));
+                            addToCart.setEnabled(false);
+                            addtocart.setEnabled(false);
                         }
                         quantityAdapter.setData(quantityList);
                         recyclerView2.setLayoutManager(quantiyLayoutManager);
@@ -330,7 +388,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         simRecyclerView=findViewById(R.id.product_detail_similiar_product);
         similarProductAapter =new SimilarProductAapter(pSimList,this,ProductDetailActivity.this);
-
         //Rating
         avgRatingTv=findViewById(R.id.avg_rating);
         ratingRecyclerView = findViewById(R.id.rating_list);
@@ -341,6 +398,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         recyclerView2 = findViewById(R.id.product_detail_different_quantity);
         quantiyLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true);
         quantityAdapter = new ProductVarQuantityAdapter(quantityList,this);
+
+        addToCart = findViewById(R.id.activity_product_cart_image);
+        addtocart = findViewById(R.id.activity_product_cart_text);
+        share = findViewById(R.id.activity_product_share);
+        shareText = findViewById(R.id.activity_product_share_text);
+        addToWishlist = findViewById(R.id.activity_product_wishlist);
+        addtowishlist = findViewById(R.id.activity_product_wishlist_text);
+
 
 
 

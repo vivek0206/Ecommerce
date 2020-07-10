@@ -211,6 +211,7 @@ public class UserCartAdapter extends RecyclerView.Adapter<UserCartAdapter.UserCa
                 }
                 else{
                     databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).child(proVarName).removeValue();
+                    onDataChangeListener.onDataRemoveChange();
                 }
 
         }

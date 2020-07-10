@@ -68,7 +68,6 @@ public class CartActivity extends AppCompatActivity {
         });
 
         init();
-        loadingDialog.startLoadingDialog();
         MainActivity.OfflineCapabilities(getApplicationContext());
         fetchUserCart();
         fetchUserInfo();
@@ -80,7 +79,9 @@ public class CartActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDataRemoveChange() { }
+            public void onDataRemoveChange() {
+                fetchUserCart();
+            }
 
             @Override
             public void onCheckOutOfStock(int flag,int pric) {
@@ -276,11 +277,13 @@ public class CartActivity extends AppCompatActivity {
 
     private void fetchUserCart() {
 
-
+        loadingDialog.startLoadingDialog();
         databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        price=0;
+                        list.clear();
                         for(DataSnapshot ds1: dataSnapshot.getChildren())
                         {
                             for(DataSnapshot ds2: ds1.getChildren())
@@ -297,6 +300,7 @@ public class CartActivity extends AppCompatActivity {
 
                         if(list.size()==0)
                         {
+                            loadingDialog.DismissDialog();
                             buy_now.setText("Add Items To Cart");
                         }
                     }
