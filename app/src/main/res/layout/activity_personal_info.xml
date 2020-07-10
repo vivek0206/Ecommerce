@@ -1,85 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.PersonalInfo">
-
-
-
-
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:theme="@style/AppTheme.AppBarOverlay">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/bar"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
+            android:background="@color/colorPrimary"
             android:elevation="2dp"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextColor="@color/white">
 
         </androidx.appcompat.widget.Toolbar>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/edit_userImage"
-        android:layout_marginTop="30dp"
-        android:src="@color/orange">
-
-    </de.hdodenhof.circleimageview.CircleImageView>
-
-    <TextView
+    </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Your Name"
-        android:layout_marginTop="30dp"></TextView>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="UserName"
-        android:textSize="16dp"
-        android:textColor="@color/black"
-        android:id="@+id/edit_userName">
-    </EditText>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Phone No"
-        android:layout_marginTop="20dp"></TextView>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="UserName"
-        android:textSize="16dp"
-        android:textColor="@color/black"
-        android:id="@+id/edit_userPhone">
-    </EditText>
-
-    </LinearLayout>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10sp"
+            android:orientation="vertical">
 
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/edit_userImage"
+                android:layout_marginTop="30dp"
+                android:src="@color/orange">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/orange"
-        android:text="Save"
-        android:id="@+id/save_personal_info"
-        android:textColor="@color/white"
-        android:layout_alignParentBottom="true"
-        android:textSize="16dp"></Button>
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Name"
+                android:textSize="16sp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:hint="UserName"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:id="@+id/edit_userName">
+            </EditText>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone No"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:hint="UserName"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:id="@+id/edit_userPhone">
+            </EditText>
+
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:text="Save"
+            android:id="@+id/save_personal_info"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:textSize="16sp"/>
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

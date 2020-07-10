@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.UserInfo;
@@ -51,6 +53,16 @@ public class PersonalInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_info);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.bar);
+        setSupportActionBar(toolbar);
+        setTitle("Personal Info");
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         init();
 
@@ -103,7 +115,7 @@ public class PersonalInfo extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("2323232","111111");
+//        Log.d("2323232","111111");
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
@@ -128,6 +140,7 @@ public class PersonalInfo extends AppCompatActivity {
                                         MainActivity.staticModel = new UserInfo(name,phone,password,uri.toString());
                                         databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel);
                                         loadingDialog.DismissDialog();
+                                        Toast.makeText(PersonalInfo.this,"SucessFully Update",Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }

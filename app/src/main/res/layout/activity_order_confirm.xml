@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,17 +14,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/bar"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="2dp"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleTextColor="@color/white">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/bar"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:elevation="2dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleTextColor="@color/white">
 
-    </androidx.appcompat.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -46,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:padding="20sp"
                         android:orientation="vertical">
 
                         <TextView
@@ -55,7 +61,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:id="@+id/order_confirm_id"
-                            android:textSize="16dp"></TextView>
+                            android:textSize="16dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -65,7 +71,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:textStyle="bold"
-                            android:textSize="16dp"></TextView>
+                            android:textSize="16dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -74,7 +80,7 @@
                             android:id="@+id/order_confirm_order_Date"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="5dp"
-                            android:textSize="16dp"></TextView>
+                            android:textSize="16dp"/>
 
 
 
@@ -84,13 +90,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Order Details"
+                        android:padding="10sp"
                         android:layout_marginTop="10dp"
-                        android:background="@color/white"></TextView>
+                        android:background="@color/white"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:background="@color/white"
                         android:id="@+id/order_confirm_recyclerView"
-                        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="match_parent">
+
+                    </androidx.recyclerview.widget.RecyclerView>
 
 
                 </LinearLayout>
@@ -113,4 +122,4 @@
 
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
