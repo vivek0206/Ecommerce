@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,20 +85,59 @@ public class OrderDetailActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(ProductVariation model, int type) {
-                OnCancel(model);
+
+                RateUs();
+                //OnCancel(model);
             }
 
             @Override
-            public void onItemClick() {
-
-            }
-
+            public void onItemClick() { }
             @Override
-            public void onItemClick(ProductVariation model) {
+            public void onItemClick(ProductVariation model) { }
+        });
+    }
 
+    private void RateUs()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        View customView = getLayoutInflater().inflate(R.layout.raw_rate_product,null);
+        builder.setView(customView);
+
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+        final RatingBar ratingBar = customView.findViewById(R.id.raw_rate_rateUs);
+        TextView btn = customView.findViewById(R.id.raw_rateUs_btn);
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String totalStars = "Total Stars:: " + ratingBar.getNumStars();
+                String rating = "Rating :: " + ratingBar.getRating();
+                Toast.makeText(getApplicationContext(), totalStars + "\n" + rating, Toast.LENGTH_LONG).show();
+          //      alertDialog.cancel();
             }
         });
+/*
+        final String productName = model.getProductName().toLowerCase().trim();
+        cancelled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                model.setOrderStatus("5");
+                databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
+                alertDialog.cancel();
+                Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                sendNotification("Order has been Cancelled");
+                sendNotificationAdmin("Order has been Cancelled");
+            }
+        });
+*/
 
+        mRequestQueue = Volley.newRequestQueue(this);
+        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
 
     }
 

@@ -467,5 +467,13 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchUserInfo();
+        if(userImageUrl!=null)
+        {
+            Picasso.get().load(Uri.parse(userImageUrl)).placeholder(getResources().getDrawable(R.drawable.placeholder,null)).into(userImage);
+        }
+    }
 }

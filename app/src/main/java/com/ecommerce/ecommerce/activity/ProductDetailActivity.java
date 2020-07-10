@@ -134,7 +134,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void increaseQuantity() {
