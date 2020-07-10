@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="@color/white"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10kg"
+        android:padding="10dp"
+        android:id="@+id/raw_product_var_quantity"
+        android:textSize="16dp"
+        android:background="@drawable/border_square_grey"
+        android:textColor="@color/black"></TextView>
+
+
+</FrameLayout>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.OrderInfoModel;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderConfirmAdapter;
@@ -36,7 +37,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private OrderConfirmAdapter adapter;
-    private List<Product> list;
+    private List<ProductVariation> list;
     private String orderIdString;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
@@ -111,14 +112,13 @@ public class OrderConfirmActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot ds: dataSnapshot.getChildren())
                         {
-                            Product model = ds.getValue(Product.class);
+                            ProductVariation model = ds.getValue(ProductVariation.class);
                             if(model!=null)
                             {
                                 list.add(model);
                             }
                         }
                         loadingDialog.DismissDialog();
-
                         adapter.setData(list);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);

@@ -232,6 +232,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
 
         private void fetchProductDetail(String category,String product) {
+         /*
             databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(product).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -278,7 +279,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
                 }
             });
-
+*/
         }
 
     }

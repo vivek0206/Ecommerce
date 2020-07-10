@@ -12,18 +12,22 @@ import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.AccountModel;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.Models.RatingInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.AccountAdapter;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
+import com.ecommerce.ecommerce.adapter.ProductVarQuantityAdapter;
 import com.ecommerce.ecommerce.adapter.RatingAdapter;
 import com.ecommerce.ecommerce.adapter.SimilarProductAapter;
 import com.ecommerce.ecommerce.object.Product;
@@ -43,11 +47,14 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private TextView offer,productName,rating,offerPrice,originalPrice,savingPrice,productDetails;
     private ImageView productImg,payOnDelivery,nonReturnable;
-    private RecyclerView recyclerView1,recyclerView2;
+    private RecyclerView recyclerView2;
+    private LinearLayoutManager quantiyLayoutManager;
+    private ProductVarQuantityAdapter quantityAdapter;
+    private List<ProductVariation> quantityList;
     private Button buy_now;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private String categoryName,productNam,subCategoryName;
+    private String categoryName,productNam,subCategoryName,proVarName;
     private int returnable,cod;
     private Toolbar toolbar;
 
@@ -87,44 +94,87 @@ public class ProductDetailActivity extends AppCompatActivity {
         categoryName = intent.getStringExtra("category");
         productNam = intent.getStringExtra("product");
 
+
+        quantityAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(ProductVariation model, int type) {
+
+            }
+
+            @Override
+            public void onItemClick() {
+
+            }
+
+            @Override
+            public void onItemClick(ProductVariation model) {
+                proVarName = model.getProductVariationName();
+                offerPrice.setText("\u20B9"+model.getProductSalePrice());
+                originalPrice.setText("\u20B9"+model.getProductActualPrice());
+                originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                savingPrice.setText("\u20B9"+(model.getProductActualPrice()-model.getProductSalePrice()));
+                offer.setText("\u20B9"+(model.getProductActualPrice()-model.getProductSalePrice())+"\nOff");
+            }
+        });
+
         loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
         fetchSimilarProduct(categoryName,subCategoryName);
+        fetchProductVariation(productNam.toLowerCase().trim());
         setSimProduct();
         buy_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
                 increaseQuantity();
-                startActivity(intent);
             }
         });
 
 
-
     }
+
+    //TODO:CHECK FOR THE OUT OF STOCK
 
     private void increaseQuantity() {
         if(modelGlobal!=null)
         {
-            databaseReference.child(getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam)
+            databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam.toLowerCase().trim()).child(proVarName.toLowerCase().trim())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Product model = dataSnapshot.getValue(Product.class);
+                            Log.d("CartUser",dataSnapshot.getValue()+"");
+                            ProductVariation model = dataSnapshot.getValue(ProductVariation.class);
                             if(model!=null)
                             {
+                                model.setQuantity(model.getQuantity()+1);
+                                databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam.toLowerCase().trim()).child(proVarName.toLowerCase().trim())
+                                        .setValue(model);
+
                             }
                             else
                             {
-                                if (Integer.parseInt(modelGlobal.getQuantity())>0)
-                                {
-                                    model = modelGlobal;
-                                    model.setQuantity("1");
-                                    databaseReference.child(getResources().getString(R.string.Cart)).child(user.getUid()).child(categoryName).child(productNam).setValue(model);
-                                    databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam).setValue(model);
-                                }
+                                databaseReference.child(getResources().getString(R.string.ProductVariation)).child(productNam.toLowerCase().trim()).child(proVarName.toLowerCase().trim())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                ProductVariation proModel = dataSnapshot.getValue(ProductVariation.class);
+                                                if(proModel!=null)
+                                                {
+                                                    proModel.setQuantity(1);
+                                                    databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).child(productNam.toLowerCase().trim()).child(proVarName.toLowerCase().trim())
+                                                            .setValue(proModel);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
                             }
+                            Intent intent = new Intent(ProductDetailActivity.this,CartActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -132,14 +182,44 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                         }
                     });
-
-
-
         }
     }
 
     private void setSimProduct() {
 
+    }
+
+    private void fetchProductVariation(String productNam)
+    {
+        databaseReference.child(getResources().getString(R.string.ProductVariation)).child(productNam)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds: dataSnapshot.getChildren())
+                        {
+                            ProductVariation model = ds.getValue(ProductVariation.class);
+                            if(model!=null)
+                            {
+                                proVarName = model.getProductVariationName();
+                                quantityList.add(0,model);
+                                offerPrice.setText("\u20B9"+model.getProductSalePrice());
+                                originalPrice.setText("\u20B9"+model.getProductActualPrice());
+                                originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                savingPrice.setText("\u20B9"+(model.getProductActualPrice()-model.getProductSalePrice()));
+                                offer.setText("\u20B9"+(model.getProductActualPrice()-model.getProductSalePrice())+"\nOff");
+                            }
+                        }
+                        quantityAdapter.setData(quantityList);
+                        recyclerView2.setLayoutManager(quantiyLayoutManager);
+                        recyclerView2.setAdapter(quantityAdapter);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void fetchSimilarProduct(String categoryName, String subCategoryName) {
@@ -181,12 +261,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                             Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.placeholder).into(productImg);
                             productName.setText(model.getProductName()+" ,"+model.getQuantity());
                             rating.setText(model.getRating());
-                            offerPrice.setText("\u20B9"+model.getSalePrice());
-                            originalPrice.setText("\u20B9"+model.getOriginalPrice());
-                            originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            savingPrice.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice())));
-                            offer.setText("\u20B9"+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice()))+"\nOff");
-
                             productDetails.setText(model.getProductDetail());
                             returnable = Integer.parseInt(model.getReturnable());
                             cod = Integer.parseInt(model.getPayOnDelivery());
@@ -230,8 +304,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         productImg = findViewById(R.id.product_detail_product_image);
         payOnDelivery = findViewById(R.id.product_detail_payOnDelivery);
         nonReturnable = findViewById(R.id.product_detail_non_returnable);
-        recyclerView1 = findViewById(R.id.product_detail_different_quantity);
-        recyclerView2 = findViewById(R.id.product_detail_similiar_product);
         buy_now = findViewById(R.id.product_detail_buy_now);
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -244,6 +316,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         ratingRecyclerView = findViewById(R.id.rating_list);
         ratingList = new ArrayList<>();
         ratingLayoutManager = new LinearLayoutManager(this);
+
+        quantityList = new ArrayList<>();
+        recyclerView2 = findViewById(R.id.product_detail_different_quantity);
+        quantiyLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,true);
+        quantityAdapter = new ProductVarQuantityAdapter(quantityList,this);
+
 
 
     }

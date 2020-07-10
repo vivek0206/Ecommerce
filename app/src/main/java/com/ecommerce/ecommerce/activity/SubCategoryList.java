@@ -52,6 +52,9 @@ public class SubCategoryList extends AppCompatActivity {
     private RecyclerView searchRecyclerView;
     int flag=2;
 
+    private MenuItem search;
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +120,10 @@ public class SubCategoryList extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        MenuItem search = menu.findItem(R.id.action_search);
+        search = menu.findItem(R.id.action_search);
         MenuItem cart = menu.findItem(R.id.action_cart);
 
-        SearchView searchView = (SearchView) search.getActionView();
+        searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -166,6 +169,20 @@ public class SubCategoryList extends AppCompatActivity {
             }
         });
 
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                search.collapseActionView();
+                searchView.setQuery("",false);
+                searchView.onActionViewCollapsed();
+                searchList.clear();
+                flag=2;
+                searchRecyclerView.setVisibility(View.GONE);
+                return true;
+            }
+        });
+
+
         return true;
 
     }
@@ -174,6 +191,9 @@ public class SubCategoryList extends AppCompatActivity {
     public void onBackPressed() {
         if(flag==1)
         {
+            search.collapseActionView();
+            searchView.setQuery("",false);
+            searchView.onActionViewCollapsed();
             searchList.clear();
             flag=2;
             searchRecyclerView.setVisibility(View.GONE);

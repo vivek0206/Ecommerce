@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderDetailAdapter;
 import com.ecommerce.ecommerce.object.Product;
@@ -48,7 +49,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private List<Product> list;
+    private List<ProductVariation> list;
     private LinearLayoutManager layoutManager;
     private OrderDetailAdapter adapter;
     private String orderId;
@@ -81,7 +82,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Product model, int type) {
+            public void onItemClick(ProductVariation model, int type) {
                 OnCancel(model);
             }
 
@@ -89,12 +90,17 @@ public class OrderDetailActivity extends AppCompatActivity {
             public void onItemClick() {
 
             }
+
+            @Override
+            public void onItemClick(ProductVariation model) {
+
+            }
         });
 
 
     }
 
-    private void OnCancel(final Product model) {
+    private void OnCancel(final ProductVariation model) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -247,7 +253,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
                             Log.e("pop oop::",ds.getValue()+"\n");
-                            Product model = ds.getValue(Product.class);
+                            ProductVariation model = ds.getValue(ProductVariation.class);
                             list.add(0,model);
                         }
                         loadingDialog.DismissDialog();

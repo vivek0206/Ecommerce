@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
+import com.ecommerce.ecommerce.Models.ProductVariation;
 import com.ecommerce.ecommerce.activity.MainActivity;
 import com.ecommerce.ecommerce.Models.AccountModel;
 import com.ecommerce.ecommerce.R;
@@ -77,13 +78,18 @@ public class UserAccount extends Fragment {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Product model, int type) {
+            public void onItemClick(ProductVariation model, int type) {
 
             }
 
             @Override
             public void onItemClick() {
                 chanePassword();
+            }
+
+            @Override
+            public void onItemClick(ProductVariation model) {
+
             }
         });
 
