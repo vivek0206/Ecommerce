@@ -116,6 +116,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                         else{
                             onItemClickListener.onItemClick(list.get(getAdapterPosition()),1);
                             orderStatus="5";
+                            checkStatus();
                         }
 
                     }
@@ -165,7 +166,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             else if(orderStatus.equals("5"))
             {
                 Spannable wordtoSpan = new SpannableString("\u2022");
-
                 wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 0, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 stateProgressBar.setVisibility(View.GONE);
                 cancel.setText(wordtoSpan+"  Cancelled");

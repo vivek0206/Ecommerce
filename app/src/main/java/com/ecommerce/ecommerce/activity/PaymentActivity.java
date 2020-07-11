@@ -331,9 +331,9 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                         if(model!=null && model.getQuantity()>0)
                         {
                             String productName = model.getProductVariationName();
-                            String pp = model.getProductName().toLowerCase().trim();
+                            String pp = model.getCategoryName().toLowerCase().trim()+"_"+model.getSubCategoryName().toLowerCase().trim()+"_"+model.getProductName().toLowerCase().trim();
                             model.setOrderStatus("1");
-                            databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(pp+productName.toLowerCase().trim()).setValue(model);
+                            databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(pp+"_"+productName.toLowerCase().trim()).setValue(model);
                                 UpdateQuantity(model.getProductName(),model.getProductVariationName(),model.getQuantity());
                             //TODO: For Admin also
 

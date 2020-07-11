@@ -128,6 +128,19 @@
             android:id="@+id/raw_order_individual_cancelItem"
             ></TextView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Redeem Points"
+            android:layout_below="@id/raw_order_individual_cancelItem"
+            android:layout_toRightOf="@id/raw_order_individual_card"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:id="@+id/activity_order_individual_redeem"
+            android:padding="1dp"
+            android:background="@color/green"
+            ></TextView>
 
     </RelativeLayout>
 

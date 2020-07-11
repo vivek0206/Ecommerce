@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.ecommerce.ecommerce.Models.SearchModel;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity
     private int hot_number = 0;
     private TextView ui_hot = null;
     public static String userNam,userPhone,userPswd,userImageUrl;
+    public static UserInfo staticUserPointModel;
     private DatabaseReference databaseReference;
 
     private List<SearchModel> searchList;
@@ -155,6 +157,7 @@ public class MainActivity extends AppCompatActivity
         if(auth.getCurrentUser()!=null)
         {
             fetchUserInfo();
+            fetchUserPoints();
             FirebaseUser user =  FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.UserInfo));
             databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -455,6 +458,40 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public static void updateUserPoints()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null)
+        {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("");
+            databaseReference.child("UserPoints").child(user.getUid()).setValue(staticUserPointModel);
+        }
+    }
+
+    public static void fetchUserPoints()
+    {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null)
+        {
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("");
+            databaseReference.child("UserPoints").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    staticUserPointModel = dataSnapshot.getValue(UserInfo.class);
+                    if(dataSnapshot.getChildrenCount()==0)
+                    {
+                        staticUserPointModel = new UserInfo(user.getUid(),0);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
     public static void fetchUserInfo()
     {
 
@@ -490,7 +527,9 @@ public class MainActivity extends AppCompatActivity
         fetchUserInfo();
         if(userImageUrl!=null)
         {
-            Picasso.get().load(Uri.parse(userImageUrl)).placeholder(getResources().getDrawable(R.drawable.placeholder,null)).into(userImage);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Picasso.get().load(Uri.parse(userImageUrl)).placeholder(getResources().getDrawable(R.drawable.placeholder,null)).into(userImage);
+            }
         }
     }
 }

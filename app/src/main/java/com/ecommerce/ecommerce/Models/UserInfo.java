@@ -3,6 +3,29 @@ package com.ecommerce.ecommerce.Models;
 public class UserInfo {
     private String userName,userPhone,userPswd,userImageUrl;
     private String deliveryName,deliveryPhone,deliveryFlat,deliveryArea,deliveryLandmark,deliveryState,deliveryCity,deliveryPinCode;
+    private String userId;
+    private int points;
+
+    public UserInfo(String userId, int points) {
+        this.userId = userId;
+        this.points = points;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public UserInfo(String deliveryName, String deliveryPhone, String deliveryFlat, String deliveryArea, String deliveryLandmark, String deliveryState, String deliveryCity, String deliveryPinCode) {
         this.deliveryName = deliveryName;

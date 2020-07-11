@@ -60,7 +60,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     private OrderDetailAdapter adapter;
     private String orderId;
     private LoadingDialog loadingDialog;
-    private TextView earned;
     private int cancelNo=0;
     private RequestQueue mRequestQueue;
     private String URL="https://fcm.googleapis.com/fcm/send";
@@ -108,75 +107,12 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
 
-        earned.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EarnScartch();
-            }
-        });
 
-        checkForScratch();
 
 
     }
 
-    private void checkForScratch()
-    {
-        databaseReference.child(getResources().getString(R.string.OrderRewards)).child(orderId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                loadingDialog.startLoadingDialog();
-                RedeemAward model = dataSnapshot.getValue(RedeemAward.class);
-                if(model!=null && model instanceof RedeemAward)
-                {
-                    if(model.getFlag().equals("1"))
-                    {
-                        earned.setEnabled(false);
-                        earned.setText("Redeemed ");
-                    }
-                }
-                loadingDialog.DismissDialog();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void EarnScartch() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        View customView = getLayoutInflater().inflate(R.layout.raw_scratch_view,null);
-        builder.setView(customView);
-
-        ScratchView scratchView = customView.findViewById(R.id.raw_order_detail_scratchView);
-        scratchView.setRevealListener(new ScratchView.IRevealListener() {
-            @Override
-            public void onRevealed(ScratchView scratchView) {
-                Toast.makeText(getApplicationContext(), "You got Rs 20", Toast.LENGTH_LONG).show();
-                RedeemAward model = new RedeemAward(orderId,user.getUid(),"20","1");
-                databaseReference.child(getResources().getString(R.string.OrderRewards)).child(orderId).setValue(model);
-                earned.setEnabled(false);
-                earned.setText("Redeemed");
-            }
-
-            @Override
-            public void onRevealPercentChangedListener(ScratchView scratchView, float percent) {
-                if(percent>=0.3f)
-                {
-                    scratchView.reveal();
-                }
-            }
-        });
-
-
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-
-    }
 
     private void RateUs(ProductVariation model)
     {
@@ -218,11 +154,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                         UserOrderInfo model = dataSnapshot.getValue(UserOrderInfo.class);
                         if(model!=null && model instanceof UserOrderInfo)
                         {
-                            if(!model.getStatus().equals("4"))
-                            {
-                                earned.setEnabled(false);
-                                earned.setVisibility(View.GONE);
-                            }
                             if(cancelNo==list.size())
                             {
                                 model.setStatus("5");
@@ -333,7 +264,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
 
         TextView not_cancel = customView.findViewById(R.id.raw_alert_cancel_dont_cancel);
-        TextView cancelled = customView.findViewById(R.id.raw_alert_cancel_cancelled);
+        final TextView cancelled = customView.findViewById(R.id.raw_alert_cancel_cancelled);
 
         not_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,7 +273,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             }
         });
 
-        final String productName = model.getProductName().toLowerCase().trim();
+        final String productName = model.getCategoryName().toLowerCase().trim()+"_"+model.getSubCategoryName().toLowerCase().trim()+"_"+model.getProductName().toLowerCase().trim()+"_"+model.getProductVariationName().toLowerCase().trim();
         cancelled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -465,7 +396,6 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     }
 
-
     private void fetchOrder() {
         databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -509,7 +439,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         adapter = new OrderDetailAdapter(list,getBaseContext());
         layoutManager = new LinearLayoutManager(getBaseContext());
         recyclerView.setHasFixedSize(true);
-        earned = findViewById(R.id.order_detail_earned);
     }
 
 }

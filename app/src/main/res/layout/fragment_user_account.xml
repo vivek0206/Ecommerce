@@ -41,6 +41,15 @@
                 android:textColor="@color/black"
                 android:text="Phone No"></TextView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/account_userPoints"
+                android:textColor="@color/black"
+                android:text="Points: "></TextView>
+
+
 
         </LinearLayout>
 

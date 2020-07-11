@@ -47,10 +47,12 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
         ProductVariation item = list.get(position);
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
         holder.itemName.setText(item.getProductName()+", "+item.getProductVariationName());
-        holder.itemPrice.setText("\u20B9"+item.getProductActualPrice()+"");
+        holder.itemPrice.setText("\u20B9"+item.getProductSalePrice()+"");
         holder.itemQuantity.setText("Quantity: "+item.getQuantity());
         holder.orderStatus = item.getOrderStatus();
         Log.d("TAG",item.getOrderStatus()+"vvvvv");
+        holder.catName = item.getCategoryName().toLowerCase().trim();
+        holder.subCatName = item.getSubCategoryName().toLowerCase().trim();
         holder.productName = item.getProductName().toLowerCase().trim();
         holder.proVar=item.getProductVariationName().toLowerCase().trim();
         holder.setOrderSatuts();
@@ -69,7 +71,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
         private ImageView img;
         private TextView itemName,itemPrice,cancel,itemQuantity;
         private CardView card;
-        private String orderStatus="2",productName,proVar;
+        private String orderStatus="2",productName,proVar,catName,subCatName;
 
         public NestedView(@NonNull View itemView) {
             super(itemView);
@@ -81,7 +83,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
                 public void onClick(View view) {
                     Intent intent = new Intent(context, OrderIndividualActivity.class);
                     intent.putExtra("orderId",orderId);
-                    intent.putExtra("productName",productName+proVar);
+                    intent.putExtra("productName",catName+"_"+subCatName+"_"+productName+"_"+proVar);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -104,7 +106,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
             }
             else if(orderStatus.equals("3"))
             {
-                cancel.setText("Go For Delivery");
+                cancel.setText("Out For Delivery");
             }
             else if(orderStatus.equals("4"))
             {

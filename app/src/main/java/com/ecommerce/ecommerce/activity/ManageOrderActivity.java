@@ -64,6 +64,7 @@ public class ManageOrderActivity extends AppCompatActivity {
         loadingDialog.startLoadingDialog();
 
         fetchOrders();
+        filter.setVisibility(View.GONE);
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
