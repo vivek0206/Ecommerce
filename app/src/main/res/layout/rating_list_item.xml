@@ -24,6 +24,7 @@
             android:max="100"
             android:minHeight="20sp"
             android:minWidth="200sp"
+            android:maxWidth="200sp"
             android:progress="4" />
         <TextView
             android:layout_width="wrap_content"
