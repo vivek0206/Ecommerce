@@ -92,6 +92,8 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 if(image_pos>=imageUrlList.size())
                     image_pos=0;
+//                image_pos++;
+//                image_pos=position;
                 preDot(image_pos);
 
             }
@@ -124,12 +126,13 @@ public class HomeFragment extends Fragment {
 
 
                 }
+                loadingDialog.DismissDialog();
                 SlidingImage_Adapter adapterView = new SlidingImage_Adapter(imageUrlList,getContext());
                 mViewPager.setAdapter(adapterView);
                 image_pos=0;
                 preDot(image_pos);
                 createSlider();
-                loadingDialog.DismissDialog();
+
             }
 
             @Override
@@ -162,6 +165,7 @@ public class HomeFragment extends Fragment {
         }
 
     }
+
     private void createSlider(){
         final android.os.Handler handler=new Handler();
         final Runnable sliderRunnable=new Runnable() {

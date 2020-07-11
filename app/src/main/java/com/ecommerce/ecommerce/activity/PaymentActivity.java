@@ -88,10 +88,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         Intent intent = getIntent();
         itemPrice = intent.getStringExtra("price");
         shippingPrice = intent.getStringExtra("shippingPrice");
-        price.setText(itemPrice);
-        shippingFee.setText(shippingPrice);
+        price.setText(getResources().getString(R.string.Rupee)+itemPrice);
+        shippingFee.setText(getResources().getString(R.string.Rupee)+shippingPrice);
         totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
-        totalAmount.setText(totalPrice);
+        totalAmount.setText(getResources().getString(R.string.Rupee)+totalPrice);
 
 
         mRequestQueue = Volley.newRequestQueue(this);
@@ -133,11 +133,11 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 if(id==R.id.payment_online)
                 {
                     onlinePayment=1;
-                    Toast.makeText(getApplicationContext(),"onlinePayment1",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"onlinePayment1",Toast.LENGTH_SHORT).show();
                 }
                 else if(id==R.id.payment_cod)
                 {
-                    Toast.makeText(getApplicationContext(),"onlinePayment0",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"onlinePayment0",Toast.LENGTH_SHORT).show();
 
                     onlinePayment=0;
                 }

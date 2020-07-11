@@ -73,6 +73,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.itemPrice.setText("\u20B9"+item.getProductActualPrice()+"");
         holder.productName = item.getProductName().toLowerCase().trim();
         holder.orderStatus=item.getOrderStatus();
+        holder.checkStatus();
+        Log.d("TAG",item.getOrderStatus()+"vvvvvvvv");
     }
 
     @Override
@@ -103,7 +105,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                     if(onItemClickListener!=null)
                     {
 
-                        if(orderStatus=="4")
+                        if(orderStatus.equals("4"))
                         {
                             onItemClickListener.onItemClick(list.get(getAdapterPosition()),2);
                         }
@@ -120,7 +122,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                 }
             });
 
-            checkStatus();
 
 
         }
