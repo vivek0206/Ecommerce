@@ -134,7 +134,7 @@ public class verifyPhone extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"checking",Toast.LENGTH_SHORT).show();
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
-                            Toast.makeText(getApplicationContext(),"success to me",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(),"success to me",Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid())
@@ -162,19 +162,7 @@ public class verifyPhone extends AppCompatActivity {
                                     });
 
                         } else {
-                            //verification unsuccessful.. display an error message
-//                            String message = "Somthing is wrong, we will fix it soon...";
-//                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-//                                message = "Invalid code entered...";
-//                            }
-//
-//                            Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-//                            snackbar.setAction("Dismiss", new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) { }
-//                            });
-//                            snackbar.show();
-                            Toast.makeText(getApplicationContext(),"error hai",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"verification unsuccessful..",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

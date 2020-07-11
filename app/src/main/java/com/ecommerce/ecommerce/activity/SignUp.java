@@ -82,7 +82,7 @@ public class SignUp extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             }else{
-
+                                Toast.makeText(getApplicationContext(),"Something went wrong try Again",Toast.LENGTH_SHORT).show();
 
                             }
                         }
