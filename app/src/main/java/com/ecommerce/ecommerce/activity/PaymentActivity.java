@@ -482,6 +482,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
          //   options.put("order_id", orderId);
             options.put("currency", "INR");
             options.put("amount", amount);
+            options.put("prefill.contact",MainActivity.userPhone);
             checkout.open(activity, options);
         } catch(Exception e) {
             Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
