@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +45,8 @@ public class verifyPhone extends AppCompatActivity {
     private String mVerificationId;
     private DatabaseReference databaseReference;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,7 @@ public class verifyPhone extends AppCompatActivity {
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 string_otp = otp.getText().toString().trim();
                 if (string_otp.isEmpty() || string_otp.length() < 6) {
                     otp.setError("Enter valid code");
@@ -122,6 +126,7 @@ public class verifyPhone extends AppCompatActivity {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
 
         //signing the user
+
         signInWithPhoneAuthCredential(credential);
     }
 
@@ -134,7 +139,7 @@ public class verifyPhone extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"checking",Toast.LENGTH_SHORT).show();
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
-                            Toast.makeText(getApplicationContext(),"success to me",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(),"success to me",Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid())
@@ -162,19 +167,7 @@ public class verifyPhone extends AppCompatActivity {
                                     });
 
                         } else {
-                            //verification unsuccessful.. display an error message
-//                            String message = "Somthing is wrong, we will fix it soon...";
-//                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-//                                message = "Invalid code entered...";
-//                            }
-//
-//                            Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-//                            snackbar.setAction("Dismiss", new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) { }
-//                            });
-//                            snackbar.show();
-                            Toast.makeText(getApplicationContext(),"error hai",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"verification unsuccessful..",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -186,6 +179,7 @@ public class verifyPhone extends AppCompatActivity {
         otp = findViewById(R.id.otp_input);
         verify = findViewById(R.id.otp_verify);
         databaseReference = FirebaseDatabase.getInstance().getReference("");
+        loadingDialog = new LoadingDialog(this);
 
     }
 

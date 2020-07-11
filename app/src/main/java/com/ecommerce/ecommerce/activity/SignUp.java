@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.UserInfo;
 import com.ecommerce.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +35,7 @@ public class SignUp extends AppCompatActivity {
     String userName,userPhone,userPswd,userCnf;
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -49,6 +51,7 @@ public class SignUp extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadingDialog.startLoadingDialog();
                 RegisterUser();
             }
         });
@@ -64,13 +67,14 @@ public class SignUp extends AppCompatActivity {
         if(userName.isEmpty() || userPhone.isEmpty())
         {
             Toast.makeText(getApplicationContext(),"Invalidate Input",Toast.LENGTH_SHORT).show();
+            loadingDialog.DismissDialog();
         }
         else
         {
             mAuth=FirebaseAuth.getInstance();
             FirebaseUser user = mAuth.getCurrentUser();
             UserInfo modelU = new UserInfo(userName,userPhone,"xyz","");
-            Toast.makeText(getApplicationContext(),user.getUid().toString(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),user.getUid().toString(),Toast.LENGTH_SHORT).show();
             databaseReference= FirebaseDatabase.getInstance().getReference();
             databaseReference.child("UserInfo").child(user.getUid()).setValue(modelU)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -78,11 +82,13 @@ public class SignUp extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
 
+                                loadingDialog.DismissDialog();
                                 Intent intent = new Intent(SignUp.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             }else{
-
+                                loadingDialog.DismissDialog();
+                                Toast.makeText(getApplicationContext(),"Something went wrong try Again",Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -95,6 +101,8 @@ public class SignUp extends AppCompatActivity {
         name = findViewById(R.id.signup_yourname);
         phoneNo = findViewById(R.id.signup_phone);
         signup = findViewById(R.id.signup_btn);
+
+        loadingDialog = new LoadingDialog(this);
 
     }
 

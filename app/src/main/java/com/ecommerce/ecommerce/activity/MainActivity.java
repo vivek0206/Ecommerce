@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                     case R.id.nav_home:
                         toolbar.setTitle("Ecommerce");
                         setFragment(new HomeFragment(),"not home");
-                        Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_category:
@@ -219,10 +219,10 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected) {
-                    Toast.makeText(context,"Connected",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,"Connected",Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "connected");
                 } else {
-                    Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Internet Problem",Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "not connected");
                 }
             }
@@ -439,14 +439,14 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             setFragment(new HomeFragment(),"home");
-            Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_category) {
             setFragment(new CategoryFragment(),"not home");
-            Toast.makeText(getApplicationContext(),"category",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),"category",Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_orders) {
             setFragment(new OrderFragment(),"not home");
-            Toast.makeText(getApplicationContext(),"orders",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),"orders",Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_wishlist) {
             setFragment(new WishlistFragment(),"not home");
