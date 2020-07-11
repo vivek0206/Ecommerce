@@ -33,6 +33,7 @@
     <string name="ProductVariation">ProductVariation</string>
     <string name="CategoryImage">CategoryImage</string>
     <string name="UserProductRating">UserProductRating</string>
+    <string name="OrderRewards">OrderRewards</string>
 
 
 </resources>

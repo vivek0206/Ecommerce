@@ -18,6 +18,17 @@
         app:titleTextColor="@color/white">
 
     </androidx.appcompat.widget.Toolbar>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Earned"
+        android:padding="2dp"
+        android:id="@+id/order_detail_earned"
+        android:textStyle="bold"
+        android:textColor="@color/black"></TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

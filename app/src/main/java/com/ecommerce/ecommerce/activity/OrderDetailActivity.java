@@ -23,9 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.anupkumarpanwar.scratchview.ScratchView;
 import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.LoadingDialog;
+import com.ecommerce.ecommerce.Models.OrderInfoModel;
 import com.ecommerce.ecommerce.Models.ProductVariation;
+import com.ecommerce.ecommerce.Models.RedeemAward;
+import com.ecommerce.ecommerce.Models.UserOrderInfo;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.OrderDetailAdapter;
 import com.ecommerce.ecommerce.object.Product;
@@ -56,8 +60,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     private OrderDetailAdapter adapter;
     private String orderId;
     private LoadingDialog loadingDialog;
-
-
+    private TextView earned;
+    private int cancelNo=0;
     private RequestQueue mRequestQueue;
     private String URL="https://fcm.googleapis.com/fcm/send";
 
@@ -77,7 +81,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
         init();
-        loadingDialog.startLoadingDialog();
         Intent intent = getIntent();
         orderId = intent.getStringExtra("orderId");
         fetchOrder();
@@ -103,11 +106,80 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(ProductVariation model) { }
         });
+
+
+        earned.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EarnScartch();
+            }
+        });
+
+        checkForScratch();
+
+
+    }
+
+    private void checkForScratch()
+    {
+        databaseReference.child(getResources().getString(R.string.OrderRewards)).child(orderId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                loadingDialog.startLoadingDialog();
+                RedeemAward model = dataSnapshot.getValue(RedeemAward.class);
+                if(model!=null && model instanceof RedeemAward)
+                {
+                    if(model.getFlag().equals("1"))
+                    {
+                        earned.setEnabled(false);
+                        earned.setText("Redeemed ");
+                    }
+                }
+                loadingDialog.DismissDialog();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void EarnScartch() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        View customView = getLayoutInflater().inflate(R.layout.raw_scratch_view,null);
+        builder.setView(customView);
+
+        ScratchView scratchView = customView.findViewById(R.id.raw_order_detail_scratchView);
+        scratchView.setRevealListener(new ScratchView.IRevealListener() {
+            @Override
+            public void onRevealed(ScratchView scratchView) {
+                Toast.makeText(getApplicationContext(), "You got Rs 20", Toast.LENGTH_LONG).show();
+                RedeemAward model = new RedeemAward(orderId,user.getUid(),"20","1");
+                databaseReference.child(getResources().getString(R.string.OrderRewards)).child(orderId).setValue(model);
+                earned.setEnabled(false);
+                earned.setText("Redeemed");
+            }
+
+            @Override
+            public void onRevealPercentChangedListener(ScratchView scratchView, float percent) {
+                if(percent>=0.3f)
+                {
+                    scratchView.reveal();
+                }
+            }
+        });
+
+
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
     }
 
     private void RateUs(ProductVariation model)
     {
-
         final String category = model.getCategoryName();
         final String subCategory = model.getSubCategoryName();
         final String productName = model.getProductName();
@@ -134,6 +206,37 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void fetchOrderInfo()
+    {
+        databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        loadingDialog.startLoadingDialog();
+                        UserOrderInfo model = dataSnapshot.getValue(UserOrderInfo.class);
+                        if(model!=null && model instanceof UserOrderInfo)
+                        {
+                            if(!model.getStatus().equals("4"))
+                            {
+                                earned.setEnabled(false);
+                                earned.setVisibility(View.GONE);
+                            }
+                            if(cancelNo==list.size())
+                            {
+                                model.setStatus("5");
+                                databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
+                            }
+                        }
+                        loadingDialog.DismissDialog();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void UpdateRating(final String category, final String subCategory, final String productName, final float rating) {
@@ -368,12 +471,18 @@ public class OrderDetailActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        loadingDialog.startLoadingDialog();
                         for(DataSnapshot ds: dataSnapshot.getChildren())
                         {
                             Log.e("pop oop::",ds.getValue()+"\n");
                             ProductVariation model = ds.getValue(ProductVariation.class);
                             list.add(0,model);
+                            if(model.getOrderStatus().equals("5"))
+                            {
+                                cancelNo++;
+                            }
                         }
+                        fetchOrderInfo();
                         loadingDialog.DismissDialog();
                         adapter.setData(list);
                         recyclerView.setLayoutManager(layoutManager);
@@ -400,5 +509,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         adapter = new OrderDetailAdapter(list,getBaseContext());
         layoutManager = new LinearLayoutManager(getBaseContext());
         recyclerView.setHasFixedSize(true);
+        earned = findViewById(R.id.order_detail_earned);
     }
+
 }

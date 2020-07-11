@@ -103,6 +103,7 @@ public class tempActivity extends AppCompatActivity {
         if(Cname.isEmpty()||mImageUri==null||ScName.isEmpty())
         {
             Toast.makeText(getApplicationContext(),"Fill All Fields",Toast.LENGTH_SHORT).show();
+            loadingDialog.DismissDialog();
         }
         else
         {
