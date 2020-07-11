@@ -60,6 +60,18 @@ public class OrderIndividualActivity extends AppCompatActivity {
                         {
                             itemName.setText(model.getProductName());
                             itemPrice.setText(model.getProductSalePrice()+"");
+                            String orderStatus = model.getOrderStatus();
+                            if(orderStatus.equals("5"))
+                            {
+                                cancelled.setText("Cancelled");
+                            }
+                            else if(orderStatus.equals("5"))
+                            {
+                                cancelled.setText("Delivered");
+                            }else
+                            {
+                                cancelled.setText("In Transit");
+                            }
                             Picasso.get().load(Uri.parse(model.getImageUrl())).into(itemImage);
                         }
                     }
