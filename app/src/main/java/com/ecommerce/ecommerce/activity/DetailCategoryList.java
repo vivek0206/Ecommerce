@@ -374,11 +374,6 @@ public class DetailCategoryList extends AppCompatActivity {
 
     private void init() {
 
-
-        /*
-
-         */
-
         loadingDialog = new LoadingDialog(this);
         resultCount = findViewById(R.id.detail_category_productCount);
 
@@ -408,4 +403,6 @@ public class DetailCategoryList extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
     }
+
+
 }

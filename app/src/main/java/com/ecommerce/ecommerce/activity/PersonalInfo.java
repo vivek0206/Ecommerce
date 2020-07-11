@@ -147,6 +147,7 @@ public class PersonalInfo extends AppCompatActivity {
                                 loadingDialog.DismissDialog();
                                 Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
                                 MainActivity.fetchUserInfo();
+                                onBackPressed();
 
                             }
                         })
@@ -180,6 +181,7 @@ public class PersonalInfo extends AppCompatActivity {
                                                 loadingDialog.DismissDialog();
                                                 Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
                                                 MainActivity.fetchUserInfo();
+                                                onBackPressed();
                                             }
                                         });
                             }
@@ -209,6 +211,11 @@ public class PersonalInfo extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("");
         user = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 

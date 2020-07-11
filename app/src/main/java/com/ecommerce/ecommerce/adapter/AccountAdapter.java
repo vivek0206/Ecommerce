@@ -20,6 +20,7 @@ import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.activity.CartActivity;
 import com.ecommerce.ecommerce.activity.DeliveryAddress;
 import com.ecommerce.ecommerce.Models.AccountModel;
+import com.ecommerce.ecommerce.activity.Login;
 import com.ecommerce.ecommerce.activity.MainActivity;
 import com.ecommerce.ecommerce.activity.ManageOrderActivity;
 import com.ecommerce.ecommerce.activity.PersonalInfo;
@@ -113,7 +114,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
                     else if(pos==5)
                     {
                         auth.signOut();
-                        Intent intent = new Intent(context, MainActivity.class);
+                        Intent intent = new Intent(context, Login.class);
                         context.startActivity(intent);
                         Toast.makeText(context,"sign Out",Toast.LENGTH_SHORT).show();
                     }

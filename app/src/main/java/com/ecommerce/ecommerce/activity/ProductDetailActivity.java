@@ -125,7 +125,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
-        fetchSimilarProduct(categoryName,subCategoryName,productNam);
+        fetchSimilarProduct(categoryName,subCategoryName);
         fetchProductVariation(productNam.toLowerCase().trim());
         setSimProduct();
         buy_now.setOnClickListener(new View.OnClickListener() {
@@ -362,7 +362,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 });
     }
 
-    private void fetchSimilarProduct(String categoryName, String subCategoryName, final String productName) {
+    private void fetchSimilarProduct(String categoryName, String subCategoryName) {
         databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(categoryName).child(subCategoryName)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -370,12 +370,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         pSimList.clear();
                         for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                             Product model = snapshot.getValue(Product.class);
-                            Log.d("TAG",model.getProductName()+"_____"+productName);
-                            String pname=model.getProductName().toLowerCase();
-                            if(!pname.equals(productName)){
-                                pSimList.add(model);
-                            }
-
+                            pSimList.add(model);
 
                         }
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
@@ -473,6 +468,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         shareText.setVisibility(View.GONE);
         addToWishlist = findViewById(R.id.activity_product_wishlist);
         addtowishlist = findViewById(R.id.activity_product_wishlist_text);
+
+
+
 
     }
 

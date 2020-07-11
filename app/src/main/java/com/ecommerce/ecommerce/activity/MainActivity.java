@@ -457,27 +457,30 @@ public class MainActivity extends AppCompatActivity
 
     public static void fetchUserInfo()
     {
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("");
-        databaseReference.child("UserInfo").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                staticModel = dataSnapshot.getValue(UserInfo.class);
-                if(staticModel!=null)
-                {
-                    userNam = staticModel.getUserName();
-                    userPhone = staticModel.getUserPhone();
-                    userPswd = staticModel.getUserPswd();
-                    userImageUrl = staticModel.getUserImageUrl();
+        if(user!=null)
+        {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("");
+            databaseReference.child("UserInfo").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    staticModel = dataSnapshot.getValue(UserInfo.class);
+                    if(staticModel!=null)
+                    {
+                        userNam = staticModel.getUserName();
+                        userPhone = staticModel.getUserPhone();
+                        userPswd = staticModel.getUserPswd();
+                        userImageUrl = staticModel.getUserImageUrl();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
+                }
+            });
+        }
 
     }
 

@@ -84,6 +84,7 @@ public class DeliveryAddress extends AppCompatActivity {
             databaseReference.child(getResources().getString(R.string.Address)).child(user.getUid()).setValue(model);
             loadingDialog.DismissDialog();
             Toast.makeText(getApplicationContext(),"Updated ",Toast.LENGTH_SHORT).show();
+            onBackPressed();
         }
     }
 
@@ -133,6 +134,11 @@ public class DeliveryAddress extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("");
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
 
 }
