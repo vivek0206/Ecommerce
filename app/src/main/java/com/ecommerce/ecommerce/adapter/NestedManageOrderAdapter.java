@@ -50,8 +50,10 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
         holder.itemPrice.setText("\u20B9"+item.getProductActualPrice()+"");
         holder.itemQuantity.setText("Quantity: "+item.getQuantity());
         holder.orderStatus = item.getOrderStatus();
+        Log.d("TAG",item.getOrderStatus()+"vvvvv");
         holder.productName = item.getProductName().toLowerCase().trim();
         holder.proVar=item.getProductVariationName().toLowerCase().trim();
+        holder.setOrderSatuts();
     }
 
     public void setData(List<ProductVariation> list){this.list = list;}
@@ -86,6 +88,12 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
             });
 
 
+
+
+
+        }
+        private  void setOrderSatuts(){
+
             if(orderStatus.equals("1"))
             {
                 cancel.setText("Order Confirmed");
@@ -106,10 +114,7 @@ public class NestedManageOrderAdapter extends RecyclerView.Adapter<NestedManageO
             {
                 cancel.setText("Cancelled");
             }
-
-
         }
-
         private void init(View itemView) {
             img = itemView.findViewById(R.id.raw_nested_detail_image);
             itemName = itemView.findViewById(R.id.raw_nested_detail_itemName);
