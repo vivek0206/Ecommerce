@@ -134,6 +134,7 @@ public class PersonalInfo extends AppCompatActivity {
         if(name.isEmpty() || phone.isEmpty())
         {
             Toast.makeText(getApplicationContext(),"Invalidate Input",Toast.LENGTH_SHORT).show();
+            loadingDialog.DismissDialog();
         }
         else{
             if(mImageUri==null)
@@ -148,16 +149,13 @@ public class PersonalInfo extends AppCompatActivity {
                                 Toast.makeText(PersonalInfo.this,"SucessFully Updated",Toast.LENGTH_SHORT).show();
                                 MainActivity.fetchUserInfo();
                                 onBackPressed();
-
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
                                 loadingDialog.DismissDialog();
                                 Toast.makeText(PersonalInfo.this,"Something went wrong",Toast.LENGTH_SHORT).show();
-
                             }
                         });
                 MainActivity.fetchUserInfo();
