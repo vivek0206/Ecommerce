@@ -80,6 +80,7 @@
                             android:id="@+id/order_confirm_order_Date"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="5dp"
+                            android:visibility="gone"
                             android:textSize="16dp"/>
 
 

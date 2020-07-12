@@ -177,10 +177,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
                 if(id==R.id.payment_fast)
                 {
-
                     if(Integer.parseInt(itemPrice)<300)
                     {
-
                         shippingPrice = "20";
                         shippingFee.setText(shippingPrice);
                         totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
@@ -188,9 +186,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     }
                     else
                     {
-
                         shippingPrice = "0";
-                        shippingFee.setText(shippingPrice);
+                        shippingFee.setText("0");
                     }
                     normalDelivery=0;
                 }
@@ -199,12 +196,17 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                     if(Integer.parseInt(itemPrice)>300)
                     {
                         normalDelivery=0;
+                        shippingPrice = "0";
+                        shippingFee.setText("0");
                     }
-                    shippingPrice = "0";
-                    shippingFee.setText(shippingPrice);
-                    totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
-                    totalAmount.setText(totalPrice);
-                    normalDelivery=1;
+                    else{
+
+                        shippingPrice = "0";
+                        shippingFee.setText(shippingPrice);
+                        totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
+                        totalAmount.setText(totalPrice);
+                        normalDelivery=1;
+                    }
 
                 }
             }
@@ -550,7 +552,5 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     }
 
     @Override
-    public void onPaymentError(int i, String s) {
-
-    }
+    public void onPaymentError(int i, String s) { }
 }

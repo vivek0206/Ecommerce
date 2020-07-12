@@ -91,9 +91,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
                         UserOrderInfo model = dataSnapshot.getValue(UserOrderInfo.class);
                         if(model!=null)
                         {
-                            orderId.setText(orderIdString);
-                            orderDate.setText(model.getOrderDate());
-
+                            orderId.setText("     OrderId:\n"+orderIdString);
                         }
 
                     }
@@ -130,7 +128,13 @@ public class OrderConfirmActivity extends AppCompatActivity {
                     }
                 });
         databaseReference.child(getString(R.string.UserOrder)).keepSynced(true);
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(OrderConfirmActivity.this,MainActivity.class);
+        startActivity(intent);
     }
 
     private void init() {

@@ -120,7 +120,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(ProductVariation model) {
                 proVarName = model.getProductVariationName();
-                productName.setText(model.getProductName()+", "+model.getProductVariationName()+"         Quantity: "+model.getQuantity());
+                productName.setText(model.getProductName()+", "+model.getProductVariationName());
                 offerPrice.setText("\u20B9"+model.getProductSalePrice());
                 originalPrice.setText("\u20B9"+model.getProductActualPrice());
                 originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

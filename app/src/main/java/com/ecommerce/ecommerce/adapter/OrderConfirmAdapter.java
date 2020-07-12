@@ -45,7 +45,7 @@ public class OrderConfirmAdapter extends RecyclerView.Adapter<OrderConfirmAdapte
         Picasso.get().load(Uri.parse(item.getImageUrl())).into(holder.img);
         holder.itemName.setText(item.getProductName()+", "+item.getProductVariationName());
         holder.itemPrice.setText("\u20B9"+item.getProductSalePrice()*item.getQuantity());
-
+        holder.itemQuantity.setText("Quantity: "+item.getQuantity());
 
     }
 
@@ -59,7 +59,7 @@ public class OrderConfirmAdapter extends RecyclerView.Adapter<OrderConfirmAdapte
     public class OrderItemView extends RecyclerView.ViewHolder{
 
         private ImageView img;
-        private TextView itemName,itemPrice;
+        private TextView itemName,itemPrice,itemQuantity;
 
 
         public OrderItemView(@NonNull View itemView) {
@@ -68,6 +68,7 @@ public class OrderConfirmAdapter extends RecyclerView.Adapter<OrderConfirmAdapte
             img = itemView.findViewById(R.id.raw_order_item_image);
             itemName = itemView.findViewById(R.id.raw_order_item_name);
             itemPrice = itemView.findViewById(R.id.raw_order_item_price);
+            itemQuantity = itemView.findViewById(R.id.raw_order_item_quantity);
 
         }
     }

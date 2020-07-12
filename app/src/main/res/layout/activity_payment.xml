@@ -24,11 +24,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Use Points"
-            android:id="@+id/activity_payment_points"></TextView>
 
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
@@ -38,6 +33,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Use Points"
+                android:background="@color/white"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:padding="2dp"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:id="@+id/activity_payment_points"></TextView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -60,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="ChooseDeliveryType"
                     android:id="@+id/payment_fast"
-                    android:text="Instant/Fast/Urgent Delivery"></RadioButton>
+                    android:text="Fast Delivery"></RadioButton>
 
 
                 <RadioButton
@@ -68,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="ChooseDeliveryType"
                     android:id="@+id/payment_normal"
-                    android:text="Free Normal Delivery"></RadioButton>
+                    android:text="Free Delivery"></RadioButton>
 
             </RadioGroup>
 
