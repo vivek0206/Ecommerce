@@ -131,10 +131,12 @@ public class HomeFragment extends Fragment {
 
 
                 }
-                if(imageUrlList.size()>0)
+                if(imageUrlList.size()>1)
                 {
                     int n=imageUrlList.size()-1;
+
                     Picasso.get().load(imageUrlList.get(n).getImageUrl()).into(bannerView);
+                    imageUrlList.remove(n);
                 }
                 loadingDialog.DismissDialog();
                 SlidingImage_Adapter adapterView = new SlidingImage_Adapter(imageUrlList,getContext());

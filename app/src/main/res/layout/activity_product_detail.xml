@@ -336,33 +336,23 @@
                                 android:padding="10sp"
                                 android:textColor="#393A3A"/>
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="20sp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:id="@+id/avg_rating"
-                                    android:layout_centerVertical="true"
-                                    android:text="4.5"
-                                    android:layout_marginStart="30sp"
-                                    android:textSize="20sp"/>
-                                <View
-                                    android:layout_width="1sp"
-                                    android:layout_height="100dp"
-                                    android:layout_centerVertical="true"
-                                    android:background="#D7DCDE"
-                                    android:layout_alignLeft="@id/rating_list"/>
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:paddingLeft="10sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:id="@+id/rating_list"
-                                    android:layout_alignParentEnd="true">
 
-                                </androidx.recyclerview.widget.RecyclerView>
-                            </RelativeLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    >
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:paddingLeft="10sp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:id="@+id/rating_list"
+                                        >
+
+                                    </androidx.recyclerview.widget.RecyclerView>
+
+                                </LinearLayout>
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 

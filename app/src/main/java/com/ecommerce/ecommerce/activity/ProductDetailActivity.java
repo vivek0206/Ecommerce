@@ -459,7 +459,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                             ratingRecyclerView.setLayoutManager(ratingLayoutManager);
                             ratingRecyclerView.setAdapter(ratingAdapter);
 
-                            avgRatingTv.setText(model.getRating()+"/5 \u2605");
                             if(model.getPayOnDelivery().equals("0")){
                                 codLayout.setVisibility(View.GONE);
                             }else{
@@ -505,7 +504,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         simRecyclerView=findViewById(R.id.product_detail_similiar_product);
         similarProductAapter =new SimilarProductAapter(pSimList,this,ProductDetailActivity.this);
         //Rating
-        avgRatingTv=findViewById(R.id.avg_rating);
         ratingRecyclerView = findViewById(R.id.rating_list);
         ratingList = new ArrayList<>();
         ratingLayoutManager = new LinearLayoutManager(this);
