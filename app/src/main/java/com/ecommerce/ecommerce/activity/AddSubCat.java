@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.object.Product;
@@ -47,7 +48,7 @@ public class AddSubCat extends AppCompatActivity {
     private Uri mImageUri;
     private RadioButton cod,returnable;
     private int r1=0,r2=0;
-
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -119,6 +120,8 @@ public class AddSubCat extends AppCompatActivity {
         }
         else
         {
+            loadingDialog.startLoadingDialog();
+
             final StorageReference reference = storageReference.child(getResources().getString(R.string.ProductImage)).child(Pname+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -141,6 +144,8 @@ public class AddSubCat extends AppCompatActivity {
                                             databaseReference.child(getResources().getString(R.string.Search)).child(Pname.toLowerCase().trim()).setValue(searchModel);
 
                                             Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
+                                            loadingDialog.DismissDialog();
+                                            onBackPressed();
                                         }
                                     });
                         }
@@ -148,11 +153,16 @@ public class AddSubCat extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            loadingDialog.DismissDialog();
                         }
                     });
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     private void openFileChooser() {
@@ -184,10 +194,12 @@ public class AddSubCat extends AppCompatActivity {
     }
 
 
+
     private void init() {
         imageView = findViewById(R.id.add_image);
         categoryName = findViewById(R.id.add_category_name);
         subCategory=findViewById(R.id.add_subcategory_name);
+        loadingDialog = new LoadingDialog(this);
 
         productName = findViewById(R.id.add_product_Name);
         originalPrice = findViewById(R.id.add_product_original_price);
