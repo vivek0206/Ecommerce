@@ -33,7 +33,7 @@ import com.squareup.picasso.Picasso;
 
 public class OrderIndividualActivity extends AppCompatActivity {
 
-    private TextView orderId,orderDate,expectedDeliveryDate,totalPrice,itemName,itemPrice,cancelled,address1,address2,shippingCharge,amountPrice,redeem;
+    private TextView orderId,orderDate,expectedDeliveryDate,totalPrice,itemName,itemPrice,cancelled,address1,address2,shippingCharge,amountPrice,redeem,amount;
     private ImageView itemImage;
     private CardView card;
     private FirebaseUser user;
@@ -192,6 +192,8 @@ public class OrderIndividualActivity extends AppCompatActivity {
                             orderDate.setText(model.getOrderDate());
                             expectedDeliveryDate.setText(model.getDeliveryDate());
                             totalPrice.setText(getResources().getString(R.string.Rupee)+model.getTotalPrice());
+                            amount.setText(getResources().getString(R.string.Rupee)+model.getTotalPrice());
+                            amountPrice.setText(getResources().getString(R.string.Rupee)+model.getTotalPrice());
                             address1.setText(model.getAddress1());
                             address2.setText(model.getAddress2());
                             shippingCharge.setText(getResources().getString(R.string.Rupee)+model.getShippingCharges());
@@ -222,6 +224,7 @@ public class OrderIndividualActivity extends AppCompatActivity {
         itemImage=findViewById(R.id.raw_order_individual_image);
         card=findViewById(R.id.raw_order_individual_card);
         redeem = findViewById(R.id.activity_order_individual_redeem);
+        amount = findViewById(R.id.order_individualamount_total);
         loadingDialog = new LoadingDialog(this);
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
