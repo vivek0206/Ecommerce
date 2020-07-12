@@ -306,7 +306,7 @@ public class DetailCategoryList extends AppCompatActivity {
                 searchRecyclerView.setVisibility(View.VISIBLE);
 
                 searchList.clear();
-                Query firebaseQuery = databaseReference.child(getResources().getString(R.string.Search)).orderByKey().startAt(newText.toLowerCase().trim()).endAt(newText.toLowerCase().trim()+"\uf8ff");
+                Query firebaseQuery = databaseReference.child(getResources().getString(R.string.Search)).orderByKey().startAt(newText.toLowerCase().trim()).endAt(newText.toLowerCase().trim()+"\uf8ff").limitToFirst(20);
                 firebaseQuery.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

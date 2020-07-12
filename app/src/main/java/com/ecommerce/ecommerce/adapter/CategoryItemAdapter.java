@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ecommerce.ecommerce.Interface.OnItemClickListener;
 import com.ecommerce.ecommerce.Models.AccountModel;
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.ProductDetailActivity;
@@ -38,6 +39,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     private List<Product> list;
     private Context context;
     private Activity activity;
+
+
 
     public CategoryItemAdapter(List<Product> list, Context context, Activity activity) {
         this.list = list;

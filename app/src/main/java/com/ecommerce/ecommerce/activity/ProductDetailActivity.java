@@ -60,7 +60,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Button buy_now;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
-    private String categoryName,productNam,subCategoryName,proVarName,productOriginalName;
+    private String categoryName,productNam,subCategoryName,proVarName,productOriginalName,keyName;
     private int returnable,cod;
     private Toolbar toolbar;
 
@@ -106,7 +106,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         categoryName = categoryName.toLowerCase().trim();
         productNam = productNam.toLowerCase().trim();
 
-
+        keyName=categoryName+"_"+subCategoryName+"_"+productNam;
+        fetchWishlistState();
         quantityAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(ProductVariation model, int type) {
@@ -131,13 +132,24 @@ public class ProductDetailActivity extends AppCompatActivity {
         loadingDialog.startLoadingDialog();
         fetchProduct(categoryName,subCategoryName,productNam);
         fetchSimilarProduct(categoryName,subCategoryName);
-        fetchProductVariation(productNam.toLowerCase().trim());
         setSimProduct();
         buy_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 increaseQuantity(1);
             }
+        });
+
+        similarProductAapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(ProductVariation model, int type) { }
+            @Override
+            public void onItemClick() {
+                finish();
+            }
+
+            @Override
+            public void onItemClick(ProductVariation model) { }
         });
 
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -178,12 +190,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-        addtowishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                wishlist();
-            }
-        });
 
 
     }
@@ -264,10 +270,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setSimProduct() {
-
-    }
-
+    private void setSimProduct() { }
 
     private void wishlist(){
 
@@ -280,7 +283,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         final Product model = dataSnapshot.getValue(Product.class);
                         if (model!=null)
                         {
-                            databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).child(productNam)
+                            databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).child(keyName)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                         @Override
@@ -288,12 +291,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                                             Product wishlistModel = dataSnapshot.getValue(Product.class);
                                             if(wishlistModel!=null)
                                             {
-                                                databaseReference.child("WishList").child(user.getUid()).child(productNam).removeValue();
+                                                databaseReference.child("WishList").child(user.getUid()).child(keyName).removeValue();
                                                 addToWishlist.setImageDrawable(getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
                                             }
                                             else
                                             {
-                                                databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
+                                                databaseReference.child("WishList").child(user.getUid()).child(keyName).setValue(model);
                                                 addToWishlist.setImageDrawable(getResources().getDrawable(R.drawable.ic_wishlist,null));
 
                                             }
@@ -368,6 +371,33 @@ public class ProductDetailActivity extends AppCompatActivity {
                 });
     }
 
+    private void fetchWishlistState(){
+
+        databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).child(keyName)
+                .addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Product wishlistModel = dataSnapshot.getValue(Product.class);
+                        if(wishlistModel!=null)
+                        {
+                            addToWishlist.setImageDrawable(getResources().getDrawable(R.drawable.ic_wishlist,null));
+
+                        }
+                        else
+                        {
+                            addToWishlist.setImageDrawable(getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
     private void fetchSimilarProduct(String categoryName, String subCategoryName) {
         databaseReference.child(getResources().getString(R.string.Admin)).child(getResources().getString(R.string.Category)).child(categoryName).child(subCategoryName)
                 .addValueEventListener(new ValueEventListener() {
@@ -407,8 +437,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                             Picasso.get().load(Uri.parse(model.getImageUrl())).placeholder(R.drawable.placeholder).into(productImg);
                             rating.setText(model.getRating());
                             productDetails.setText(model.getProductDetail());
+                            productName.setText(model.getProductName());
+                            offerPrice.setText(getResources().getString(R.string.Rupee)+model.getSalePrice());
+                            originalPrice.setText(getResources().getString(R.string.Rupee)+model.getOriginalPrice());
+                            savingPrice.setText(getResources().getString(R.string.Rupee)+(Integer.parseInt(model.getOriginalPrice())-Integer.parseInt(model.getSalePrice())));
+                            originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                             returnable = Integer.parseInt(model.getReturnable());
-                            Log.d("TAG",returnable+"vvvvx");
                             cod = Integer.parseInt(model.getPayOnDelivery());
 
                             Integer totalRating=model.getRate1()+model.getRate2()+model.getRate3()+model.getRate4()+model.getRate5();
@@ -426,8 +460,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                             ratingRecyclerView.setAdapter(ratingAdapter);
 
                             avgRatingTv.setText(model.getRating()+"/5 \u2605");
-                            Log.d("TAG",model.getPayOnDelivery()+"vvvv");
-                            Log.d("TAG",model.getReturnable()+"vvvvx");
                             if(model.getPayOnDelivery().equals("0")){
                                 codLayout.setVisibility(View.GONE);
                             }else{
@@ -438,6 +470,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                             }else{
                                 nonreturnableLayout.setVisibility(View.VISIBLE);
                             }
+
+                            fetchProductVariation(productNam.toLowerCase().trim());
+
+
                         }
                         loadingDialog.DismissDialog();
                     }
@@ -495,6 +531,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
     }
+
 
 
 }
