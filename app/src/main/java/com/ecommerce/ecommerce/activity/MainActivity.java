@@ -375,13 +375,18 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Ecommerce");
         if(flag==1)
         {
-            search.collapseActionView();
-            searchView.setQuery("",false);
-            searchView.onActionViewCollapsed();
-            searchList.clear();
+            if(cart!=null)
+            {
+
+                search.collapseActionView();
+                searchView.setQuery("",false);
+                searchView.onActionViewCollapsed();
+                searchList.clear();
+                flag=2;
+                cart.setVisible(true);
+                searchRecyclerView.setVisibility(View.GONE);
+            }
             flag=2;
-            cart.setVisible(true);
-            searchRecyclerView.setVisibility(View.GONE);
         }
         else
         {
@@ -501,6 +506,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        flag=2;
+        if(cart!=null)
+        {
+
+            search.collapseActionView();
+            searchView.setQuery("",false);
+            searchView.onActionViewCollapsed();
+            searchList.clear();
+            flag=2;
+            cart.setVisible(true);
+            searchRecyclerView.setVisibility(View.GONE);
+        }
         fetchUserInfo();
         if(userImageUrl!=null)
         {

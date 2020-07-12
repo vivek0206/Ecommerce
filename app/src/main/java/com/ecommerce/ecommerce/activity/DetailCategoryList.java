@@ -354,9 +354,12 @@ public class DetailCategoryList extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if(flag==1)
+    protected void onResume() {
+        super.onResume();
+        flag=2;
+        if(cart!=null)
         {
+
             search.collapseActionView();
             searchView.setQuery("",false);
             searchView.onActionViewCollapsed();
@@ -364,6 +367,25 @@ public class DetailCategoryList extends AppCompatActivity {
             flag=2;
             cart.setVisible(true);
             searchRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(flag==1)
+        {
+            if(cart!=null)
+            {
+                search.collapseActionView();
+                searchView.setQuery("",false);
+                searchView.onActionViewCollapsed();
+                searchList.clear();
+                flag=2;
+                cart.setVisible(true);
+                searchRecyclerView.setVisibility(View.GONE);
+            }
+            flag=2;
         }
         else
         {
