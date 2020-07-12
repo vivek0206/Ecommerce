@@ -134,8 +134,9 @@ public class SubCategoryList extends AppCompatActivity {
 
                 flag=1;
                 cart.setVisible(false);
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 return false;
+
             }
 
             @Override
@@ -168,7 +169,7 @@ public class SubCategoryList extends AppCompatActivity {
 
                     }
                 });
-                Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_SHORT).show();
 
 
                 return false;
