@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class HomeFragment extends Fragment {
     FirebaseDatabase database;
     private FirebaseAuth auth;
     private LoadingDialog loadingDialog;
+    private ImageView bannerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +72,8 @@ public class HomeFragment extends Fragment {
 
         mViewPager = view.findViewById(R.id.imageslider_pager);
         dotLayout=view.findViewById(R.id.dotContainer);
+        bannerView=view.findViewById(R.id.banner_view);
+
         loadingDialog.startLoadingDialog();
         getSlideData();
 //        prepareSlide();
@@ -126,6 +130,11 @@ public class HomeFragment extends Fragment {
 
 
 
+                }
+                if(imageUrlList.size()>0)
+                {
+                    int n=imageUrlList.size()-1;
+                    Picasso.get().load(imageUrlList.get(n).getImageUrl()).into(bannerView);
                 }
                 loadingDialog.DismissDialog();
                 SlidingImage_Adapter adapterView = new SlidingImage_Adapter(imageUrlList,getContext());
