@@ -63,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
+                android:inputType="phone"
                 android:textSize="14dp"
                 android:id="@+id/delivery_phone"
                 android:textColor="@color/black">
@@ -162,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:hint="PinCode"
                 android:textSize="16dp"
+                android:inputType="numberSigned"
                 android:id="@+id/delivery_pincode"
                 android:textColor="@color/black">
             </EditText>

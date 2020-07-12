@@ -73,9 +73,20 @@ public class DeliveryAddress extends AppCompatActivity {
         Scity = city.getText().toString();
         Spincode = pinCode.getText().toString();
 
-        if(Sname.isEmpty() || Sphone.isEmpty()|| Sarea.isEmpty()|| Slandmark.isEmpty()|| Sstate.isEmpty()|| Scity.isEmpty()|| Spincode.isEmpty() )
+        if(Sname.isEmpty() || Sphone.isEmpty()||Sflat.isEmpty()|| Sarea.isEmpty()|| Slandmark.isEmpty()|| Sstate.isEmpty()|| Scity.isEmpty()|| Spincode.isEmpty()|| Sphone.length()!=10||Spincode.length()!=6)
         {
-            Toast.makeText(getApplicationContext(),"Fill All Fields ",Toast.LENGTH_SHORT).show();
+
+            if(Sphone.length()!=10)
+            {
+                Toast.makeText(getApplicationContext(),"Mobile No should be of 10 digits ",Toast.LENGTH_SHORT).show();
+            }
+            else if(Spincode.length()!=10)
+            {
+                Toast.makeText(getApplicationContext(),"Pin Code should be of 6 characters ",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Fill All Fields ",Toast.LENGTH_SHORT).show();
+            }
             loadingDialog.DismissDialog();
         }
         else

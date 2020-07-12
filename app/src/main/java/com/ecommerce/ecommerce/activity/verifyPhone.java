@@ -69,7 +69,6 @@ public class verifyPhone extends AppCompatActivity {
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 string_otp = otp.getText().toString().trim();
                 if (string_otp.isEmpty() || string_otp.length() < 6) {
                     otp.setError("Enter valid code");
@@ -83,17 +82,20 @@ public class verifyPhone extends AppCompatActivity {
     }
 
     private void sendVerificationCode(String mobile) {
+        loadingDialog.startLoadingDialog();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+91" + mobile,
                 60,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
                 mCallbacks);
+        loadingDialog.DismissDialog();
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
 
             //Getting the code sent by SMS
             String code = phoneAuthCredential.getSmsCode();
@@ -132,6 +134,7 @@ public class verifyPhone extends AppCompatActivity {
 
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        loadingDialog.startLoadingDialog();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(verifyPhone.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -146,6 +149,7 @@ public class verifyPhone extends AppCompatActivity {
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            loadingDialog.DismissDialog();
                                             UserInfo model = dataSnapshot.getValue(UserInfo.class);
                                             if(model==null)
                                             {
@@ -168,6 +172,7 @@ public class verifyPhone extends AppCompatActivity {
 
                         } else {
                             Toast.makeText(getApplicationContext(),"verification unsuccessful..",Toast.LENGTH_SHORT).show();
+                            loadingDialog.DismissDialog();
                         }
                     }
                 });
