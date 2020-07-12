@@ -124,7 +124,7 @@
                                         android:layout_width="10sp"
                                         android:layout_height="10dp"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@drawable/ic_star_24"></ImageView>
+                                        app:srcCompat="@drawable/ic_star_24"></ImageView>
 
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
@@ -259,6 +259,7 @@
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:id="@+id/cod_layout"
                                     android:orientation="vertical">
                                     <ImageView
                                         android:layout_width="50sp"
@@ -277,6 +278,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10sp"
+                                    android:id="@+id/nonreturnable_layout"
                                     android:orientation="vertical">
                                     <ImageView
                                         android:layout_width="50sp"
