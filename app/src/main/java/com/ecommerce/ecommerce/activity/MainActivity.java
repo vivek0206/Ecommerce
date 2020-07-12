@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Toast.makeText(context,"Connected",Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "connected");
                 } else {
-                    Toast.makeText(context,"Internet Problem",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Network Connectivity Issue",Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "not connected");
                 }
             }
@@ -309,8 +309,9 @@ public class MainActivity extends AppCompatActivity {
 
                 flag=1;
                 cart.setVisible(false);
-                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_SHORT).show();
                 return false;
+
             }
 
             @Override
@@ -342,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_SHORT).show();
 
 
                 return false;
