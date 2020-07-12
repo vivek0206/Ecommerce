@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "Value is:startttttttttt ");
         if(auth.getCurrentUser()!=null){
             database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference().child("Admin").child("Category");
+            DatabaseReference myRef = database.getReference().child("Admin").child("CategoryData");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
 

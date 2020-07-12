@@ -61,7 +61,12 @@ public class SubCategoryList extends AppCompatActivity {
         setContentView(R.layout.activity_sub_category_list);
         toolbar = (Toolbar)findViewById(R.id.bar);
         setSupportActionBar(toolbar);
-        setTitle("Product");
+//        setTitle("Product");
+        Intent intent = getIntent();
+        category = intent.getStringExtra("Category");
+        Log.d("pop pop",category);
+
+        setTitle(category);
         toolbar.setNavigationIcon(R.drawable.arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +75,7 @@ public class SubCategoryList extends AppCompatActivity {
             }
         });
         MainActivity.OfflineCapabilities(getApplicationContext());
-        Intent intent = getIntent();
-        category = intent.getStringExtra("Category");
-        Log.d("pop pop",category);
+
         loadingDialog = new LoadingDialog(this);
         loadingDialog.startLoadingDialog();
         getSubData(category);
