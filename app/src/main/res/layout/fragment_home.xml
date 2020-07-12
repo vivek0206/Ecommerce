@@ -39,8 +39,9 @@
                 android:layout_width="match_parent"
                 android:layout_marginVertical="10sp"
                 android:scaleType="fitXY"
-                android:layout_height="200sp"
+                android:layout_height="250sp"
                 android:id="@+id/banner_view"
+                android:padding="1dp"
                 android:background="@color/grey"/>
             <RelativeLayout
                 android:layout_width="match_parent"
