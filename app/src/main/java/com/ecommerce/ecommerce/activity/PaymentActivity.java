@@ -375,15 +375,18 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                                     .child(orderId).child(pp).setValue(model);
 
 
+
                         }
                     }
                 }
+
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
                 UserOrderInfo model  = new UserOrderInfo(orderId,date,"Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId,shippingPrice,address1,address2,normalDelivery+"",user.getUid());
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
 
+                databaseReference.child(getResources().getString(R.string.AdminPanel)).child(getResources().getString(R.string.AllOrdersInfoDetail)).child(orderId).setValue(model);
 
                 //for Admin Queries
                 databaseReference.child(getResources().getString(R.string.AdminPanel)).child(getResources().getString(R.string.AllOrders)).child(getResources().getString(R.string.Confirmed))

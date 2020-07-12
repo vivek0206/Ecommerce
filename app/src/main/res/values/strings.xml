@@ -40,6 +40,7 @@
     <string name="AllOrders">AllOrders</string>
     <string name="Confirmed">Confirmed</string>
     <string name="AllOrdersDetail">AllOrdersDetail</string>
+    <string name="AllOrdersInfoDetail">AllOrdersInfoDetail</string>
 
 
 </resources>
