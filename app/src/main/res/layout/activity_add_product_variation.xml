@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,73 +7,97 @@
     android:orientation="vertical"
     tools:context=".activity.AddProductVariation">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/bar"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="2dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="@color/white">
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:padding="10sp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/border"
-        android:id="@+id/activity_add_product_Image"></ImageView>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/border"
+                android:id="@+id/activity_add_product_Image"></ImageView>
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Category Name"
-        android:id="@+id/activity_add_product_categoryName"></EditText>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category Name"
+                android:id="@+id/activity_add_product_categoryName"></EditText>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="SubCategory Name"
-        android:id="@+id/activity_add_product_subCatName"></EditText>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="SubCategory Name"
+                android:id="@+id/activity_add_product_subCatName"></EditText>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Product Name"
-        android:id="@+id/activity_add_product_productName"></EditText>
-
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Product Variation Name(S/M/L/XL/2kg)"
-        android:id="@+id/activity_add_product_productVariationName"></EditText>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Product Quantity"
-        android:inputType="numberSigned"
-        android:id="@+id/activity_add_product_productQuantity"></EditText>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Product Sale Price"
-        android:inputType="numberSigned"
-        android:id="@+id/activity_add_product_productSalePrice"></EditText>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Name"
+                android:id="@+id/activity_add_product_productName"></EditText>
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Product Actual Price"
-        android:inputType="numberSigned"
-        android:id="@+id/activity_add_product_productActualPrice"></EditText>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Variation Name(S/M/L/XL/2kg)"
+                android:id="@+id/activity_add_product_productVariationName"></EditText>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:id="@+id/activity_add_product_productAdd"></Button>
-    </LinearLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Quantity"
+                android:inputType="numberSigned"
+                android:id="@+id/activity_add_product_productQuantity"></EditText>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Sale Price"
+                android:inputType="numberSigned"
+                android:id="@+id/activity_add_product_productSalePrice"></EditText>
 
 
-</ScrollView>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Actual Price"
+                android:inputType="numberSigned"
+                android:id="@+id/activity_add_product_productActualPrice"></EditText>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:textColor="@color/white"
+                android:background="@color/orange"
+                android:id="@+id/activity_add_product_productAdd"></Button>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
