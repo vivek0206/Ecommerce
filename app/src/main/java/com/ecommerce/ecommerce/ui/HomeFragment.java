@@ -21,6 +21,7 @@ import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.adapter.CategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SubCategoryAdapter;
 import com.ecommerce.ecommerce.adapter.SlidingImage_Adapter;
+import com.ecommerce.ecommerce.object.ImageSlider;
 import com.ecommerce.ecommerce.object.Product;
 import com.ecommerce.ecommerce.object.SubCategory;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +52,7 @@ public class HomeFragment extends Fragment {
     private Timer timer;
     private int image_pos=0;
     private List<Integer> imageList=new ArrayList<>();
-    private List<SubCategory> imageUrlList=new ArrayList<>();
+    private List<ImageSlider> imageUrlList=new ArrayList<>();
     private List<String> catList=new ArrayList<>();
     private LinearLayout dotLayout;
     private int dot_pos=0;
@@ -119,7 +120,7 @@ public class HomeFragment extends Fragment {
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
 
 //                    String url=snapshot.child("imageUrl").getValue(String.class);
-                    SubCategory data=snapshot.getValue(SubCategory.class);
+                    ImageSlider data=snapshot.getValue(ImageSlider.class);
                     imageUrlList.add(data);
 //                    Log.d("TAG",url+"qwerty");
 

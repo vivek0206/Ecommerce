@@ -1,10 +1,13 @@
 package com.ecommerce.ecommerce.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.ecommerce.ecommerce.R;
 import com.ecommerce.ecommerce.activity.DetailCategoryList;
+import com.ecommerce.ecommerce.object.ImageSlider;
 import com.ecommerce.ecommerce.object.SubCategory;
 import com.squareup.picasso.Picasso;
 
@@ -26,8 +30,9 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     Context mContext;
 //    private List<Integer> sliderImageId;
-    private List<SubCategory> sliderImageId;
-    public SlidingImage_Adapter(List<SubCategory> sliderImageId,Context context) {
+    private List<ImageSlider> sliderImageId;
+    private LayoutInflater layoutInflater;
+    public SlidingImage_Adapter(List<ImageSlider> sliderImageId,Context context) {
         this.sliderImageId=sliderImageId;
         this.mContext = context;
     }
@@ -35,19 +40,18 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == ((ImageView) object);
+        return view == object;
     }
 
 
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        ImageView imageView = new ImageView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        imageView.setImageResource(sliderImageId.get(position));
+        layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.image_slider_item, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.slider_imageView);
         Picasso.get().load(sliderImageId.get(position).getImageUrl()).into(imageView);
-        ((ViewPager) container).addView(imageView, 0);
-        Log.d(TAG, "Value is:startttttttttt ");
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,12 +62,16 @@ public class SlidingImage_Adapter extends PagerAdapter {
                 mContext.startActivity(intent);
             }
         });
-        return imageView;
+        ViewPager vp = (ViewPager) container;
+        vp.addView(view, 0);
+        return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        ((ViewPager) container).removeView((ImageView) object);
+        ViewPager vp = (ViewPager) container;
+        View view = (View) object;
+        vp.removeView(view);
     }
 
     @Override

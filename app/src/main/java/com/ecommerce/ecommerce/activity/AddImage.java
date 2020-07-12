@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.ecommerce.ecommerce.LoadingDialog;
 import com.ecommerce.ecommerce.Models.SearchModel;
 import com.ecommerce.ecommerce.R;
+import com.ecommerce.ecommerce.object.ImageSlider;
 import com.ecommerce.ecommerce.object.SubCategory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +40,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddImage extends AppCompatActivity {
-
     private Button submit;
     private ImageView imageView;
     private EditText categoryName,subcategoryName;
@@ -47,6 +48,8 @@ public class AddImage extends AppCompatActivity {
     private StorageReference storageReference;
     private static final int PICK_IMAGE_REQUEST = 2;
     private Uri mImageUri;
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,7 @@ public class AddImage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                loadingDialog.startLoadingDialog();
                 uploadProduct();
             }
         });
@@ -71,14 +75,15 @@ public class AddImage extends AppCompatActivity {
     {
         final String Cname = categoryName.getText().toString();
         final String ScName=subcategoryName.getText().toString();
-        if(mImageUri==null)
+        if(mImageUri==null||Cname==null||ScName==null)
         {
             Toast.makeText(getApplicationContext(),"Fill All Fields",Toast.LENGTH_SHORT).show();
+            loadingDialog.DismissDialog();
         }
         else
         {
-
-            final StorageReference reference = storageReference.child("SlideImage").child(System.currentTimeMillis()+""+getfilterExt(mImageUri));
+            final String id=System.currentTimeMillis()+"";
+            final StorageReference reference = storageReference.child("SlideImage").child(id+""+getfilterExt(mImageUri));
             reference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -88,12 +93,24 @@ public class AddImage extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
 
-                                            SubCategory obj=new SubCategory(uri.toString(),Cname,ScName);
+                                            ImageSlider obj=new ImageSlider(id,uri.toString(),Cname,ScName);
 
-                                            databaseReference.child(getResources().getString(R.string.Admin)).child("SlideImage").child(System.currentTimeMillis()+"").setValue(obj);
+                                            databaseReference.child(getResources().getString(R.string.Admin)).child("SlideImage").child(id).setValue(obj)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            loadingDialog.DismissDialog();
+                                                            Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            loadingDialog.DismissDialog();
+                                                            Toast.makeText(getApplicationContext(),"Re-try",Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
 
-
-                                            Toast.makeText(getApplicationContext(),"Uploaded",Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
@@ -101,6 +118,9 @@ public class AddImage extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+
+                            loadingDialog.DismissDialog();
+                            Toast.makeText(getApplicationContext(),"Re-try",Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -146,6 +166,8 @@ public class AddImage extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("");
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        loadingDialog = new LoadingDialog(this);
 
     }
 }
