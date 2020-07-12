@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ecommerce.ecommerce.Models.AccountModel;
@@ -63,8 +65,8 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         holder.categoryName = model.getCategoryName();
         holder.productNam = model.getProductName();
         holder.subCategoryName=model.getSubCategoryName();
-        holder.fetchProductDetail(model.getCategoryName(),model.getProductName());
-
+        holder.keyName = holder.categoryName.toLowerCase().trim()+"_"+holder.subCategoryName.toLowerCase().trim()+"_"+holder.productNam.toLowerCase().trim();
+        holder.fetchWishlistState();
 
     }
 
@@ -84,7 +86,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         private DatabaseReference databaseReference;
         private FirebaseUser user;
         private Product modelGlobal;
-        private String categoryName,productNam,subCategoryName;
+        private String categoryName,productNam,subCategoryName,keyName;
 
         public CategoryItemView(@NonNull View itemView) {
             super(itemView);
@@ -115,39 +117,69 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
             wishlist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
-
-                    final Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
-                            list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());
-                    databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(productNam)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    Product wishlistModel = dataSnapshot.getValue(Product.class);
-                                    if(wishlistModel!=null)
-                                    {
-                                        databaseReference.child("WishList").child(user.getUid()).child(productNam).removeValue();
-                                        wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
-                                    }
-                                    else
-                                    {
-                                        databaseReference.child("WishList").child(user.getUid()).child(productNam).setValue(model);
-                                        wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
-
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
-
+                    changeWishlistState();
                 }
             });
 
+        }
+
+        private void fetchWishlistState(){
+
+            databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(keyName)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Product wishlistModel = dataSnapshot.getValue(Product.class);
+                            if(wishlistModel!=null)
+                            {
+                                wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
+
+                            }
+                            else
+                            {
+                                wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+
+        private void changeWishlistState() {
+
+            final Product model = new Product(list.get(getAdapterPosition()).getImageUrl(),categoryName,productNam,list.get(getAdapterPosition()).getOriginalPrice(),list.get(getAdapterPosition()).getSalePrice(),"1",list.get(getAdapterPosition()).getRating(),list.get(getAdapterPosition()).getProductDetail(),
+                    list.get(getAdapterPosition()).getReturnable(),list.get(getAdapterPosition()).getPayOnDelivery(),list.get(getAdapterPosition()).getSubCategoryName());
+            databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(keyName)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Product wishlistModel = dataSnapshot.getValue(Product.class);
+                            if(wishlistModel!=null)
+                            {
+                                databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(keyName).removeValue();
+                                wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist_fill,null));
+                                Toast.makeText(context,"Product Removed From Wishlist",Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                databaseReference.child(context.getResources().getString(R.string.Wishlist)).child(user.getUid()).child(keyName).setValue(model);
+                                wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
+                                Toast.makeText(context,"Product Added to Wishlist",Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
         }
 
         private void increaseQuantity() {
@@ -166,57 +198,6 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
                 }
             }
-        }
-
-        private void fetchProductDetail(String category,String product) {
-         /*
-            databaseReference.child(context.getResources().getString(R.string.UserCart)).child(user.getUid()).child(product).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Product model = dataSnapshot.getValue(Product.class);
-                    if(model!=null)
-                    {
-                        modelGlobal = dataSnapshot.getValue(Product.class);
-                        quantity = Integer.parseInt(modelGlobal.getQuantity());
-                        delete.setVisibility(View.VISIBLE);
-                        add.setVisibility(View.VISIBLE);
-                        ProductQuantity.setVisibility(View.VISIBLE);
-                        quantityName.setText("Qty:");
-                        ProductQuantity.setText(quantity+"");
-
-                    }
-                    else
-                    {
-                        delete.setVisibility(View.GONE);
-                        add.setVisibility(View.GONE);
-                        ProductQuantity.setVisibility(View.GONE);
-                        quantityName.setText("Add To Basket");
-                        ProductQuantity.setText(quantity+"");
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-            databaseReference.child("WishList").child(user.getUid()).child(product).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Product model = dataSnapshot.getValue(Product.class);
-                    if(model!=null)
-                    {
-                        wishlist.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_wishlist,null));
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-*/
         }
 
     }
