@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
@@ -45,6 +46,16 @@ public class OrderIndividualActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_individual);
+         Toolbar toolbar = (Toolbar)findViewById(R.id.bar);
+        toolbar.setTitle("Order Info");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         init();
         Intent intent = getIntent();
@@ -139,7 +150,7 @@ public class OrderIndividualActivity extends AppCompatActivity {
                         if(model!=null)
                         {
                             itemName.setText(model.getProductName());
-                            itemPrice.setText(model.getProductSalePrice()+"");
+                            itemPrice.setText(getResources().getString(R.string.Rupee)+model.getProductSalePrice()+"");
 
                             String orderStatus = model.getOrderStatus();
                             if(orderStatus.equals("5"))
@@ -180,10 +191,10 @@ public class OrderIndividualActivity extends AppCompatActivity {
                             orderId.setText(model.getOrderId());
                             orderDate.setText(model.getOrderDate());
                             expectedDeliveryDate.setText(model.getDeliveryDate());
-                            totalPrice.setText(model.getTotalPrice());
+                            totalPrice.setText(getResources().getString(R.string.Rupee)+model.getTotalPrice());
                             address1.setText(model.getAddress1());
                             address2.setText(model.getAddress2());
-                            shippingCharge.setText(model.getShippingCharges());
+                            shippingCharge.setText(getResources().getString(R.string.Rupee)+model.getShippingCharges());
 
                         }
 
