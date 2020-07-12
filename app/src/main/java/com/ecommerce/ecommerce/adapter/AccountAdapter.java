@@ -129,7 +129,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
                             Intent shareIntent = new Intent(Intent.ACTION_SEND);
                             shareIntent.setType("text/plain");
                             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Smurfo");
-                            String shareMessage= "\nHey Friend CheckOut This new cool app its called smurfo.\n\n";
+                            String shareMessage= "\nHey Friend CheckOut This new cool app its called Super Local Bazar.\n\n";
                             shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
                             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                             context.startActivity(Intent.createChooser(shareIntent, "choose one"));

@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
@@ -12,12 +13,14 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +76,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private List<RatingInfo> ratingList;
     private RatingAdapter ratingAdapter;
     private LinearLayoutManager ratingLayoutManager;
+    private LinearLayout codLayout,nonreturnableLayout;
 
 
 
@@ -278,6 +282,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         {
                             databaseReference.child(getResources().getString(R.string.Wishlist)).child(user.getUid()).child(productNam)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             Product wishlistModel = dataSnapshot.getValue(Product.class);
@@ -403,6 +408,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             rating.setText(model.getRating());
                             productDetails.setText(model.getProductDetail());
                             returnable = Integer.parseInt(model.getReturnable());
+                            Log.d("TAG",returnable+"vvvvx");
                             cod = Integer.parseInt(model.getPayOnDelivery());
 
                             Integer totalRating=model.getRate1()+model.getRate2()+model.getRate3()+model.getRate4()+model.getRate5();
@@ -420,6 +426,18 @@ public class ProductDetailActivity extends AppCompatActivity {
                             ratingRecyclerView.setAdapter(ratingAdapter);
 
                             avgRatingTv.setText(model.getRating()+"/5 \u2605");
+                            Log.d("TAG",model.getPayOnDelivery()+"vvvv");
+                            Log.d("TAG",model.getReturnable()+"vvvvx");
+                            if(model.getPayOnDelivery().equals("0")){
+                                codLayout.setVisibility(View.GONE);
+                            }else{
+                                codLayout.setVisibility(View.VISIBLE);
+                            }
+                            if(model.getReturnable().equals("1")){
+                                nonreturnableLayout.setVisibility(View.GONE);
+                            }else{
+                                nonreturnableLayout.setVisibility(View.VISIBLE);
+                            }
                         }
                         loadingDialog.DismissDialog();
                     }
@@ -469,6 +487,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         shareText.setVisibility(View.GONE);
         addToWishlist = findViewById(R.id.activity_product_wishlist);
         addtowishlist = findViewById(R.id.activity_product_wishlist_text);
+
+        codLayout=findViewById(R.id.cod_layout);
+        nonreturnableLayout=findViewById(R.id.nonreturnable_layout);
 
 
 
