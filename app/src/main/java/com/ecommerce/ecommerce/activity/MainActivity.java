@@ -507,5 +507,9 @@ public class MainActivity extends AppCompatActivity {
                 Picasso.get().load(Uri.parse(userImageUrl)).placeholder(getResources().getDrawable(R.drawable.placeholder,null)).into(userImage);
             }
         }
+        if(userNam!=null)
+        {
+            userName.setText(userNam);
+        }
     }
 }

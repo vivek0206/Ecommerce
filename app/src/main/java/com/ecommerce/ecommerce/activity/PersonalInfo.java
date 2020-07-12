@@ -141,6 +141,8 @@ public class PersonalInfo extends AppCompatActivity {
             {
                 MainActivity.staticModel.setUserName(name);
                 MainActivity.staticModel.setUserPhone(phone);
+                MainActivity.userNam = name;
+                MainActivity.userPhone = phone;
                 databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).setValue(MainActivity.staticModel)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

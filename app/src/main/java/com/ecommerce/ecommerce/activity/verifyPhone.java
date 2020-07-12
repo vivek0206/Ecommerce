@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class verifyPhone extends AppCompatActivity {
 
     private EditText otp;
-    private Button verify;
+    private Button verify,resend;
     private TextView phoneNoTv;
     private String string_otp,mobile,password,name;
     private FirebaseAuth mAuth;
@@ -59,6 +59,14 @@ public class verifyPhone extends AppCompatActivity {
 //        password = intent.getStringExtra("password");
 //        name = intent.getStringExtra("name");
         phoneNoTv.setText("+91"+mobile);
+
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendVerificationCode(mobile);
+                Toast.makeText(getApplicationContext(),"Verification Code Sent",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -171,7 +179,7 @@ public class verifyPhone extends AppCompatActivity {
                                     });
 
                         } else {
-                            Toast.makeText(getApplicationContext(),"verification unsuccessful..",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Resend Again",Toast.LENGTH_SHORT).show();
                             loadingDialog.DismissDialog();
                         }
                     }
@@ -180,6 +188,7 @@ public class verifyPhone extends AppCompatActivity {
 
     private void init() {
         mAuth = FirebaseAuth.getInstance();
+        resend = findViewById(R.id.otp_resend);
         phoneNoTv=findViewById(R.id.phone_No);
         otp = findViewById(R.id.otp_input);
         verify = findViewById(R.id.otp_verify);
