@@ -115,6 +115,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(ProductVariation model) {
                 proVarName = model.getProductVariationName();
+                productName.setText(model.getProductName()+", "+model.getProductVariationName()+"         Quantity: "+model.getQuantity());
                 offerPrice.setText("\u20B9"+model.getProductSalePrice());
                 originalPrice.setText("\u20B9"+model.getProductActualPrice());
                 originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -323,7 +324,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             if(model!=null)
                             {
                                 proVarName = model.getProductVariationName();
-                                productOriginalName+=","+model.getProductVariationName();
+                                productOriginalName=","+model.getProductVariationName();
                                 productName.setText(productOriginalName);
                                 quantityList.add(0,model);
                                 offerPrice.setText("\u20B9"+model.getProductSalePrice());

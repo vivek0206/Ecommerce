@@ -23,6 +23,13 @@
             app:titleTextColor="@color/white">
 
         </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use Points"
+            android:id="@+id/activity_payment_points"></TextView>
+
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
         android:layout_width="match_parent"

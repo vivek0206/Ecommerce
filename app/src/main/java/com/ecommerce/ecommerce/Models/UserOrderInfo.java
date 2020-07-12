@@ -1,16 +1,13 @@
 package com.ecommerce.ecommerce.Models;
 
-import com.ecommerce.ecommerce.object.Product;
-
 public class UserOrderInfo {
 
     public UserOrderInfo() {
     }
 
-    private String orderId,orderDate,deliveryDate,totalPrice,status,paymentStatus,paymentTransactionId,shippingCharges,address1,address2,delivery;
+    private String orderId,orderDate,deliveryDate,totalPrice,status,paymentStatus,paymentTransactionId,shippingCharges,address1,address2,delivery,userId;
 
-
-    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId, String shippingCharges, String address1, String address2, String delivery) {
+    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId, String shippingCharges, String address1, String address2, String delivery, String userId) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;
@@ -22,6 +19,15 @@ public class UserOrderInfo {
         this.address1 = address1;
         this.address2 = address2;
         this.delivery = delivery;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getDelivery() {
@@ -32,18 +38,6 @@ public class UserOrderInfo {
         this.delivery = delivery;
     }
 
-    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId, String shippingCharges, String address1, String address2) {
-        this.orderId = orderId;
-        this.orderDate = orderDate;
-        this.deliveryDate = deliveryDate;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.paymentStatus = paymentStatus;
-        this.paymentTransactionId = paymentTransactionId;
-        this.shippingCharges = shippingCharges;
-        this.address1 = address1;
-        this.address2 = address2;
-    }
 
     public String getShippingCharges() {
         return shippingCharges;
@@ -77,15 +71,6 @@ public class UserOrderInfo {
         this.paymentStatus = paymentStatus;
     }
 
-    public UserOrderInfo(String orderId, String orderDate, String deliveryDate, String totalPrice, String status, String paymentStatus, String paymentTransactionId) {
-        this.orderId = orderId;
-        this.orderDate = orderDate;
-        this.deliveryDate = deliveryDate;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.paymentStatus = paymentStatus;
-        this.paymentTransactionId = paymentTransactionId;
-    }
 
     public String getPaymentTransactionId() {
         return paymentTransactionId;

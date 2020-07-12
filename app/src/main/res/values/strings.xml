@@ -35,6 +35,11 @@
     <string name="UserProductRating">UserProductRating</string>
     <string name="OrderRewards">OrderRewards</string>
     <string name="Rupee">\u20B9</string>
+    <string name="AdminPanel">AdminPanel</string>
+    <string name="OrdersPerProduct">OrdersPerProduct</string>
+    <string name="AllOrders">AllOrders</string>
+    <string name="Confirmed">Confirmed</string>
+    <string name="AllOrdersDetail">AllOrdersDetail</string>
 
 
 </resources>

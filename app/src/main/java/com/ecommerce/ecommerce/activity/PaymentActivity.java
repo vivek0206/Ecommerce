@@ -50,15 +50,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class PaymentActivity extends AppCompatActivity implements PaymentResultListener {
 
-    private TextView price,shippingFee,totalAmount;
+    private TextView price,shippingFee,totalAmount,points;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private String itemPrice,shippingPrice,totalPrice;
     private Button pay_now;
     private int normalDelivery=1;
-    private int onlinePayment=-1,cod=1;
+    private int onlinePayment=-1,cod=1,userPoints=0,pointFlag=0,priceI;
     private String orderId,paymentStatus="0",paymentTransactionId="NA";
     private LoadingDialog loadingDialog;
     private RadioGroup paymentGroup,deliveryGroup;
@@ -93,10 +96,34 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         totalPrice= String.valueOf(Integer.parseInt(itemPrice)+Integer.parseInt(shippingPrice));
         totalAmount.setText(getResources().getString(R.string.Rupee)+totalPrice);
 
-
+        priceI = Integer.parseInt(totalPrice);
         mRequestQueue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
         MainActivity.fetchUserInfo();
+
+        points.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pointFlag==0)
+                {
+                    totalPrice = ""+(max(0,Integer.parseInt(totalPrice)-userPoints));
+                    userPoints = max(0,userPoints-priceI);
+                    pointFlag=1;
+                    points.setText("Remove Points");
+                    totalAmount.setText(getResources().getString(R.string.Rupee)+totalPrice);
+
+                }
+                else{
+                    totalPrice = ""+priceI;
+                    pointFlag=0;
+                    userPoints = MainActivity.staticUserPointModel.getPoints();
+                    points.setText("Use Points");
+                    totalAmount.setText(getResources().getString(R.string.Rupee)+totalPrice);
+
+                }
+            }
+        });
+
         pay_now.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +137,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 {
                     if(onlinePayment==0)
                     {
-                        orderDone();
+                        fetchUserAddress();
+                    //    orderDone();
                     }
                     else
                     {
@@ -181,6 +209,9 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 }
             }
         });
+
+        MainActivity.fetchUserPoints();
+        userPoints = MainActivity.staticUserPointModel.getPoints();
 
 
 
@@ -331,20 +362,35 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                         if(model!=null && model.getQuantity()>0)
                         {
                             String productName = model.getProductVariationName();
-                            String pp = model.getCategoryName().toLowerCase().trim()+"_"+model.getSubCategoryName().toLowerCase().trim()+"_"+model.getProductName().toLowerCase().trim();
+                            String pp = model.getCategoryName().toLowerCase().trim()+"_"+model.getSubCategoryName().toLowerCase().trim()+"_"+model.getProductName().toLowerCase().trim()+"_"+productName.toLowerCase().trim();
                             model.setOrderStatus("1");
-                            databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(pp+"_"+productName.toLowerCase().trim()).setValue(model);
+                            databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(pp).setValue(model);
                                 UpdateQuantity(model.getProductName(),model.getProductVariationName(),model.getQuantity());
-                            //TODO: For Admin also
+
+                            databaseReference.child(getResources().getString(R.string.AdminPanel)).child(getResources().getString(R.string.OrdersPerProduct)).child(pp).child(orderId)
+                                    .setValue(model);
+
+
+                            databaseReference.child(getResources().getString(R.string.AdminPanel)).child(getResources().getString(R.string.AllOrdersDetail))
+                                    .child(orderId).child(pp).setValue(model);
+
 
                         }
                     }
                 }
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-                UserOrderInfo model  = new UserOrderInfo(orderId,date,"Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId,shippingPrice,address1,address2,normalDelivery+"");
+                UserOrderInfo model  = new UserOrderInfo(orderId,date,"Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId,shippingPrice,address1,address2,normalDelivery+"",user.getUid());
                 databaseReference.child(getResources().getString(R.string.OrderInfo)).child(user.getUid()).child(orderId).setValue(model);
                 databaseReference.child(getResources().getString(R.string.UserCart)).child(user.getUid()).removeValue();
+
+
+                //for Admin Queries
+                databaseReference.child(getResources().getString(R.string.AdminPanel)).child(getResources().getString(R.string.AllOrders)).child(getResources().getString(R.string.Confirmed))
+                        .child(orderId).setValue(model);
+
+                MainActivity.staticUserPointModel.setPoints(userPoints);
+                MainActivity.updateUserPoints();
                 sendNotification("Your Order has been Placed with orderId:"+orderId);
                 sendNotificationAdmin("Order with:"+orderId+" is placed Check it soon");
                 Toast.makeText(getApplicationContext(),"Order Done",Toast.LENGTH_SHORT).show();
@@ -359,13 +405,12 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             }
         });
 
-        fetchUserAddress();
 
 
     }
 
     private void fetchUserAddress() {
-        databaseReference.child(getResources().getString(R.string.UserInfo)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(getResources().getString(R.string.Address)).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 address1="";
@@ -376,6 +421,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 {
                     address1+=model.getDeliveryName()+", "+model.getDeliveryPhone();
                     address2+=model.getDeliveryFlat()+", "+model.getDeliveryArea()+", "+model.getDeliveryLandmark()+","+model.getDeliveryCity()+","+model.getDeliveryState()+","+model.getDeliveryPinCode();
+
+                    orderDone();
 
                 }
             }
@@ -467,6 +514,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         pay_now = findViewById(R.id.payment_payNow);
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        points = findViewById(R.id.activity_payment_points);
     }
 
     public void startPayment(String merchant,String desc,String order,String imageUrl,String amount) {
@@ -496,7 +544,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     public void onPaymentSuccess(String s) {
         paymentStatus="1";
         paymentTransactionId=s;
-        orderDone();
+        fetchUserAddress();
     }
 
     @Override
