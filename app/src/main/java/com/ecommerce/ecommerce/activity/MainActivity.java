@@ -57,8 +57,7 @@ import java.util.List;
 
 import static androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     NavigationView navigationView;
     DrawerLayout drawer;
@@ -433,29 +432,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
         drawer.closeDrawers();
 
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            setFragment(new HomeFragment(),"home");
-//            Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_category) {
-            setFragment(new CategoryFragment(),"not home");
-//            Toast.makeText(getApplicationContext(),"category",Toast.LENGTH_SHORT).show();
-
-        } else if (id == R.id.nav_orders) {
-            setFragment(new OrderFragment(),"not home");
-//            Toast.makeText(getApplicationContext(),"orders",Toast.LENGTH_SHORT).show();
-
-        } else if (id == R.id.nav_wishlist) {
-            setFragment(new WishlistFragment(),"not home");
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     public static void updateUserPoints()

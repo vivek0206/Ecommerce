@@ -379,7 +379,6 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                         }
                     }
                 }
-
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
                 UserOrderInfo model  = new UserOrderInfo(orderId,date,"Delivery Date",totalPrice,"1",paymentStatus,paymentTransactionId,shippingPrice,address1,address2,normalDelivery+"",user.getUid());
