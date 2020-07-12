@@ -115,8 +115,6 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                         }
                         else{
                             onItemClickListener.onItemClick(list.get(getAdapterPosition()),1);
-                            orderStatus="5";
-                            checkStatus();
                         }
 
                     }

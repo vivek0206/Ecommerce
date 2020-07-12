@@ -63,6 +63,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private int cancelNo=0;
     private RequestQueue mRequestQueue;
     private String URL="https://fcm.googleapis.com/fcm/send";
+    private static int flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,7 +281,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 model.setOrderStatus("5");
                 databaseReference.child(getResources().getString(R.string.UserOrder)).child(user.getUid()).child(orderId).child(productName).setValue(model);
                 alertDialog.cancel();
-                Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Your request is in processing",Toast.LENGTH_SHORT).show();
                 sendNotification("Order has been Cancelled");
                 sendNotificationAdmin("Order has been Cancelled");
             }
@@ -289,6 +290,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         mRequestQueue = Volley.newRequestQueue(this);
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+
 
 
     }
