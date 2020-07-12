@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -62,7 +63,16 @@ public class tempActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
-
+        Toolbar toolbar = (Toolbar)findViewById(R.id.bar);
+        toolbar.setTitle("Add new Category");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         init();
 
 

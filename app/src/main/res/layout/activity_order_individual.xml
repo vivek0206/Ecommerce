@@ -21,247 +21,255 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20sp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:textSize="12dp"
-        android:textColor="@color/black"
-        android:text="Order Id"
-        android:id="@+id/raw_order_individual_orderId"></TextView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:textColor="@color/black"
-        android:text="Order Date"
-        android:padding="2dp"
-        android:layout_below="@id/raw_order_individual_orderId"
-        android:id="@+id/raw_order_individual_orderDate"></TextView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:textColor="@color/black"
-        android:text="Expected Delivery Date"
-        android:padding="2dp"
-        android:layout_below="@id/raw_order_individual_orderDate"
-        android:id="@+id/raw_order_individual_DeliveryDate"></TextView>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Price"
-        android:textColor="@color/black"
-        android:padding="2dp"
-        android:textSize="14dp"
-        android:id="@+id/raw_order_individual_orderPrice"
-        android:layout_alignParentRight="true"></TextView>
-    </RelativeLayout>
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp">
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@color/orange"
-            android:id="@+id/raw_order_individual_image"></ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item Name"
-            android:textColor="@color/black"
-            android:layout_toRightOf="@id/raw_order_individual_image"
-            android:layout_marginLeft="10dp"
-            android:padding="5dp"
-            android:textSize="14dp"
-            android:id="@+id/raw_order_individual_itemName"></TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item Price"
-            android:textColor="@color/black"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:textSize="14dp"
-            android:id="@+id/raw_order_individual_itemPrice"></TextView>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@color/red"
-            app:cardBackgroundColor="@color/red"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="5dp"
-            android:layout_below="@id/raw_order_individual_itemName"
-            android:layout_toRightOf="@id/raw_order_individual_image"
-            android:id="@+id/raw_order_individual_card"
-            app:cardCornerRadius="10dp"
-            ></androidx.cardview.widget.CardView>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/raw_order_individual_itemName"
-            android:text="Cancelled"
-            android:layout_toRightOf="@id/raw_order_individual_card"
-            android:textColor="@color/black"
-            android:id="@+id/raw_order_individual_cancelItem"
-            ></TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Redeem Points"
-            android:layout_below="@id/raw_order_individual_cancelItem"
-            android:layout_toRightOf="@id/raw_order_individual_card"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:id="@+id/activity_order_individual_redeem"
-            android:padding="1dp"
-            android:background="@color/green"
-            ></TextView>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="90dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Deliver To"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:id="@+id/order_individual_deliverTo"></TextView>
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/order_individual_address2"
-            android:text="Address1"
-            android:id="@+id/order_individual_address1"></TextView>
+            android:background="@color/white">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:text="Order Id"
+                android:id="@+id/raw_order_individual_orderId"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:text="Order Date"
+                android:padding="2dp"
+                android:layout_below="@id/raw_order_individual_orderId"
+                android:id="@+id/raw_order_individual_orderDate"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:text="Expected Delivery Date"
+                android:padding="2dp"
+                android:layout_below="@id/raw_order_individual_orderDate"
+                android:id="@+id/raw_order_individual_DeliveryDate"></TextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Price"
+                android:textColor="@color/black"
+                android:padding="2dp"
+                android:textSize="14dp"
+                android:id="@+id/raw_order_individual_orderPrice"
+                android:layout_alignParentRight="true"></TextView>
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Address"
-            android:inputType="textMultiLine"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@color/orange"
+                android:id="@+id/raw_order_individual_image"></ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item Name"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@id/raw_order_individual_image"
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:textSize="14dp"
+                android:id="@+id/raw_order_individual_itemName"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item Price"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:textSize="14dp"
+                android:id="@+id/raw_order_individual_itemPrice"></TextView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@color/red"
+                app:cardBackgroundColor="@color/red"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="5dp"
+                android:layout_below="@id/raw_order_individual_itemName"
+                android:layout_toRightOf="@id/raw_order_individual_image"
+                android:id="@+id/raw_order_individual_card"
+                app:cardCornerRadius="10dp"
+                ></androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/raw_order_individual_itemName"
+                android:text="Cancelled"
+                android:layout_toRightOf="@id/raw_order_individual_card"
+                android:textColor="@color/black"
+                android:id="@+id/raw_order_individual_cancelItem"
+                ></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redeem Points"
+                android:layout_below="@id/raw_order_individual_cancelItem"
+                android:layout_toRightOf="@id/raw_order_individual_card"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:id="@+id/activity_order_individual_redeem"
+                android:padding="1dp"
+                android:background="@color/green"
+                ></TextView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="90dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deliver To"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:id="@+id/order_individual_deliverTo"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/order_individual_address2"
+                android:text="Address1"
+                android:id="@+id/order_individual_address1"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/order_individual_address2"></TextView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/order_individual_address2"></TextView>
+            android:background="@color/white">
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/white">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item(s)"
-            android:textSize="14dp"
-            android:layout_margin="2dp"
-            android:textColor="@color/black"
-            android:id="@+id/order_individual_item_text"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item(s)"
+                android:textSize="14dp"
+                android:layout_margin="2dp"
+                android:textColor="@color/black"
+                android:id="@+id/order_individual_item_text"></TextView>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price"
-            android:textSize="14dp"
-            android:layout_margin="2dp"
-            android:textColor="@color/black"
-            android:layout_alignParentRight="true"
-            android:id="@+id/order_individual_item_total_price"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:textSize="14dp"
+                android:layout_margin="2dp"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="true"
+                android:id="@+id/order_individual_item_total_price"></TextView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shipping Fee"
-            android:textSize="14dp"
-            android:layout_margin="2dp"
-            android:textColor="@color/black"
-            android:layout_below="@id/order_individual_item_text"
-            android:id="@+id/order_individual_item_shipping_fee"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shipping Fee"
+                android:textSize="14dp"
+                android:layout_margin="2dp"
+                android:textColor="@color/black"
+                android:layout_below="@id/order_individual_item_text"
+                android:id="@+id/order_individual_item_shipping_fee"></TextView>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Free"
-            android:layout_margin="2dp"
-            android:textSize="14dp"
-            android:textColor="@color/black"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/order_individual_item_text"
-            android:id="@+id/order_individual_item_shipping_charges"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Free"
+                android:layout_margin="2dp"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/order_individual_item_text"
+                android:id="@+id/order_individual_item_shipping_charges"></TextView>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/order_individual_item_shipping_charges"
-            android:background="@color/black"
-            android:id="@+id/order_individual_amount_line"
-            ></FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/order_individual_item_shipping_charges"
+                android:background="@color/black"
+                android:id="@+id/order_individual_amount_line"
+                ></FrameLayout>
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Amount Text"
-            android:textSize="14dp"
-            android:layout_margin="2dp"
-            android:textColor="@color/black"
-            android:layout_below="@id/order_individual_amount_line"
-            android:id="@+id/order_individual_amount_text"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount Text"
+                android:textSize="14dp"
+                android:layout_margin="2dp"
+                android:textColor="@color/black"
+                android:layout_below="@id/order_individual_amount_line"
+                android:id="@+id/order_individual_amount_text"></TextView>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Free"
-            android:layout_margin="2dp"
-            android:textSize="14dp"
-            android:textColor="@color/black"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/order_individual_amount_line"
-            android:id="@+id/order_individualamount_total"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Free"
+                android:layout_margin="2dp"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/order_individual_amount_line"
+                android:id="@+id/order_individualamount_total"></TextView>
 
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>
